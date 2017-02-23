@@ -1,4 +1,5 @@
 'use strict';
+import bcrypt from 'bcrypt-nodejs';
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
@@ -29,6 +30,14 @@ module.exports = (sequelize, DataTypes) => {
           onDelete: 'CASCADE',
           foreignKey: { allowNull: false }
         });
+      }
+    },
+    hooks: {
+      beforeCreate: (user) => {
+        user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10));
+      },
+      beforeUpdate: (user) => {
+        user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10));
       }
     }
   });

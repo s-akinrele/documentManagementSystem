@@ -1,16 +1,32 @@
+import userCtrl from '../controllers/userCtrl';
+import auth from '../middlewares/auth';
+import docCtrl from '../controllers/docCtrl';
+
 const userRoute = (router) => {
   router.route('/users/')
-    .get((req, res) => {
-      res.json({
-        status: 200,
-        message: 'Hey I am the users'
-      });
-    }).post((req, res) => {
-      res.json({
-        status: 201,
-        message: 'Hey I see you are trying to create the users'
-      });
-    });
+    .get(userCtrl.findAllUsers)
+    .post(userCtrl.createUser);
+
+  router.route('/users/documents')
+    .get(auth.verifyToken, docCtrl.getUsersDoc);
+
+  router.route('/users/:id/documents')
+    .get(auth.verifyToken, docCtrl.getPublicDoc);
+
+  router.route('/users/search/:email')
+    .get(userCtrl.findUserbyEmail);
+
+  router.route('/users/login')
+    .post(userCtrl.login);
+
+  router.route('/users/logout')
+    .post(userCtrl.logout);
+
+  router.route('/users/:id')
+    .get(userCtrl.findUser)
+    .put(userCtrl.updateUser)
+    .patch(userCtrl.updateUser)
+    .delete(userCtrl.deleteUser);
 };
 
 export default userRoute;
