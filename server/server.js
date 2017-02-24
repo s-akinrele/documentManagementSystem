@@ -14,3 +14,6 @@ app.use('/', router);
 app.listen(process.env.PORT || 5000, () => {
   console.log('Server listening on port 5000');
 });
+
+// expose the server to supertest
+export default app;
