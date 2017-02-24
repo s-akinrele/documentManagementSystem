@@ -69,6 +69,7 @@ const Userctrl = {
             .send({ message: 'No user found' });
         }
         res.send(users);
+        res.status(200);
       })
       .catch((err) => {
         res.status(500).send(err.errors);

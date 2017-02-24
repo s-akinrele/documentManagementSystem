@@ -26,6 +26,29 @@ describe('Users', () => {
         done();
       });
   });
+  it('Should return error message when user tries to signup without firstname or lastname ', (done) => {
+    const newUserWithlastName = {
+      firstname: faker.name.firstName(),
+      email: faker.internet.email(),
+      password: 'password'
+    };
+    server
+      .post('/users/')
+      .send(newUserWithlastName)
+      .end((err, res) => {
+        assert.equal(res.status, 500);
+        done();
+      });
+  });
+  it('Should return all users', (done) => {
+    server
+      .get('/users/')
+      .expect(200)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        done();
+      });
+  });
   it('Should return a token when user logs in ', (done) => {
     server
       .post('/users/login')
