@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-module.exports = {
+const envs = {
   development: {
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
@@ -9,9 +9,9 @@ module.exports = {
     dialect: 'postgres'
   },
   test: {
-    username: process.envtest.TEST_USER,
-    password: process.envtest.TEST_PASS,
-    database: process.envtest.TEST_NAME,
+    username: process.env.TEST_USER,
+    password: process.env.TEST_PASS,
+    database: process.env.TEST_NAME,
     host: '127.0.0.1',
     dialect: 'postgres'
   },
@@ -23,3 +23,7 @@ module.exports = {
     dialect: 'postgres'
   }
 };
+
+console.log(process.env.NODE_ENV);
+
+module.exports = envs[process.env.NODE_ENV || 'development'];

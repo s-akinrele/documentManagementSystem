@@ -7,7 +7,8 @@
     "test": "mocha server/test --compilers js:babel-register",
     "start": "nodemon server/server.js --exec babel-node",
     "build": "babel server -d dist",
-    "serve": "node dist/server.js"
+    "serve": "node dist/server.js",
+    "seed": "babel-node server/db/seeders/role-seeder.js"
   },
   "author": "",
   "license": "ISC",

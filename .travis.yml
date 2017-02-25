@@ -7,3 +7,4 @@ script: npm test
 before_script:
   - npm install
   - psql -c 'create database travis;' -U postgres
+  - npm run seed
