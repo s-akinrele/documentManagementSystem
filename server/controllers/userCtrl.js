@@ -114,8 +114,9 @@ const Userctrl = {
       .then((user) => {
         if (!user) {
           return res.status(404)
-            .send({ message: 'Invalid username or passoword' });
+            .send({ message: 'Invalid username or password' });
         }
+
         if (bcrypt.compareSync(req.body.password, user.password)) {
           const token = jwt.sign({
             UserId: user.id,
@@ -129,8 +130,9 @@ const Userctrl = {
           res.send({ message: 'Invalid username or password' });
         }
       })
-      .catch((err) => {
-        res.status(500).send(err.errors);
+      .catch(() => {
+        res.status(404)
+          .send({ message: 'Invalid username or password' });
       });
   },
   logout: (req, res) => {

@@ -9,8 +9,11 @@ let jwtToken;
 
 describe('Document suite', () => {
   const AdminInfo = {
-    email: 'akinrelesimi@gmail.com',
-    password: 'password'
+    firstname: 'Simisola',
+    lastname: 'Akinrele',
+    email: faker.internet.email(),
+    password: 'password',
+    RoleId: 1
   };
   const UserInfo = {
     email: 'akinrelesimi@gmail.com',
@@ -18,7 +21,7 @@ describe('Document suite', () => {
   };
   before((done) => {
     server
-      .post('/users/login')
+      .post('/users/')
       .send(AdminInfo)
       .end((err, res) => {
         jwtToken = res.body.token;
@@ -29,7 +32,7 @@ describe('Document suite', () => {
     server
       .get('/documents/')
       .expect(200)
-      .set('x-access-token', jwtToken)
+      .set('X-ACCESS-TOKEN', jwtToken)
       .end((err, res) => {
         assert.equal(res.status, 200);
         done();
