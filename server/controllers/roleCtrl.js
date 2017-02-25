@@ -1,7 +1,4 @@
-// import jwt from 'jsonwebtoken';
 import db from '../models';
-
-// const secret = process.env.SECRET;
 
 const Rolectrl = {
 

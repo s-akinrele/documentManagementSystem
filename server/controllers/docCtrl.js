@@ -60,15 +60,15 @@ const DocCtrl = {
 
   getAllDoc: (req, res) => {
     db.Document.findAll()
-      .then((doc) => {
-        if (!doc) {
+      .then((docs) => {
+        if (!docs) {
           return res.status(404)
             .send({ message: 'No document found' });
         }
-        res.send(doc)
-          .catch((err) => {
-            res.status(500).send(err.errors);
-          });
+        res.send(docs);
+      })
+      .catch((err) => {
+        res.status(500).send(err.errors);
       });
   },
 

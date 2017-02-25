@@ -1,6 +1,9 @@
 language: node_js
 node_js:
-    - "node"
+  - "node"
+services:
+  - postgresql
 script: npm test
 before_script:
   - npm install
+  - psql -c 'create database travis;' -U postgres
