@@ -2,7 +2,7 @@ import supertest from 'supertest';
 import faker from 'faker';
 import { assert } from 'chai';
 import app from '../server';
-import db from '../models/index';
+import '../models/index';
 
 
 const server = supertest.agent(app);

@@ -41,6 +41,7 @@ const Userctrl = {
             .send({ message: `User with email: ${req.parmas.email} does not exist` });
         }
         res.send(user);
+        res.status(200);
       })
       .catch((err) => {
         res.status(500).send(err.errors);

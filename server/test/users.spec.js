@@ -2,7 +2,7 @@ import supertest from 'supertest';
 import faker from 'faker';
 import { assert } from 'chai';
 import app from '../server';
-import db from '../models/index';
+import '../models/index';
 
 
 const server = supertest.agent(app);
@@ -93,6 +93,15 @@ describe('Users', () => {
       .post('/users/logout')
       .end((err, res) => {
         assert.equal(res.body.message, 'Successfully logged out.');
+        done();
+      });
+  });
+  it('Should return users information when searched using the users email', (done) => {
+    server
+      .get('/users/search/akinrelesimi@gmail.com')
+      .expect(200)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
         done();
       });
   });
