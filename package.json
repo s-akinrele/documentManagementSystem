@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha server/test --compilers js:babel-register",
+    "test": "mocha server/test --compilers js:babel-register",
     "start": "nodemon server/server.js --exec babel-node",
     "build": "babel server -d dist",
     "serve": "node dist/server.js",
