@@ -105,4 +105,14 @@ describe('Users', () => {
         done();
       });
   });
+  it('Should return success when a users information is edited', (done) => {
+    server
+      .put('/users/3')
+      .send({ firstname: 'Bolarinwa' })
+      .end((err, res) => {
+        assert.equal(res.body.message, 'Update successful');
+        done();
+      });
+  });
+  // delete user
 });
