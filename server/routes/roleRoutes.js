@@ -9,6 +9,7 @@ const roleRoute = (router) => {
     .get(roleCtrl.getRoleById)
     .post(roleCtrl.editRole)
     .patch(roleCtrl.editRole)
+    .put(roleCtrl.editRole)
     .delete(roleCtrl.deleteRole);
 };
 

@@ -9,8 +9,8 @@ const Userctrl = {
     db.User.findOne({ where: { email: req.body.email } })
       .then((userExist) => {
         if (userExist) {
-          return res.status(400)
-            .send({ message: `There's a user with this email: ${req.body.email}` });
+          return res.status(409)
+            .send({ message: `There is a user with this email: ${req.body.email}` });
         }
 
         if (!req.body.RoleId) {
@@ -29,10 +29,11 @@ const Userctrl = {
             res.status(201).send({ token, expiresIn: '10h', user });
           })
           .catch((err) => {
-            res.status(500).send(err.errors);
+            res.status(400).send(err.errors);
           });
       });
   },
+
   findUserbyEmail: (req, res) => {
     db.User.findOne({ where: { email: req.params.email } })
       .then((user) => {
@@ -40,11 +41,10 @@ const Userctrl = {
           return res.status(404)
             .send({ message: `User with email: ${req.parmas.email} does not exist` });
         }
-        res.send(user);
-        res.status(200);
+        res.send(user).status(200);
       })
       .catch((err) => {
-        res.status(500).send(err.errors);
+        res.status(400).send(err.errors);
       });
   },
 
@@ -55,11 +55,10 @@ const Userctrl = {
           return res.status(404)
             .send({ message: 'User does not exist' });
         }
-        res.send(user);
-        res.status(200);
+        res.send(user).status(200);
       })
       .catch((err) => {
-        res.status(500).send(err.errors);
+        res.status(400).send(err.errors);
       });
   },
 
@@ -70,11 +69,10 @@ const Userctrl = {
           return res.status(404)
             .send({ message: 'No user found' });
         }
-        res.send(users);
-        res.status(200);
+        res.send(users).status(200);
       })
       .catch((err) => {
-        res.status(500).send(err.errors);
+        res.status(400).send(err.errors);
       });
   },
 
@@ -86,12 +84,12 @@ const Userctrl = {
             .send({ message: 'User not found' });
         }
         user.update(req.body)
-          .then(() => {
-            res.send({ message: 'Update successful' });
+          .then((updatedUser) => {
+            res.status(200).send({ updatedUser, message: 'Update successful' });
           });
       })
       .catch((err) => {
-        res.status(500).send(err.errors);
+        res.status(400).send(err.errors);
       });
   },
 
@@ -103,10 +101,10 @@ const Userctrl = {
             .send({ message: 'User not found' });
         }
         user.destroy();
-        res.send({ message: 'Delete successful' });
+        res.status(200).send({ message: 'Delete successful' });
       })
       .catch((err) => {
-        res.status(500).send(err.errors);
+        res.status(400).send(err.errors);
       });
   },
 
@@ -128,19 +126,17 @@ const Userctrl = {
           });
           res.send({ token });
         } else {
-          res.send({ message: 'Invalid username or password' });
+          res.status(400).send({ message: 'Invalid username or password' });
         }
       })
       .catch(() => {
-        res.status(404)
+        res.status(400)
           .send({ message: 'Invalid username or password' });
       });
   },
   logout: (req, res) => {
-    res.send({ message: 'Successfully logged out.' });
-    res.status(200);
+    res.status(200).send({ message: 'Successfully logged out.' });
   }
-
 };
 
 export default Userctrl;

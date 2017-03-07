@@ -14,6 +14,13 @@ const newUser = {
   password: 'password'
 };
 
+const existingEmail = {
+  firstname: faker.name.firstName(),
+  lastname: faker.name.lastName(),
+  email: 'barbara@gmail.com',
+  password: 'password'
+};
+
 describe('Users', () => {
   it('Users should be able to sign up', (done) => {
     server
@@ -23,6 +30,16 @@ describe('Users', () => {
       .end((err, res) => {
         assert.equal(res.status, 201);
         assert.isNotNull(res.body.token);
+        done();
+      });
+  });
+  it('It should return a message when user tries to sign up with an exisitig email', (done) => {
+    server
+      .post('/users/')
+      .send(existingEmail)
+      .end((err, res) => {
+        assert.equal(res.status, 409);
+        assert.equal(res.body.message, 'There is a user with this email: barbara@gmail.com');
         done();
       });
   });
@@ -36,7 +53,7 @@ describe('Users', () => {
       .post('/users/')
       .send(newUserWithlastName)
       .end((err, res) => {
-        assert.equal(res.status, 500);
+        assert.equal(res.status, 400);
         done();
       });
   });
@@ -65,6 +82,15 @@ describe('Users', () => {
       .send({ email: 'akinrelesimi@gmail.com', password: 'pass' })
       .end((err, res) => {
         assert.equal(res.body.message, 'Invalid username or password');
+        done();
+      });
+  });
+  it('Should return error message when user tries to login in with invalid details ', (done) => {
+    server
+      .post('/users/login')
+      .send({ email: 'yemi@gmail.com', password: 'password' })
+      .end((err, res) => {
+        assert.equal(res.status, 404);
         done();
       });
   });
@@ -102,6 +128,14 @@ describe('Users', () => {
       .expect(200)
       .end((err, res) => {
         assert.equal(res.status, 200);
+        done();
+      });
+  });
+  it('Should return error message when search for a user with invalid email', (done) => {
+    server
+      .get('/users/search/bola@gmail.com')
+      .end((err, res) => {
+        assert.equal(res.status, 400);
         done();
       });
   });

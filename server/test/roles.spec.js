@@ -34,7 +34,7 @@ describe('Role suite', () => {
       .post('/role/')
       .send({ title: 'Admin' })
       .end((err, res) => {
-        assert.equal(res.status, 400);
+        assert.equal(res.status, 409);
         assert.equal(res.body.message, 'Role: Admin already exist');
         done();
       });
@@ -46,6 +46,24 @@ describe('Role suite', () => {
       .end((err, res) => {
         assert.equal(res.status, 200);
         assert.equal(res.body.title, 'Admin');
+        done();
+      });
+  });
+  it('Should return role does not exist if id is invalid', (done) => {
+    server
+      .get('/role/700')
+      .end((err, res) => {
+        assert.equal(res.status, 404);
+        done();
+      });
+  });
+  it('Should return success when role has been edited succesfully', (done) => {
+    server
+      .put('/role/6')
+      .send({ title: 'people' })
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.equal(res.body.message, 'Update successful');
         done();
       });
   });
