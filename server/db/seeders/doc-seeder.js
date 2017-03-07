@@ -13,6 +13,30 @@ db.Document.sync()
       content: 'This is my test second data',
       Owner: 2,
       access: 'public'
+    },
+    {
+      title: 'new doc ',
+      content: 'This is my test second data',
+      Owner: 2,
+      access: 'public'
+    },
+    {
+      title: 'meal ',
+      content: 'my favourite meal is beans',
+      Owner: 2,
+      access: 'public'
+    },
+    {
+      title: 'bread ',
+      content: 'bread and beans',
+      Owner: 2,
+      access: 'public'
+    },
+    {
+      title: 'friendship ',
+      content: 'friendship is very important',
+      Owner: 2,
+      access: 'public'
     }
     ])
       .then(() => {
