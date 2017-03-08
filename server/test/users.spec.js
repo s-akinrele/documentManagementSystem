@@ -133,7 +133,7 @@ describe('Users', () => {
   });
   it('Should return error message when search for a user with invalid email', (done) => {
     server
-      .get('/users/search/bola@gmail.com')
+      .get('/users/search/seye@gmail.com')
       .end((err, res) => {
         assert.equal(res.status, 400);
         done();

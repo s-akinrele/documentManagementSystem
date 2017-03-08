@@ -7,6 +7,7 @@ import '../models/index';
 const server = supertest.agent(app);
 let jwtToken;
 
+
 describe('Document suite', () => {
   const AdminInfo = {
     firstname: 'Simisola',
@@ -74,13 +75,27 @@ describe('Document suite', () => {
 });
 
 describe('Documents', () => {
+  const usersInfo = {
+    firstname: 'Bolarinwa',
+    lastname: 'Adetayo',
+    email: 'rere@gmail.com',
+    password: 'password',
+    RoleId: 2
+  };
   before((done) => {
     server
-      .post('/users/login')
-      .send({ email: 'barbara@gmail.com', password: 'password' })
+      .post('/users/')
+      .send(usersInfo)
       .end((err, res) => {
         jwtToken = res.body.token;
-        done();
+
+        server
+          .post('/users/login')
+          .send({ email: 'rere@gmail.com', password: 'password' })
+          .end((err, res) => {
+            jwtToken = res.body.token;
+            done();
+          });
       });
   });
   it('Should not return all documents if user is not an admin', (done) => {
