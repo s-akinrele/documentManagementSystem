@@ -87,7 +87,7 @@ describe('Documents', () => {
     server
         .get('/documents/')
         .expect(200)
-        .set('x-access-token', jwtToken)
+        .set('X-ACCESS-TOKEN', jwtToken)
         .end((err, res) => {
           assert.equal(res.status, 403);
           done();
