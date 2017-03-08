@@ -7,7 +7,20 @@ db.Role.sync()
     },
     {
       title: 'User'
-    }
+    },
+    {
+      title: 'Figurehead'
+    },
+    {
+      title: 'Leader'
+    },
+    {
+      title: 'Liaison'
+    },
+    {
+      title: 'Disseminator'
+    },
+
     ])
       .then(() => {
         console.log('finished populating Roles');
