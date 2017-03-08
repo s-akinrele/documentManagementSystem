@@ -6,7 +6,6 @@ import '../models/index';
 
 const server = supertest.agent(app);
 let jwtToken;
-let jwt;
 
 describe('Document suite', () => {
   const AdminInfo = {
@@ -80,14 +79,15 @@ describe('Documents', () => {
       .post('/users/login')
       .send({ email: 'barbara@gmail.com', password: 'password' })
       .end((err, res) => {
-        jwt = res.body.token;
+        jwtToken = res.body.token;
         done();
       });
   });
   it('Should not return all documents if user is not an admin', (done) => {
     server
         .get('/documents/')
-        .set('X-ACCESS-TOKEN', jwt)
+        .expect(403)
+        .set('x-access-token', jwtToken)
         .end((err, res) => {
           assert.equal(res.status, 403);
           done();
