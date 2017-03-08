@@ -19,8 +19,7 @@ db.Role.sync()
     },
     {
       title: 'Disseminator'
-    },
-
+    }
     ])
       .then(() => {
         console.log('finished populating Roles');
