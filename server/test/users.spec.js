@@ -6,6 +6,14 @@ import '../models/index';
 
 
 const server = supertest.agent(app);
+let jwtToken;
+const adminInfo = {
+  firstname: 'Simisola',
+  lastname: 'Akinrele',
+  email: faker.internet.email(),
+  password: 'password',
+  RoleId: 1
+};
 
 const newUser = {
   firstname: faker.name.firstName(),
@@ -148,5 +156,26 @@ describe('Users', () => {
         done();
       });
   });
-  // delete user
+  describe('Delete user', () => {
+    before((done) => {
+      server
+      .post('/users/')
+      .send(adminInfo)
+      .end((err, res) => {
+        jwtToken = res.body.token;
+        done();
+      });
+    });
+    it('Should return status 200 when a user has been deleted', (done) => {
+      server
+      .delete('/users/3')
+      .expect(200)
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.equal(res.body.message, 'Delete successful');
+        done();
+      });
+    });
+  });
 });

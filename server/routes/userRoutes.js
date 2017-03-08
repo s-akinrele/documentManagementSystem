@@ -26,7 +26,7 @@ const userRoute = (router) => {
     .get(userCtrl.findUser)
     .put(userCtrl.updateUser)
     .patch(userCtrl.updateUser)
-    .delete(userCtrl.deleteUser);
+    .delete(auth.verifyToken, auth.verifyAdmin, userCtrl.deleteUser);
 };
 
 export default userRoute;
