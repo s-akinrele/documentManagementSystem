@@ -139,6 +139,15 @@ describe('Users', () => {
         done();
       });
   });
+  it('Should verify if user is logged in before fetching documents', (done) => {
+    server
+      .get('/users/documents')
+      .end((err, res) => {
+        assert.equal(res.status, 401);
+        assert.equal(res.body.message, 'Authentication required to access this route!');
+        done();
+      });
+  });
   it('Should return error message when search for a user with invalid email', (done) => {
     server
       .get('/users/search/seye@gmail.com')

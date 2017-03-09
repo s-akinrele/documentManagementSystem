@@ -24,6 +24,7 @@ const envs = {
   }
 };
 
-console.log(process.env.NODE_ENV);
+
 
 module.exports = envs[process.env.NODE_ENV || 'development'];
+

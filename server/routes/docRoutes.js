@@ -5,7 +5,7 @@ const docRoute = (router) => {
   router.route('/documents')
     .get(auth.verifyToken, auth.verifyAdmin, docCtrl.getAllDoc)
     .post(auth.verifyToken, docCtrl.createDoc);
-
+  router.route('/documents/?limit={integer}&offset={integer}');
   router.route('/documents/:id')
     .get(auth.verifyToken, docCtrl.getDocById)
     .put(auth.verifyToken, docCtrl.editDoc)
