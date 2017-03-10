@@ -1,8 +1,8 @@
 import supertest from 'supertest';
-import faker from 'faker';
 import { assert } from 'chai';
-import app from '../server';
-import '../models/index';
+import app from '../../server';
+import '../../models/index';
+import helper from '../helpers/helper';
 
 
 const server = supertest.agent(app);
@@ -18,12 +18,9 @@ describe('Role suite', () => {
       });
   });
   it('Should be able to create new role ', (done) => {
-    const newRole = {
-      title: faker.lorem.word()
-    };
     server
       .post('/role/')
-      .send(newRole)
+      .send(helper.newRole)
       .end((err, res) => {
         assert.equal(res.status, 201);
         done();

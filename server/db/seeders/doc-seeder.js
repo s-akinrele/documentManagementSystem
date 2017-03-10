@@ -36,7 +36,7 @@ db.Document.sync()
       title: 'friendship ',
       content: 'friendship is very important',
       Owner: 2,
-      access: 'public'
+      access: 'role'
     }
     ])
       .then(() => {
