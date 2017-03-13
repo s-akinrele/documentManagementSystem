@@ -7,7 +7,7 @@ class Dashboard extends React.Component {
     return (
       <div className="Main">
         <Navbar brand="DMS" className="dms" right>
-          <Input className="search" label="Search"><Icon>search</Icon></Input>
+          <NavItem> <Input s={6} label="Search" validate><Icon>search</Icon></Input> </NavItem>
           <Dropdown
             trigger={
               <NavItem href="#!">

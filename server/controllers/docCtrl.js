@@ -54,13 +54,44 @@ const DocCtrl = {
   },
 
   getAllDoc: (req, res) => {
-    db.Document.findAll()
+    let limit;
+    let offset;
+    let order;
+    if (req.query.limit) {
+      if (isNaN(Number(req.query.limit))) {
+        limit = 10;
+      } else {
+        limit = req.query.limit;
+      }
+    } else {
+      limit = 10;
+    }
+    if (req.query.offset) {
+      if (isNaN(Number(req.query.offset))) {
+        offset = 0;
+      } else {
+        offset = req.query.offset;
+      }
+    } else {
+      offset = 0;
+    }
+    if (req.query.order && req.query.order.toLowerCase() === 'desc') {
+      order = '"createdAt" DESC';
+    } else {
+      order = '"createdAt" ASC';
+    }
+    db.Document.findAndCountAll({ limit, offset, order })
       .then((docs) => {
         if (!docs) {
           return res.status(404)
             .send({ message: 'No document found' });
         }
-        res.status(200).send(docs);
+        const meta = {};
+        meta.totalCount = docs.count;
+        meta.pageSize = limit;
+        meta.pageCount = Math.floor(meta.totalCount / limit) + 1;
+        meta.currentPage = Math.floor(offset / limit) + 1;
+        res.status(200).send({ paginationMeta: meta, result: docs.rows });
       })
       .catch((err) => {
         res.status(400).send(err.errors);
