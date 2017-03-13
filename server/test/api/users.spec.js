@@ -1,39 +1,17 @@
 import supertest from 'supertest';
-import faker from 'faker';
 import { assert } from 'chai';
-import app from '../server';
-import '../models/index';
-
+import app from '../../server';
+import '../../models/index';
+import helper from '../helpers/helper';
 
 const server = supertest.agent(app);
 let jwtToken;
-const adminInfo = {
-  firstname: 'Simisola',
-  lastname: 'Akinrele',
-  email: faker.internet.email(),
-  password: 'password',
-  RoleId: 1
-};
-
-const newUser = {
-  firstname: faker.name.firstName(),
-  lastname: faker.name.lastName(),
-  email: faker.internet.email(),
-  password: 'password'
-};
-
-const existingEmail = {
-  firstname: faker.name.firstName(),
-  lastname: faker.name.lastName(),
-  email: 'barbara@gmail.com',
-  password: 'password'
-};
 
 describe('Users', () => {
   it('Users should be able to sign up', (done) => {
     server
       .post('/users/')
-      .send(newUser)
+      .send(helper.newUser)
       .expect(200)
       .end((err, res) => {
         assert.equal(res.status, 201);
@@ -44,7 +22,7 @@ describe('Users', () => {
   it('It should return a message when user tries to sign up with an exisitig email', (done) => {
     server
       .post('/users/')
-      .send(existingEmail)
+      .send(helper.existingEmail)
       .end((err, res) => {
         assert.equal(res.status, 409);
         assert.equal(res.body.message, 'There is a user with this email: barbara@gmail.com');
@@ -52,14 +30,9 @@ describe('Users', () => {
       });
   });
   it('Should return error message when user tries to signup without firstname or lastname ', (done) => {
-    const newUserWithlastName = {
-      firstname: faker.name.firstName(),
-      email: faker.internet.email(),
-      password: 'password'
-    };
     server
       .post('/users/')
-      .send(newUserWithlastName)
+      .send(helper.newUserWithlastName)
       .end((err, res) => {
         assert.equal(res.status, 400);
         done();
@@ -114,7 +87,7 @@ describe('Users', () => {
   });
   it('Should return invalid user if user does not exist', (done) => {
     server
-      .get('/users/201')
+      .get('/users/500')
       .expect(200)
       .end((err, res) => {
         assert.equal(res.status, 404);
@@ -139,6 +112,15 @@ describe('Users', () => {
         done();
       });
   });
+  it('Should verify if user is logged in before fetching documents', (done) => {
+    server
+      .get('/users/documents')
+      .end((err, res) => {
+        assert.equal(res.status, 401);
+        assert.equal(res.body.message, 'Authentication required to access this route!');
+        done();
+      });
+  });
   it('Should return error message when search for a user with invalid email', (done) => {
     server
       .get('/users/search/seye@gmail.com')
@@ -159,9 +141,10 @@ describe('Users', () => {
   describe('Delete user', () => {
     before((done) => {
       server
-      .post('/users/')
-      .send(adminInfo)
+      .post('/users/login')
+      .send({ email: 'simisoola@gmail.com', password: 'password' })
       .end((err, res) => {
+        console.log('response', res);
         jwtToken = res.body.token;
         done();
       });

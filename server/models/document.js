@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     OwnerId: DataTypes.INTEGER,
     access: {
       defaultValue: 'public',
-      type: DataTypes.ENUM('public', 'private')
+      type: DataTypes.ENUM('public', 'private', 'role')
     }
   }, {
     classMethod: {

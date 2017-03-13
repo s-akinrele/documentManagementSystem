@@ -10,8 +10,6 @@ $txt: justify;
     margin-top: 150px;
     margin-left: 40px;
     }
-    
-  
 }
 .bkg{
   background-image:url('assets/img/books.jpg');
@@ -49,14 +47,17 @@ $txt: justify;
         background-color: tomato;
     }
 }
-
 .logo {
     font-family: $fonts;
     margin-bottom:20px;
     text-align: center;
 }
-
-
+.dms {
+    font-family: $fonts;
+    margin-bottom:20px;
+    padding-left:20px;
+    background-color: tomato;
+}
 .shadow{
 border:3px double #fff;
 -moz-box-shadow: 4px 6px 12px #dfdfdf;
@@ -82,4 +83,12 @@ filter: progid:DXImageTransform.Microsoft.Shadow(Strength=13, Direction=135, Col
     font-size: 12px;
     color: red;
     margin-left: 20px;
+}
+
+.dropdown-content li>a, {
+  color: black;
+}
+
+.search {
+    background-color: #fff;
 }

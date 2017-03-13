@@ -7,6 +7,7 @@ const userRoute = (router) => {
     .get(userCtrl.findAllUsers)
     .post(userCtrl.createUser);
 
+  router.route('/users/?limit={integer}&offset={integer}');
   router.route('/users/documents')
     .get(auth.verifyToken, docCtrl.getUsersDoc);
 

@@ -1,6 +1,6 @@
 import db from '../../models';
 
-db.Document.sync()
+db.Document.sync({ force: true })
   .then(() => {
     db.Document.bulkCreate([{
       title: 'hey there',
@@ -36,7 +36,7 @@ db.Document.sync()
       title: 'friendship ',
       content: 'friendship is very important',
       Owner: 2,
-      access: 'public'
+      access: 'role'
     }
     ])
       .then(() => {

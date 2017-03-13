@@ -1,4 +1,5 @@
-import 'whatwg-fetch';
+// import 'whatwg-fetch';
+import * as request from 'superagent';
 import React, { Component } from 'react';
 import { Button, Row, Col, Icon, Input, Tabs, Tab } from 'react-materialize';
 import '../main.scss';
@@ -16,27 +17,22 @@ class HomePage extends Component {
     e.preventDefault();
     let email = this.refs.email.state.value;
     let password = this.refs.password.state.value;
-    fetch('http://localhost:5000/users/login', {
-      method: 'POST',
-      body: JSON.stringify({
+    request
+      .post('http://localhost:5000/users/login')
+      .send({
         email: email,
         password: password
-      }),
-      credentials: 'same-origin',
+      }).end((err, res) => {
+          console.log(res.status);
 
-    }).then(response => {
-      console.log(response.status);
-      response.json()
-        .then((parsedResponse) => {
-          if(response.status !== 200) {
-            this.setState({ error: parsedResponse.message });
+        if (err) {
+          if (res.status !== 200) {
+            this.setState({ error: res.body.message });
           } else {
-            this.setState({ message: parsedResponse.message });
+            this.setState({ message: res.body.message });
           }
-        });
-    }).catch((err) => {
-      console.log(err);
-    });
+        }
+      });
   }
 
   render() {
@@ -55,12 +51,12 @@ class HomePage extends Component {
                 <Tabs className="tab-demo z-depth-1">
                   <Tab title="Sign in" active>
                     <p className="logo">Log in to your account </p>
-                    <Input type="email" label="Email"  ref="email" required s={12} />
+                    <Input type="email" label="Email" ref="email" required s={12} />
                     <Input type="password" label="password" ref="password" required s={12} />
                     <p>
                       <span className="err">{this.state.error}{this.state.message}</span>
                     </p>
-                    <Button className="btn tomato" onClick={this.login.bind(this)} waves="light">Log in<Icon right>send</Icon></Button>
+                    <Button className="btn tomato" onClick={this.login.bind(this)} waves="light">Log in <Icon right>send</Icon></Button>
                   </Tab>
                   <Tab title="Sign up">
                     <div>
