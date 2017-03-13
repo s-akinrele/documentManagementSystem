@@ -1,30 +1,18 @@
 import supertest from 'supertest';
-import faker from 'faker';
 import { assert } from 'chai';
-import app from '../server';
-import '../models/index';
+import app from '../../server';
+import '../../models/index';
+import helper from '../helpers/helper';
 
 const server = supertest.agent(app);
 let jwtToken;
 
 
 describe('Document suite', () => {
-  const AdminInfo = {
-    firstname: 'Simisola',
-    lastname: 'Akinrele',
-    email: faker.internet.email(),
-    password: 'password',
-    RoleId: 1
-  };
-  const newDoc = {
-    title: faker.lorem.word(),
-    content: faker.lorem.words()
-  };
-
   before((done) => {
     server
       .post('/users/')
-      .send(AdminInfo)
+      .send(helper.adminInfo)
       .end((err, res) => {
         jwtToken = res.body.token;
         done();
@@ -66,26 +54,18 @@ describe('Document suite', () => {
     server
       .post('/documents')
       .set('X-ACCESS-TOKEN', jwtToken)
-      .send(newDoc)
+      .send(helper.newDoc)
       .end((err, res) => {
         assert.equal(res.status, 201);
         done();
       });
   });
 });
-
 describe('Documents', () => {
-  const usersInfo = {
-    firstname: 'Bolarinwa',
-    lastname: 'Adetayo',
-    email: 'rere@gmail.com',
-    password: 'password',
-    RoleId: 2
-  };
   before((done) => {
     server
       .post('/users/')
-      .send(usersInfo)
+      .send(helper.usersInfo)
       .end((err, res) => {
         jwtToken = res.body.token;
 

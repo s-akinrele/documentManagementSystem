@@ -1,8 +1,9 @@
 import db from '../../models';
 
-db.User.sync()
+db.User.sync({ force: true })
   .then(() => {
     db.User.bulkCreate([{
+      username: 'simi',
       firstname: 'Simisola',
       lastname: 'Akinrele',
       email: 'akinrelesimi@gmail.com',
@@ -10,6 +11,7 @@ db.User.sync()
       RoleId: 1
     },
     {
+      username: 'barbie',
       firstname: 'Barbara',
       lastname: 'Ezomo',
       email: 'barbara@gmail.com',
@@ -17,6 +19,7 @@ db.User.sync()
       RoleId: 2
     },
     {
+      username: 'demi',
       firstname: 'Bidemi',
       lastname: 'Adeyanju',
       email: 'bidemi@gmail.com',

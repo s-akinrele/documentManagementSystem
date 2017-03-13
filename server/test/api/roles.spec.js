@@ -1,29 +1,38 @@
 import supertest from 'supertest';
-import faker from 'faker';
 import { assert } from 'chai';
-import app from '../server';
-import '../models/index';
+import app from '../../server';
+import '../../models/index';
+import helper from '../helpers/helper';
 
 
 const server = supertest.agent(app);
+let jwtToken;
 
 describe('Role suite', () => {
+  before((done) => {
+    server
+      .post('/users/')
+      .send(helper.administrator)
+      .end((err, res) => {
+        jwtToken = res.body.token;
+        done();
+      });
+  });
   it('Should return all roles', (done) => {
     server
       .get('/role/')
       .expect(200)
+      .set('X-ACCESS-TOKEN', jwtToken)
       .end((err, res) => {
         assert.equal(res.status, 200);
         done();
       });
   });
   it('Should be able to create new role ', (done) => {
-    const newRole = {
-      title: faker.lorem.word()
-    };
     server
       .post('/role/')
-      .send(newRole)
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .send(helper.newRole)
       .end((err, res) => {
         assert.equal(res.status, 201);
         done();
@@ -32,6 +41,7 @@ describe('Role suite', () => {
   it('Should not be able to create new role with an existing role title ', (done) => {
     server
       .post('/role/')
+      .set('X-ACCESS-TOKEN', jwtToken)
       .send({ title: 'Admin' })
       .end((err, res) => {
         assert.equal(res.status, 409);
@@ -43,6 +53,7 @@ describe('Role suite', () => {
     server
       .get('/role/1')
       .expect(200)
+      .set('X-ACCESS-TOKEN', jwtToken)
       .end((err, res) => {
         assert.equal(res.status, 200);
         assert.equal(res.body.title, 'Admin');
@@ -52,6 +63,7 @@ describe('Role suite', () => {
   it('Should return role does not exist if id is invalid', (done) => {
     server
       .get('/role/700')
+      .set('X-ACCESS-TOKEN', jwtToken)
       .end((err, res) => {
         assert.equal(res.status, 404);
         done();
@@ -60,11 +72,25 @@ describe('Role suite', () => {
   it('Should return success when role has been edited succesfully', (done) => {
     server
       .put('/role/6')
+      .set('X-ACCESS-TOKEN', jwtToken)
       .send({ title: 'people' })
       .end((err, res) => {
         assert.equal(res.status, 200);
         assert.equal(res.body.message, 'Update successful');
         done();
       });
+  });
+  describe('Delete role', () => {
+    it('Should return status 200 when a role has been deleted', (done) => {
+      server
+      .delete('/role/3')
+      .expect(200)
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.equal(res.body.message, 'Delete successful');
+        done();
+      });
+    });
   });
 });
