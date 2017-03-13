@@ -87,7 +87,7 @@ describe('Users', () => {
   });
   it('Should return invalid user if user does not exist', (done) => {
     server
-      .get('/users/201')
+      .get('/users/500')
       .expect(200)
       .end((err, res) => {
         assert.equal(res.status, 404);
@@ -138,26 +138,27 @@ describe('Users', () => {
         done();
       });
   });
-  // describe('Delete user', () => {
-  //   before((done) => {
-  //     server
-  //     .post('/users/')
-  //     .send(helper.adminInfo)
-  //     .end((err, res) => {
-  //       jwtToken = res.body.token;
-  //       done();
-  //     });
-  //   });
-  //   it('Should return status 200 when a user has been deleted', (done) => {
-  //     server
-  //     .delete('/users/3')
-  //     .expect(200)
-  //     .set('X-ACCESS-TOKEN', jwtToken)
-  //     .end((err, res) => {
-  //       assert.equal(res.status, 200);
-  //       assert.equal(res.body.message, 'Delete successful');
-  //       done();
-  //     });
-  //   });
-  // });
+  describe('Delete user', () => {
+    before((done) => {
+      server
+      .post('/users/login')
+      .send({ email: 'simisoola@gmail.com', password: 'password' })
+      .end((err, res) => {
+        console.log('response', res);
+        jwtToken = res.body.token;
+        done();
+      });
+    });
+    it('Should return status 200 when a user has been deleted', (done) => {
+      server
+      .delete('/users/3')
+      .expect(200)
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.equal(res.body.message, 'Delete successful');
+        done();
+      });
+    });
+  });
 });

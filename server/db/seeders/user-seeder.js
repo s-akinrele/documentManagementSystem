@@ -1,6 +1,6 @@
 import db from '../../models';
 
-db.User.sync()
+db.User.sync({ force: true })
   .then(() => {
     db.User.bulkCreate([{
       username: 'simi',

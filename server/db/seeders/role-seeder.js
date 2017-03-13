@@ -1,6 +1,6 @@
 import db from '../../models';
 
-db.Role.sync()
+db.Role.sync({ force: true })
   .then(() => {
     db.Role.bulkCreate([{
       title: 'Admin'

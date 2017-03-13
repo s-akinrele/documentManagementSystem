@@ -5,6 +5,14 @@ const data = {
     username: faker.internet.userName(),
     firstname: faker.name.firstName(),
     lastname: faker.name.lastName(),
+    email: 'simisoola@gmail.com',
+    password: 'password',
+    RoleId: 1
+  },
+  administrator: {
+    username: faker.internet.userName(),
+    firstname: faker.name.firstName(),
+    lastname: faker.name.lastName(),
     email: faker.internet.email(),
     password: 'password',
     RoleId: 1
@@ -84,5 +92,8 @@ const data = {
     access: 'private',
     OwnerId: 3
   },
+  createRole: {
+    title: faker.lorem.word()
+  }
 };
 export default data;

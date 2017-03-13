@@ -1,6 +1,6 @@
 import db from '../../models';
 
-db.Document.sync()
+db.Document.sync({ force: true })
   .then(() => {
     db.Document.bulkCreate([{
       title: 'hey there',
