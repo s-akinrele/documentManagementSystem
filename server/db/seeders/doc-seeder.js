@@ -24,7 +24,7 @@ db.Document.sync()
       title: 'meal ',
       content: 'my favourite meal is beans',
       Owner: 2,
-      access: 'public'
+      access: 'role'
     },
     {
       title: 'bread ',

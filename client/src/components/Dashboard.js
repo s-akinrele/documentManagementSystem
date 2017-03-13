@@ -27,6 +27,8 @@ class Dashboard extends React.Component {
             </Row>
           </Col>
         </Row>
+        <Button floating fab='horizontal' icon='mode_edit' className='red' large style={{bottom: '45px', right: '24px'}}> 
+        </Button>
       </div>
     );
   }

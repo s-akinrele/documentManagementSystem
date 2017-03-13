@@ -9,10 +9,13 @@ const userRoute = (router) => {
 
   router.route('/users/?limit={integer}&offset={integer}');
   router.route('/users/documents')
-    .get(auth.verifyToken, docCtrl.getUsersDoc);
+    .get(auth.verifyToken, docCtrl.getMyDoc);
 
   router.route('/users/:id/documents')
-    .get(auth.verifyToken, docCtrl.getPublicDoc);
+    .get(auth.verifyToken, docCtrl.getUsersDoc);
+
+  router.route('/users/:id/documents/public')
+  .get(auth.verifyToken, docCtrl.getUsersPublicDoc);
 
   router.route('/users/search/:email')
     .get(userCtrl.findUserbyEmail);

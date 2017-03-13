@@ -114,7 +114,7 @@ const DocCtrl = {
   },
 
   getUsersDoc: (req, res) => {
-    db.Document.findAll({ where: { OwnerId: req.decoded.UserId } })
+    db.Document.findAll({ where: { OwnerId: req.params.id } })
       .then((doc) => {
         if (!doc) {
           return res.status(404)
@@ -128,7 +128,21 @@ const DocCtrl = {
       });
   },
 
-  getPublicDoc: (req, res) => {
+  getMyDoc: (req, res) => {
+    db.Document.findAll({ where: { OwnerId: req.decoded.UserId } })
+      .then((doc) => {
+        if (!doc) {
+          return res.status(404)
+            .send({ message: 'Document does not belong to this user' });
+        }
+        res.status(200)
+          .send(doc);
+      })
+      .catch((err) => {
+        res.status(400).send(err.errors);
+      });
+  },
+  getUsersPublicDoc: (req, res) => {
     db.Document.findAll({ where: { access: 'public', OwnerId: req.params.id } })
       .then((doc) => {
         if (!doc) {
