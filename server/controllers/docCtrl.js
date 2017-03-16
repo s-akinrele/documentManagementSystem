@@ -1,6 +1,14 @@
 import db from '../models';
 
 const DocCtrl = {
+
+   /**
+   * Create a new document
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
+
   createDoc: (req, res) => {
     const document = req.body;
     document.OwnerId = req.decoded.UserId;
@@ -20,6 +28,13 @@ const DocCtrl = {
       });
   },
 
+  /**
+   * Edit and update a specific document
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
+
   editDoc: (req, res) => {
     db.Document.findOne({ where: { id: req.params.id } })
       .then((doc) => {
@@ -38,6 +53,13 @@ const DocCtrl = {
       });
   },
 
+  /**
+   * Delete a specific document
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
+
   deleteDoc: (req, res) => {
     db.Document.findOne({ where: { id: req.params.id } })
       .then((doc) => {
@@ -52,6 +74,13 @@ const DocCtrl = {
         res.status(400).send(err.errors);
       });
   },
+
+  /**
+   * Gets all documents
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
 
   getAllDoc: (req, res) => {
     let limit;
@@ -98,6 +127,13 @@ const DocCtrl = {
       });
   },
 
+  /**
+   * Get a specific document
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
+
   getDocById: (req, res) => {
     db.Document.findById(req.params.id)
       .then((doc) => {
@@ -113,12 +149,19 @@ const DocCtrl = {
       });
   },
 
+  /**
+   * Gets all documents belonging to a specific user with the specified UserId
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
+
   getUsersDoc: (req, res) => {
     db.Document.findAll({ where: { OwnerId: req.params.id } })
       .then((doc) => {
         if (!doc) {
           return res.status(404)
-            .send({ message: 'Document does not belong to this user' });
+            .send({ message: 'No document found' });
         }
         res.status(200)
           .send(doc);
@@ -127,6 +170,13 @@ const DocCtrl = {
         res.status(400).send(err.errors);
       });
   },
+
+  /**
+   * Gets all documents belonging to who is requesting
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
 
   getMyDoc: (req, res) => {
     db.Document.findAll({ where: { OwnerId: req.decoded.UserId } })
@@ -142,18 +192,54 @@ const DocCtrl = {
         res.status(400).send(err.errors);
       });
   },
-  getUsersPublicDoc: (req, res) => {
-    db.Document.findAll({ where: { access: 'public', OwnerId: req.params.id } })
-      .then((doc) => {
-        if (!doc) {
+
+   /**
+   * Gets all documents that a particular user can access
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
+
+  getAccessibleDocument: (req, res) => {
+    const rawQuery =
+    `SELECT * FROM "Documents" INNER JOIN "Users" ON "Documents"."OwnerId" = "Users"."id" WHERE ("Users"."RoleId" = ${req.decoded.RoleId} AND "Documents".access = 'role') OR ("Documents".access = 'public')`;
+    db.sequelize.query(rawQuery, {
+      type: db.sequelize.QueryTypes.SELECT
+    })
+      .then((docs) => {
+        if (!docs) {
           return res.status(404)
             .send({ message: 'No document found' });
         }
-        res.status(200)
-          .send(doc);
+        res.status(200).send(docs);
       }).catch((err) => {
+        res.status(400).send(err.message);
+      });
+  },
+
+   /**
+   * Allows a user to share a private document with another user
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
+
+  sharePrivateDocument: (req, res) => {
+    const docId = req.body.documentId;
+    const userEmail = req.body.userEmail;
+    db.User.findOne({ where: { email: userEmail } })
+    .then((user) => {
+      db.Access.create({
+        documentId: docId,
+        usersAccess: user.id
+      }).then((sharedDocument) => {
+        res.status(201)
+          .send(sharedDocument);
+      })
+      .catch((err) => {
         res.status(400).send(err.errors);
       });
+    });
   }
 };
 

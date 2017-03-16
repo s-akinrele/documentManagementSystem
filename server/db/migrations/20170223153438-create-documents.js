@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  up: function(queryInterface, Sequelize) {
+  up: function (queryInterface, Sequelize) {
     return queryInterface.createTable('Documents', {
       id: {
         type: Sequelize.INTEGER,
@@ -19,7 +19,13 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false
       },
-      OwnerId: Sequelize.INTEGER,
+      OwnerId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id'
+        }
+      },
       access: {
         defaultValue: 'public',
         type: Sequelize.ENUM('public', 'private', 'role')

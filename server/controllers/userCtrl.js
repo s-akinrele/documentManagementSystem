@@ -5,6 +5,15 @@ import db from '../models';
 const secret = process.env.SECRET;
 
 const Userctrl = {
+
+
+  /**
+   * Create a new user
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @returns {Object} Response object
+   */
+
   createUser: (req, res) => {
     db.User.findOne({ where: { email: req.body.email } })
       .then((userExist) => {
@@ -34,6 +43,13 @@ const Userctrl = {
       });
   },
 
+  /**
+  * Get a specific user by email address
+  * @param {Object} req - Request object
+  * @param {Object} res - Response object
+  * @returns {Object} Response object
+  */
+
   findUserbyEmail: (req, res) => {
     db.User.findOne({ where: { email: req.params.email } })
       .then((user) => {
@@ -48,6 +64,12 @@ const Userctrl = {
       });
   },
 
+  /**
+  * Get a specific user by UserId
+  * @param {Object} req - Request object
+  * @param {Object} res - Response object
+  * @returns {Object} Response object
+  */
   findUser: (req, res) => {
     db.User.findOne({ where: { id: req.params.id } })
       .then((user) => {
@@ -62,19 +84,64 @@ const Userctrl = {
       });
   },
 
+  /**
+   * Get all users in the database
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @returns {Object} Response object
+   */
   findAllUsers: (req, res) => {
-    db.User.findAll()
+    let limit;
+    let offset;
+    let order;
+    if (req.query.limit) {
+      if (isNaN(Number(req.query.limit))) {
+        limit = 10;
+      } else {
+        limit = req.query.limit;
+      }
+    } else {
+      limit = 10;
+    }
+    if (req.query.offset) {
+      if (isNaN(Number(req.query.offset))) {
+        offset = 0;
+      } else {
+        offset = req.query.offset;
+      }
+    } else {
+      offset = 0;
+    }
+    if (req.query.order && req.query.order.toLowerCase() === 'desc') {
+      order = '"createdAt" DESC';
+    } else {
+      order = '"createdAt" ASC';
+    }
+    db.User.findAndCountAll({ limit, offset, order })
       .then((users) => {
         if (!users) {
           return res.status(404)
             .send({ message: 'No user found' });
         }
-        res.send(users).status(200);
+        const meta = {};
+        meta.totalCount = users.count;
+        meta.pageSize = limit;
+        meta.pageCount = Math.floor(meta.totalCount / limit) + 1;
+        meta.currentPage = Math.floor(offset / limit) + 1;
+        res.status(200).send({ paginationMeta: meta, result: users.rows });
       })
       .catch((err) => {
         res.status(400).send(err.errors);
       });
   },
+
+
+  /**
+   * Edit and update a specific user
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @returns {Object} Response object
+   */
 
   updateUser: (req, res) => {
     db.User.findOne({ where: { id: req.params.id } })
@@ -93,6 +160,14 @@ const Userctrl = {
       });
   },
 
+
+  /**
+   * Delete a specific user
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @returns {Object} Response object
+   */
+
   deleteUser: (req, res) => {
     db.User.findOne({ where: { id: req.params.id } })
       .then((user) => {
@@ -107,6 +182,14 @@ const Userctrl = {
         res.status(400).send(err.errors);
       });
   },
+
+
+  /**
+   * Login a user
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @returns {Object} Response object
+   */
 
   login: (req, res) => {
     db.User.findOne({ where: { email: req.body.email } })
@@ -134,6 +217,15 @@ const Userctrl = {
           .send({ message: 'Invalid username or password' });
       });
   },
+
+  /**
+   * logout - Logout a user
+   *
+   * @param  {Objec} req - Request Object
+   * @param  {Object} res - Response Object
+   * @returns {Void}     Returns Void
+   */
+
   logout: (req, res) => {
     res.status(200).send({ message: 'Successfully logged out.' });
   }

@@ -10,6 +10,6 @@ const searchRoute = (router) => {
   //   res.redirect(`/search/documents/?q=${req.body.title}`);
   // });
   router.route('/search/documents/')
-  .get(auth.verifyToken, searchCtrl.searchDocument);
+  .get(auth.verifyToken, auth.verifyAdmin, searchCtrl.searchDocument);
 };
 export default searchRoute;

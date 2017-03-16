@@ -61,11 +61,12 @@ class HomePage extends Component {
                   <Tab title="Sign up">
                     <div>
                       <p className="logo">Create an account </p>
+                      <Input type="text" label="Username" required />
                       <Input type="text" label="Firstname" required />
                       <Input type="text" label="Lastname" required />
                       <Input type="email" label="Email" required />
+                      
                       <Input type="password" label="password" required />
-                      <Input type="password" label="Confirm password" required />
                       <Button className="btn" waves="light">Sign up<Icon right>send</Icon></Button>
                     </div>
                   </Tab>
