@@ -65,7 +65,10 @@ class HomePage extends Component {
                       <Input type="text" label="Firstname" required />
                       <Input type="text" label="Lastname" required />
                       <Input type="email" label="Email" required />
-                      
+                      <Input type="select" label="Access" validate>
+                        <option value="1">User</option>
+                        <option value="2">Guest</option>
+                      </Input>
                       <Input type="password" label="password" required />
                       <Button className="btn" waves="light">Sign up<Icon right>send</Icon></Button>
                     </div>

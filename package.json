@@ -33,11 +33,13 @@
     "react-dom": "^15.4.2",
     "react-materialize": "^0.18.1",
     "react-router": "^3.0.2",
+    "react-tinymce": "^0.5.1",
     "sequelize": "^3.30.2",
     "sequelize-cli": "^2.5.1",
     "should": "^11.2.0",
     "superagent": "^3.5.0",
     "supertest": "^3.0.0",
+    "tinymce": "^4.5.5",
     "url-loader": "^0.5.8",
     "whatwg-fetch": "^2.0.3"
   },
