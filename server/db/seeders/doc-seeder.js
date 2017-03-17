@@ -18,7 +18,7 @@ db.Document.sync({ force: true })
       title: 'new doc ',
       content: 'This is my test second data',
       OwnerId: 2,
-      access: 'public'
+      access: 'private'
     },
     {
       title: 'meal ',

@@ -2,7 +2,7 @@ import searchCtrl from '../controllers/searchCtrl';
 import auth from '../middlewares/auth';
 
 const searchRoute = (router) => {
-  router.route('/search/users')
+  router.route('/search/users/')
   .get(auth.verifyToken, searchCtrl.searchUser);
 
   // router.route('/documents/search')

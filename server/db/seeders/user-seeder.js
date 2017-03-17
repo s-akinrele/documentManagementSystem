@@ -26,6 +26,22 @@ db.User.sync({ force: true })
       email: 'bidemi@gmail.com',
       password: bcrypt.hashSync('password', bcrypt.genSaltSync(10)),
       RoleId: 2
+    },
+    {
+      username: 'dede',
+      firstname: 'Dedele',
+      lastname: 'Adebiyi',
+      email: 'dede@gmail.com',
+      password: bcrypt.hashSync('password', bcrypt.genSaltSync(10)),
+      RoleId: 2
+    },
+    {
+      username: 'seyi',
+      firstname: 'Seyi',
+      lastname: 'Adebiyi',
+      email: 'seyi@gmail.com',
+      password: bcrypt.hashSync('password', bcrypt.genSaltSync(10)),
+      RoleId: 1
     }
     ])
       .then(() => {

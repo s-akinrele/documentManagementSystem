@@ -40,7 +40,7 @@ const DocCtrl = {
       .then((doc) => {
         if (!doc) {
           return res.status(404)
-            .send({ message: `id: ${req.body.id} does not exist` });
+            .send({ message: `documentid: ${req.body.id} does not exist` });
         }
         doc.update(req.body)
           .then(() => {
@@ -65,7 +65,7 @@ const DocCtrl = {
       .then((doc) => {
         if (!doc) {
           return res.status(404)
-            .send({ message: `id ${req.body.id}  does not exist` });
+            .send({ message: `id ${req.body.id} does not exist` });
         }
         doc.destroy();
         res.status(200).send({ message: 'Delete successful' });
@@ -87,7 +87,7 @@ const DocCtrl = {
     let offset;
     let order;
     if (req.query.limit) {
-      if (isNaN(Number(req.query.limit))) {
+      if (isNaN(Number(req.query.limit)) || req.query.limit < 0) {
         limit = 10;
       } else {
         limit = req.query.limit;
@@ -96,7 +96,7 @@ const DocCtrl = {
       limit = 10;
     }
     if (req.query.offset) {
-      if (isNaN(Number(req.query.offset))) {
+      if (isNaN(Number(req.query.offset)) || req.query.limit < 0) {
         offset = 0;
       } else {
         offset = req.query.offset;
