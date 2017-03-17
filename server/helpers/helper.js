@@ -5,7 +5,7 @@ const data = {
     let offset;
     let order;
     if (req.query.limit) {
-      if (isNaN(Number(req.query.limit))) {
+      if (isNaN(Number(req.query.limit)) || req.query.limit < 0) {
         limit = 10;
       } else {
         limit = req.query.limit;
@@ -14,7 +14,7 @@ const data = {
       limit = 10;
     }
     if (req.query.offset) {
-      if (isNaN(Number(req.query.offset))) {
+      if (isNaN(Number(req.query.offset)) || req.query.limit < 0) {
         offset = 0;
       } else {
         offset = req.query.offset;
@@ -28,6 +28,6 @@ const data = {
       order = '"createdAt" ASC';
     }
     return { limit, offset, order };
-  }
+  },
 };
 export default data;

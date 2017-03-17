@@ -16,12 +16,14 @@ describe('Document model', () => {
         });
     done();
   });
-  describe('Create Document', () => {
-    it('document can be created', () => {
-      db.Document.create(document)
+  before('sss', ()=>{
+          db.Document.create(document)
            .then((doc) => {
              documentData = doc;
            });
+  });
+  describe('Create Document', () => {
+    it('document can be created', () => {
       expect(document).to.exist;
       expect(typeof document).to.equal('object');
     });
