@@ -13,7 +13,6 @@ describe('Search suite', () => {
       .send({ email: 'seyi@gmail.com', password: 'password' })
       .end((err, res) => {
         jwtToken = res.body.token;
-        console.log('token', jwtToken);
         done();
       });
   });

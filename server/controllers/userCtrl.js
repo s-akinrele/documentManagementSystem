@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt-nodejs';
 import jwt from 'jsonwebtoken';
 import db from '../models';
+import helper from '../helpers/helper';
 
 const secret = process.env.SECRET;
 
@@ -91,7 +92,7 @@ const Userctrl = {
    * @returns {Object} Response object
    */
   findAllUsers: (req, res) => {
-    const page = Userctrl.pagination(req);
+    const page = helper.pagination(req);
     const limit = page.limit;
     const offset = page.offset;
     const order = page.order;
@@ -206,38 +207,7 @@ const Userctrl = {
 
   logout: (req, res) => {
     res.status(200).send({ message: 'Successfully logged out.' });
-  },
-
-  pagination: (req) => {
-    let limit;
-    let offset;
-    let order;
-    if (req.query.limit) {
-      if (isNaN(Number(req.query.limit))) {
-        limit = 10;
-      } else {
-        limit = req.query.limit;
-      }
-    } else {
-      limit = 10;
-    }
-    if (req.query.offset) {
-      if (isNaN(Number(req.query.offset))) {
-        offset = 0;
-      } else {
-        offset = req.query.offset;
-      }
-    } else {
-      offset = 0;
-    }
-    if (req.query.order && req.query.order.toLowerCase() === 'desc') {
-      order = '"createdAt" DESC';
-    } else {
-      order = '"createdAt" ASC';
-    }
-    return { limit, offset, order };
   }
-
 };
 
 export default Userctrl;

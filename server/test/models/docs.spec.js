@@ -14,7 +14,6 @@ describe('Document model', () => {
           console.log('users information', user);
           userInfo = user;
           document.OwnerId = userInfo.id;
-          console.log('document information', document);
         });
     done();
   });
@@ -28,12 +27,12 @@ describe('Document model', () => {
       expect(typeof document).to.equal('object');
     });
     it('should create a document with title and content', () => {
+      console.log('doc title', document.title, 'doc title other', documentData.title);
       expect(document.title).to.equal(documentData.title);
       expect(document.content).to.equal(documentData.content);
     });
     it('should create a document with correct OwnerId', () => {
       expect(document.OwnerId).to.equal(userInfo.id);
-      console.log('doc id', document.OwnerId, 'user id', userInfo.id);
     });
     it('should create a document with published date', () => {
       expect(documentData.createdAt).to.exist;
