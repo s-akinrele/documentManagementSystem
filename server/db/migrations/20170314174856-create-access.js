@@ -11,7 +11,11 @@ module.exports = {
       },
       documentId: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        references: {
+          model: 'Documents',
+          key: 'id'
+        }
       },
       usersAccess: {
         type: Sequelize.INTEGER,

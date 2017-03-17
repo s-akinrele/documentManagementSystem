@@ -240,6 +240,25 @@ const DocCtrl = {
         res.status(400).send(err.errors);
       });
     });
+  },
+
+  viewPrivateDocuments: (req, res) => {
+    const userId = req.decoded.UserId;
+    db.Access.findAll(
+      {
+        where: { usersAccess: userId }
+      }).then((sharedDocument) => {
+        const allDocumentIds = sharedDocument.map(doc => doc.documentId);
+        db.Document.findAll({
+          where: {
+            id: {
+              $in: allDocumentIds
+            }
+          }
+        }).then((documents) => {
+          res.status(200).send(documents);
+        });
+      });
   }
 };
 

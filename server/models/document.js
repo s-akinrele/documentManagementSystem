@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     classMethod: {
       associate: (models) => {
-        Document.hasMany(models.Access, { foreignKey: 'documentId' });
+        Document.belongsTo(models.Access);
         Document.belongsTo(models.User, {
           as: 'Owner',
           onDelete: 'CASCADE',
