@@ -11,29 +11,29 @@ describe('Document model', () => {
   before((done) => {
     db.User.create(helper.docUser)
         .then((user) => {
-          console.log('users information', user);
           userInfo = user;
           document.OwnerId = userInfo.id;
-          console.log('document information', document);
         });
     done();
   });
-  describe('Create Document', () => {
-    it('document can be created', () => {
-      db.Document.create(document)
+  before('sss', ()=>{
+          db.Document.create(document)
            .then((doc) => {
              documentData = doc;
            });
+  });
+  describe('Create Document', () => {
+    it('document can be created', () => {
       expect(document).to.exist;
       expect(typeof document).to.equal('object');
     });
     it('should create a document with title and content', () => {
+      console.log('doc title', document, 'doc title other', documentData);
       expect(document.title).to.equal(documentData.title);
       expect(document.content).to.equal(documentData.content);
     });
     it('should create a document with correct OwnerId', () => {
       expect(document.OwnerId).to.equal(userInfo.id);
-      console.log('doc id', document.OwnerId, 'user id', userInfo.id);
     });
     it('should create a document with published date', () => {
       expect(documentData.createdAt).to.exist;

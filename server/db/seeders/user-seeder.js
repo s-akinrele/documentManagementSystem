@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt-nodejs';
 import db from '../../models';
 
 db.User.sync({ force: true })
@@ -7,7 +8,7 @@ db.User.sync({ force: true })
       firstname: 'Simisola',
       lastname: 'Akinrele',
       email: 'akinrelesimi@gmail.com',
-      password: 'password',
+      password: bcrypt.hashSync('password', bcrypt.genSaltSync(10)),
       RoleId: 1
     },
     {
@@ -15,7 +16,7 @@ db.User.sync({ force: true })
       firstname: 'Barbara',
       lastname: 'Ezomo',
       email: 'barbara@gmail.com',
-      password: 'password',
+      password: bcrypt.hashSync('password', bcrypt.genSaltSync(10)),
       RoleId: 2
     },
     {
@@ -23,8 +24,24 @@ db.User.sync({ force: true })
       firstname: 'Bidemi',
       lastname: 'Adeyanju',
       email: 'bidemi@gmail.com',
-      password: 'password',
+      password: bcrypt.hashSync('password', bcrypt.genSaltSync(10)),
       RoleId: 2
+    },
+    {
+      username: 'dede',
+      firstname: 'Dedele',
+      lastname: 'Adebiyi',
+      email: 'dede@gmail.com',
+      password: bcrypt.hashSync('password', bcrypt.genSaltSync(10)),
+      RoleId: 2
+    },
+    {
+      username: 'seyi',
+      firstname: 'Seyi',
+      lastname: 'Adebiyi',
+      email: 'seyi@gmail.com',
+      password: bcrypt.hashSync('password', bcrypt.genSaltSync(10)),
+      RoleId: 1
     }
     ])
       .then(() => {

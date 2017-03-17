@@ -4,18 +4,17 @@ import docCtrl from '../controllers/docCtrl';
 
 const userRoute = (router) => {
   router.route('/users/')
-    .get(userCtrl.findAllUsers)
+    .get(auth.verifyToken, auth.verifyAdmin, userCtrl.findAllUsers)
     .post(userCtrl.createUser);
 
-  router.route('/users/?limit={integer}&offset={integer}');
   router.route('/users/documents')
-    .get(auth.verifyToken, docCtrl.getUsersDoc);
+    .get(auth.verifyToken, docCtrl.getMyDoc);
 
   router.route('/users/:id/documents')
-    .get(auth.verifyToken, docCtrl.getPublicDoc);
+    .get(auth.verifyToken, docCtrl.getUsersDoc);
 
   router.route('/users/search/:email')
-    .get(userCtrl.findUserbyEmail);
+    .get(auth.verifyToken, userCtrl.findUserbyEmail);
 
   router.route('/users/login')
     .post(userCtrl.login);
@@ -24,9 +23,9 @@ const userRoute = (router) => {
     .post(userCtrl.logout);
 
   router.route('/users/:id')
-    .get(userCtrl.findUser)
-    .put(userCtrl.updateUser)
-    .patch(userCtrl.updateUser)
+    .get(auth.verifyToken, userCtrl.findUser)
+    .put(auth.verifyToken, userCtrl.updateUser)
+    .patch(auth.verifyToken, userCtrl.updateUser)
     .delete(auth.verifyToken, auth.verifyAdmin, userCtrl.deleteUser);
 };
 

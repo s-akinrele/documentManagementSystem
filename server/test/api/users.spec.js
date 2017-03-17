@@ -29,21 +29,12 @@ describe('Users', () => {
         done();
       });
   });
-  it('Should return error message when user tries to signup without firstname or lastname ', (done) => {
+  it('Should return 400 status when user tries to signup without firstname or lastname ', (done) => {
     server
       .post('/users/')
       .send(helper.newUserWithlastName)
       .end((err, res) => {
         assert.equal(res.status, 400);
-        done();
-      });
-  });
-  it('Should get all users', (done) => {
-    server
-      .get('/users/')
-      .expect(200)
-      .end((err, res) => {
-        assert.equal(res.status, 200);
         done();
       });
   });
@@ -75,26 +66,6 @@ describe('Users', () => {
         done();
       });
   });
-  it('Should return users information if user exist', (done) => {
-    server
-      .get('/users/1')
-      .expect(200)
-      .end((err, res) => {
-        assert.equal(res.status, 200);
-        assert.isNotNull(res.body);
-        done();
-      });
-  });
-  it('Should return invalid user if user does not exist', (done) => {
-    server
-      .get('/users/500')
-      .expect(200)
-      .end((err, res) => {
-        assert.equal(res.status, 404);
-        assert.equal(res.body.message, 'User does not exist');
-        done();
-      });
-  });
   it('Should return message when a user logs out', (done) => {
     server
       .post('/users/logout')
@@ -103,49 +74,23 @@ describe('Users', () => {
         done();
       });
   });
-  it('Should return users information when searched using the users email', (done) => {
-    server
-      .get('/users/search/akinrelesimi@gmail.com')
-      .expect(200)
-      .end((err, res) => {
-        assert.equal(res.status, 200);
-        done();
-      });
-  });
-  it('Should verify if user is logged in before fetching documents', (done) => {
-    server
-      .get('/users/documents')
-      .end((err, res) => {
-        assert.equal(res.status, 401);
-        assert.equal(res.body.message, 'Authentication required to access this route!');
-        done();
-      });
-  });
-  it('Should return error message when search for a user with invalid email', (done) => {
-    server
-      .get('/users/search/seye@gmail.com')
-      .end((err, res) => {
-        assert.equal(res.status, 400);
-        done();
-      });
-  });
-  it('Should return success when a users information is edited', (done) => {
-    server
-      .put('/users/3')
-      .send({ firstname: 'Bolarinwa' })
-      .end((err, res) => {
-        assert.equal(res.body.message, 'Update successful');
-        done();
-      });
-  });
-  describe('Delete user', () => {
+  describe('Access with token', () => {
     before((done) => {
       server
       .post('/users/login')
-      .send({ email: 'simisoola@gmail.com', password: 'password' })
+      .send({ email: 'akinrelesimi@gmail.com', password: 'password' })
       .end((err, res) => {
-        console.log('response', res);
         jwtToken = res.body.token;
+        done();
+      });
+    });
+    it('Should return success when a users information is edited', (done) => {
+      server
+      .put('/users/3')
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .send({ firstname: 'Bolarinwa' })
+      .end((err, res) => {
+        assert.equal(res.body.message, 'Update successful');
         done();
       });
     });
@@ -157,6 +102,66 @@ describe('Users', () => {
       .end((err, res) => {
         assert.equal(res.status, 200);
         assert.equal(res.body.message, 'Delete successful');
+        done();
+      });
+    });
+    it('Should return users information if user exist', (done) => {
+      server
+      .get('/users/1')
+      .expect(200)
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.isNotNull(res.body);
+        done();
+      });
+    });
+    it('Should return users information when searched using the users email', (done) => {
+      server
+      .get('/users/search/barbara@gmail.com')
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .expect(200)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        done();
+      });
+    });
+    it('Should verify if user is logged in before fetching documents', (done) => {
+      server
+      .get('/users/documents')
+      .end((err, res) => {
+        assert.equal(res.status, 401);
+        assert.equal(res.body.message, 'Authentication required to access this route!');
+        done();
+      });
+    });
+    it('Should return error message when search for a user with invalid email', (done) => {
+      server
+      .get('/users/search/seye@gmail.com')
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .end((err, res) => {
+        assert.equal(res.status, 400);
+        done();
+      });
+    });
+    it('Should return invalid user if user does not exist', (done) => {
+      server
+      .get('/users/500')
+      .expect(200)
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .end((err, res) => {
+        assert.equal(res.status, 404);
+        assert.equal(res.body.message, 'User does not exist');
+        done();
+      });
+    });
+    it('Should get all users', (done) => {
+      server
+      .get('/users/')
+      .expect(200)
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
         done();
       });
     });
