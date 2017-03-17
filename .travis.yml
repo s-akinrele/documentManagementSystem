@@ -10,5 +10,3 @@ before_script:
   - npm run seed
 after_success:
   - npm run coveralls
-after_failure:
-  - npm run coveralls

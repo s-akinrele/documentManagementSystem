@@ -11,7 +11,6 @@ describe('Document model', () => {
   before((done) => {
     db.User.create(helper.docUser)
         .then((user) => {
-          console.log('users information', user);
           userInfo = user;
           document.OwnerId = userInfo.id;
         });
@@ -27,9 +26,9 @@ describe('Document model', () => {
       expect(typeof document).to.equal('object');
     });
     it('should create a document with title and content', () => {
+      console.log('doc title', document, 'doc title other', documentData);
       expect(document.title).to.equal(documentData.title);
       expect(document.content).to.equal(documentData.content);
-      console.log('doc title', document.title, 'doc title other', documentData.title);
     });
     it('should create a document with correct OwnerId', () => {
       expect(document.OwnerId).to.equal(userInfo.id);
