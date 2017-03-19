@@ -1,4 +1,5 @@
 import db from '../models';
+import helper from '../helpers/helper';
 
 const DocCtrl = {
 
@@ -40,7 +41,7 @@ const DocCtrl = {
       .then((doc) => {
         if (!doc) {
           return res.status(404)
-            .send({ message: `id: ${req.body.id} does not exist` });
+            .send({ message: `documentid: ${req.body.id} does not exist` });
         }
         doc.update(req.body)
           .then(() => {
@@ -65,7 +66,7 @@ const DocCtrl = {
       .then((doc) => {
         if (!doc) {
           return res.status(404)
-            .send({ message: `id ${req.body.id}  does not exist` });
+            .send({ message: `id ${req.body.id} does not exist` });
         }
         doc.destroy();
         res.status(200).send({ message: 'Delete successful' });
@@ -83,32 +84,10 @@ const DocCtrl = {
    */
 
   getAllDoc: (req, res) => {
-    let limit;
-    let offset;
-    let order;
-    if (req.query.limit) {
-      if (isNaN(Number(req.query.limit))) {
-        limit = 10;
-      } else {
-        limit = req.query.limit;
-      }
-    } else {
-      limit = 10;
-    }
-    if (req.query.offset) {
-      if (isNaN(Number(req.query.offset))) {
-        offset = 0;
-      } else {
-        offset = req.query.offset;
-      }
-    } else {
-      offset = 0;
-    }
-    if (req.query.order && req.query.order.toLowerCase() === 'desc') {
-      order = '"createdAt" DESC';
-    } else {
-      order = '"createdAt" ASC';
-    }
+    const page = helper.pagination(req);
+    const limit = page.limit;
+    const offset = page.offset;
+    const order = page.order;
     db.Document.findAndCountAll({ limit, offset, order })
       .then((docs) => {
         if (!docs) {
@@ -240,6 +219,25 @@ const DocCtrl = {
         res.status(400).send(err.errors);
       });
     });
+  },
+
+  viewPrivateDocuments: (req, res) => {
+    const userId = req.decoded.UserId;
+    db.Access.findAll(
+      {
+        where: { usersAccess: userId }
+      }).then((sharedDocument) => {
+        const allDocumentIds = sharedDocument.map(doc => doc.documentId);
+        db.Document.findAll({
+          where: {
+            id: {
+              $in: allDocumentIds
+            }
+          }
+        }).then((documents) => {
+          res.status(200).send(documents);
+        });
+      });
   }
 };
 

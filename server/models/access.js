@@ -14,10 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     freezeTableName: true,
     classMethod: {
       associate: (models) => {
-        Access.belongsTo(models.Document, {
-          onDelete: 'CASCADE',
-          foreignKey: { allowNull: false }
-        });
+        Access.hasMany(models.Document);
       }
     }
 

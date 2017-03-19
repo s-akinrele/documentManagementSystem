@@ -3,10 +3,8 @@ node_js:
   - "node"
 services:
   - postgresql
-script: npm test
+script: npm run coveralls
 before_script:
   - npm install
   - psql -c 'create database travis;' -U postgres
   - npm run seed
-after_success:
-  - npm run coveralls
