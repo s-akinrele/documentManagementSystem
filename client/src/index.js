@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory } from 'react-router';
-import HomePage from './components/homePage';
-import Dashboard from './components/Dashboard';
+import homePage from './components/homePage';
+import dashBoard from './components/dashBoard';
 
 ReactDOM.render(
   <Router history={browserHistory}>
-    <Route path="/" component={HomePage}> </Route>
-    <Route path="/dashboard" component={Dashboard}> </Route>
+    <Route path="/" component={homePage}> </Route>
+    <Route path="/dashboard" component={dashBoard}> </Route>
   </Router>,
     document.getElementById('root')
 );

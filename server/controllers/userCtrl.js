@@ -186,7 +186,7 @@ const Userctrl = {
           }, secret, {
             expiresIn: '10h'
           });
-          res.send({ token });
+          res.send({ token, user });
         } else {
           res.status(400).send({ message: 'Invalid username or password' });
         }
