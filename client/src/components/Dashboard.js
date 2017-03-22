@@ -15,7 +15,6 @@ class Dashboard extends React.Component {
 
   render() {
     const documents = this.props.documents;
-
     return (
       <div className="Main">
         <NavBar />
@@ -24,14 +23,7 @@ class Dashboard extends React.Component {
             return <DocumentPreview document= {document} i={index} key={index} />
            })}
         </Row>
-        <Modal
-          header="Add New Document"
-          actions={[<Button style={{ marginLeft: 2 + 'em' }} className="btn-cancel" waves="light" modal="close" flat>Close</Button>, <Button waves="light" flat className="btn-save">Save</Button>]}
-          trigger={
-        <Button floating waves="light" icon="mode_edit" className="red" large style={{ bottom: '200px', right: '24px' }}></Button>
-        }>
-          <DocumentForm />
-        </Modal>
+        <DocumentForm {...this.props} />
       </div>
     );
   }

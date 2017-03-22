@@ -124,3 +124,21 @@ filter: progid:DXImageTransform.Microsoft.Shadow(Strength=13, Direction=135, Col
 .icon-common {
     margin-bottom: 0;
 }
+
+.btn-floating {
+    bottom: 20px;
+    right: 20px;
+    position: fixed
+}
+
+.info {
+    float: right;
+    color: tomato;
+}
+
+.access {
+    color: grey;
+}
+li.dropdown-button {
+    list-style: none;
+}
