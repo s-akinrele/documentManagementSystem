@@ -56,7 +56,7 @@ $txt: justify;
     font-family: $fonts;
     margin-bottom:20px;
     padding-left:20px;
-    background-color: tomato;
+    background-color: #9e3f3f;
 }
 .shadow{
 border:3px double #fff;
@@ -98,9 +98,29 @@ filter: progid:DXImageTransform.Microsoft.Shadow(Strength=13, Direction=135, Col
     right: 24px;
     float: right;
     margin-top: 30%;
+    background-color:#9e3f3f;
 }
 
 .icons {
  color: grey;
- margin-right: 10px;
+}
+
+.btn-cancel {
+ background-color:lightslategrey;
+ color: #fff;
+  &:hover {
+        background-color: lightslategrey;
+    }
+}
+
+.btn-save {
+ background-color: darkslategrey;
+ color: #fff;
+  &:hover {
+        background-color: darkslategrey;
+    }
+}
+
+.icon-common {
+    margin-bottom: 0;
 }

@@ -19,3 +19,5 @@ export const logout = (cb) => {
 };
 
 export const currentUser = () => localStorage.user;
+
+export const fetchToken = () => localStorage.token;

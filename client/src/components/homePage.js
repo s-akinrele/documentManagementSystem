@@ -16,11 +16,11 @@ class HomePage extends Component {
 
   login(e) {
     e.preventDefault();
-    const email = this.refs.email.state.value;
-    const password = this.refs.password.state.value;
+    let email = this.refs.email.state.value;
+    let password = this.refs.password.state.value;
     login({ email, password }, (err) => {
       if (err) {
-        // if logout fails do this
+        Materialize.toast('Invalid Username or Password', 4000, 'rounded');
       } else {
         browserHistory.push('/dashboard');
       }
@@ -74,8 +74,8 @@ class HomePage extends Component {
                 <Tabs className="tab-demo z-depth-1">
                   <Tab title="Sign in" active>
                     <p className="logo">Log in to your account </p>
-                    <Input type="email" label="Email" ref="email" required s={12} />
-                    <Input type="password" label="password" ref="password" required s={12} />
+                    <Input type="email" label="Email" ref="email"  icon="account_circle" required s={12} />
+                    <Input type="password" label="password" ref="password" icon="vpn_key" required s={12} />
                     <p>
                       <span className="err">{this.state.error}{this.state.message}</span>
                     </p>

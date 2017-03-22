@@ -1,13 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, NotFoundRoute } from 'react-router';
+import { Provider } from 'react-redux';
+import store, { history } from './store';
 import homePage from './components/homePage';
 import dashBoard from './components/dashBoard';
+import NotFound from './components/notFoundPage/notFoundPage';
+import Main from './main';
+
+
+const router = (
+  <Provider store={store}>
+    <Router history={history}>
+      <Route path="/" component={Main} >
+        <IndexRoute component={homePage}> </IndexRoute>
+        <Route path="/dashboard" component={dashBoard} />
+        <Route path="*" component={NotFound} />
+      </Route>
+    </Router>
+  </Provider>
+);
 
 ReactDOM.render(
-  <Router history={browserHistory}>
-    <Route path="/" component={homePage}> </Route>
-    <Route path="/dashboard" component={dashBoard}> </Route>
-  </Router>,
+router,
     document.getElementById('root')
 );
