@@ -24,9 +24,11 @@ class Dashboard extends React.Component {
     return (
       <div className="Main">
         <NavBar />
+       <div className="container">
         <Row>
           { documents.map((document, index) => <DocumentPreview document= {document} i={index} key={index} />)}
         </Row>
+        </div>
         <DocumentForm {...this.props} />
       </div>
     );

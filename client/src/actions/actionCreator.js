@@ -26,3 +26,10 @@ export function fetchUserDocument(payload) {
     payload
   };
 }
+
+export function fetchDocumentById(payload) {
+  return {
+    type: 'FETCH_DOCUMENT_BY_ID',
+    payload
+  };
+}

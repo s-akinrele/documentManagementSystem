@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Col, CardPanel, Icon, Dropdown, NavItem } from 'react-materialize';
 import '../../main.scss';
+import request from '../../helpers/request';
 
 class DocumentPreview extends Component {
   render() {
@@ -13,11 +14,9 @@ class DocumentPreview extends Component {
                 <Icon className="info">more_vert</Icon>
               </NavItem>
          }>
-            <NavItem>Details</NavItem>
-            <NavItem>Edit</NavItem>
-            <NavItem>Delete</NavItem>
+            <NavItem href={`/viewDocument/${this.props.document.id}`}>Details</NavItem>
           </Dropdown>
-          <h5 style={{ fontWeight: 100}}>{this.props.document.title}</h5>
+          <h5 style={{ fontWeight: 100 }}>{this.props.document.title}</h5>
           <span className="truncate" dangerouslySetInnerHTML={{ __html: this.props.document.content }} />
           <div style={{ marginTop: `${2}em` }}>
             <div className="access"><Icon>person_pin</Icon>

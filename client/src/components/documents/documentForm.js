@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Input, Modal, Button, Col } from 'react-materialize';
+import { Row, Input, Modal, Button } from 'react-materialize';
 import TinyMCE from 'react-tinymce';
 import '../../main.scss';
 import request from '../../helpers/request';
@@ -36,14 +36,6 @@ class DocumentForm extends Component {
     this.setState({ [name]: value });
   }
 
-  // setAccess(access) {
-  //   this.setState({ access });
-  //   return access;
-  // }
-
-  handleAccessChange(e) {
-    // $()console.log(e);
-  }
 
   handleSubmit() {
     const data = {
@@ -68,17 +60,12 @@ class DocumentForm extends Component {
         header="Add New Document"
         actions={[<Button style={{ marginLeft: `${2}em` }} className="btn-cancel" waves="light" modal="close" flat>Close</Button>, <Button waves="light" flat className="btn-save" onClick={this.handleSubmit}>Save</Button>]}
         trigger={
-          <Button floating waves="light" icon="mode_edit" className="red" large />
+          <Button floating waves="light" icon="note_add" className="red" large />
         }
       >
         <div>
           <Row>
             <Input s={4} ref="title" name="title" label="Document Title" validate icon="subtitles" />
-            {/*<Input s={4} ref="access" name="access" type="select" label="Access" validate defaultValue="public">
-            <option value="private">Private</option>
-            <option value="public">Public</option>
-            <option value="role">Role</option>
-          </Input>*/}
             <div className="input-field col s4">
             <select ref="access" id="access" defaultValue="0">
               <option value="0" disabled >Access</option>
@@ -87,7 +74,6 @@ class DocumentForm extends Component {
               <option value="role">Role</option>
             </select>
           </div>
-            {/*<Input s={4} label="Share" validate icon="supervisor_account" disabled />*/}
             <div className="input-field col s4">
             <input ref="share" type="text" className="validate" disabled/>
             <label htmlFor="last_name">Share</label>
