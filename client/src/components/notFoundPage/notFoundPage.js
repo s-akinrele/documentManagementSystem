@@ -18,9 +18,8 @@ export default class NotFound extends Component {
               </Col>
               <Col s={4} className="login">
                 <div className=" shadow">
-                <h3 className="logo"> DMS </h3>
-                <h2>Page Not Found </h2>
-                <p>Whoops! Sorry there is nothing to see here</p>
+                <h3 className="logo"> Page Not Found </h3>
+                <p className="logo">Whoops! Sorry there is nothing to see here</p>
               </div>
               </Col>
 

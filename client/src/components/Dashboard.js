@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
 import { Button, Row, Modal } from 'react-materialize';
+import { browserHistory } from 'react-router';
 import NavBar from './navbar/navBar';
 import DocumentForm from './documents/documentForm';
 import DocumentPreview from './documents/documentPreview';
 import '../main.scss';
 import request from '../helpers/request';
+import { isLoggedIn } from '../helpers/auth';
 
 class Dashboard extends React.Component {
   componentDidMount() {
-    request('http://localhost:5000/users/documents', 'get', null, (err, res) => {
-      this.props.fetchUserDocument(res.body);
-    });
+    if (!isLoggedIn()) {
+      browserHistory.push('/');
+    } else {
+      request('http://localhost:5000/users/documents', 'get', null, (err, res) => {
+        this.props.fetchUserDocument(res.body);
+      });
+    }
   }
 
   render() {
@@ -19,9 +25,7 @@ class Dashboard extends React.Component {
       <div className="Main">
         <NavBar />
         <Row>
-          { documents.map((document, index) => {
-            return <DocumentPreview document= {document} i={index} key={index} />
-           })}
+          { documents.map((document, index) => <DocumentPreview document= {document} i={index} key={index} />)}
         </Row>
         <DocumentForm {...this.props} />
       </div>

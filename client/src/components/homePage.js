@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { Button, Row, Col, Icon, Input, Tabs, Tab } from 'react-materialize';
 import '../main.scss';
-import { login } from '../helpers/auth';
+import { login, isLoggedIn } from '../helpers/auth';
+import request from '../helpers/request';
 
 class HomePage extends Component {
   constructor(props) {
@@ -13,11 +14,16 @@ class HomePage extends Component {
       message: ''
     };
   }
+  componentDidMount() {
+    if (isLoggedIn()) {
+      browserHistory.push('/dashboard');
+    }
+  }
 
   login(e) {
     e.preventDefault();
-    let email = this.refs.email.state.value;
-    let password = this.refs.password.state.value;
+    const email = this.refs.email.state.value;
+    const password = this.refs.password.state.value;
     login({ email, password }, (err) => {
       if (err) {
         Materialize.toast('Invalid Username or Password', 4000, 'rounded');
@@ -35,28 +41,46 @@ class HomePage extends Component {
     const signup_email = this.refs.signup_email.state.value;
     const access = this.refs.access.state.value;
     const signup_password = this.refs.signup_password.state.value;
-    request
-      .post('http://localhost:5000/users/')
-      .send({
-        username,
-        firstname,
-        lastname,
-        email: signup_email,
-        access,
-        password: signup_password
-      }).end((err, res) => {
-        console.log(res.status);
-        console.log(res);
-        if (err) {
-          if (res.status !== 201) {
-            this.setState({ error: res.body.message });
-          } else {
-            this.setState({ message: res.body.message });
-          }
+    // request
+    //   .post('http://localhost:5000/users/')
+    //   .send({
+    //     username,
+    //     firstname,
+    //     lastname,
+    //     email: signup_email,
+    //     access,
+    //     password: signup_password
+    //   }).end((err, res) => {
+    //     if (err) {
+    //       if (res.status !== 201) {
+    //         this.setState({ error: res.body.message });
+    //       } else {
+    //         this.setState({ message: res.body.message });
+    //       }
+    //     } else {
+    //       browserHistory.push('/dashboard');
+    //     }
+    //   });
+    const data = {
+      username,
+      firstname,
+      lastname,
+      email: signup_email,
+      access,
+      password: signup_password };
+    request('http://localhost:5000/users/', 'post', data, (err, res) => {
+      if (err) {
+        if (res.status !== 201) {
+          this.setState({ error: res.body.message });
         } else {
-          browserHistory.push('/dashboard');
+          this.setState({ message: res.body.message });
         }
-      });
+      } else {
+      localStorage.token = res.body.token;
+      localStorage.user = res.body.user;
+        browserHistory.push('/dashboard');
+      }
+    });
   }
   render() {
     return (
@@ -70,16 +94,18 @@ class HomePage extends Component {
               </Col>
               <Col s={4} className="login">
                 <div className=" shadow">
-                <h3 className="logo"> DMS </h3>
-                <Tabs className="tab-demo z-depth-1">
+                  <h3 className="logo"> DMS </h3>
+                  <Tabs className="tab-demo z-depth-1">
                   <Tab title="Sign in" active>
                     <p className="logo">Log in to your account </p>
-                    <Input type="email" label="Email" ref="email"  icon="account_circle" required s={12} />
-                    <Input type="password" label="password" ref="password" icon="vpn_key" required s={12} />
-                    <p>
-                      <span className="err">{this.state.error}{this.state.message}</span>
-                    </p>
-                    <Button className="btn tomato" onClick={this.login.bind(this)} waves="light">Log in <Icon right>send</Icon></Button>
+                    <form method="post" onSubmit={this.login.bind(this)}>
+                      <Input type="email" label="Email" ref="email" name="email" icon="account_circle" required s={12} />
+                      <Input type="password" label="password" ref="password" name="password" icon="vpn_key" required s={12} />
+                      <p>
+                        <span className="err">{this.state.error}{this.state.message}</span>
+                      </p>
+                      <Button type="submit" className="btn tomato" waves="light">Log in <Icon right>send</Icon></Button>
+                    </form>
                   </Tab>
                   <Tab title="Sign up">
                     <div>
@@ -103,7 +129,7 @@ class HomePage extends Component {
                     </div>
                   </Tab>
                 </Tabs>
-              </div>
+                </div>
               </Col>
 
             </Row>

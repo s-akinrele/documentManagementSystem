@@ -5,8 +5,8 @@ export const login = (credentials, cb) => {
     if (err) {
       cb(err);
     } else {
-      localStorage.token = res.body.token;
-      localStorage.user = res.body.user;
+        localStorage.token = res.body.token;
+        localStorage.user = res.body.user;
       cb(null);
     }
   });
@@ -21,3 +21,11 @@ export const logout = (cb) => {
 export const currentUser = () => localStorage.user;
 
 export const fetchToken = () => localStorage.token;
+
+export const isLoggedIn = () => {
+  if (localStorage.getItem('token') !== null) {
+    return true;
+  }
+  return false;
+};
+

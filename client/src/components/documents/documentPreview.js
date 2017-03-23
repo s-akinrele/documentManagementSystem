@@ -13,11 +13,11 @@ class DocumentPreview extends Component {
                 <Icon className="info">more_vert</Icon>
               </NavItem>
          }>
-            <NavItem>More</NavItem>
+            <NavItem>Details</NavItem>
             <NavItem>Edit</NavItem>
             <NavItem>Delete</NavItem>
           </Dropdown>
-          <h5>{this.props.document.title}</h5>
+          <h5 style={{ fontWeight: 100}}>{this.props.document.title}</h5>
           <span className="truncate" dangerouslySetInnerHTML={{ __html: this.props.document.content }} />
           <div style={{ marginTop: `${2}em` }}>
             <div className="access"><Icon>person_pin</Icon>
