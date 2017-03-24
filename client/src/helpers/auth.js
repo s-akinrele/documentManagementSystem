@@ -6,7 +6,7 @@ export const login = (credentials, cb) => {
       cb(err);
     } else {
         localStorage.token = res.body.token;
-        localStorage.user = res.body.user;
+        localStorage.user = JSON.stringify(res.body.user);
       cb(null);
     }
   });
@@ -18,7 +18,7 @@ export const logout = (cb) => {
   cb();
 };
 
-export const currentUser = () => localStorage.user;
+export const currentUser = () => JSON.parse(localStorage.user);
 
 export const fetchToken = () => localStorage.token;
 

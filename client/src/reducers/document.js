@@ -11,7 +11,7 @@ let newState;
 export default function documents(state = [], action) {
     // console.log(action);
   switch (action.type) {
-    case 'FETCH_USER_DOCUMENT':
+    case 'FETCH_DOCUMENTS':
       newState = action.payload;
       return newState;
     case 'CREATE_DOCUMENT':

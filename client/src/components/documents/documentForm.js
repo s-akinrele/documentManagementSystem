@@ -60,7 +60,8 @@ class DocumentForm extends Component {
     const data = {
       title: this.refs.title.state.value,
       content: this.state.content,
-      access: this.refs.access.value
+      access: this.refs.access.value,
+      userEmail: this.refs.share.value
     };
 
     request('http://localhost:5000/documents', 'post', data, (err, res) => {

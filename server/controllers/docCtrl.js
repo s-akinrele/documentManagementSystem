@@ -1,6 +1,26 @@
 import db from '../models';
 import helper from '../helpers/helper';
 
+/**
+ * Share document privately
+ * @param {any} userEmail
+ * @param {any} docId
+ * @param {any} cb
+ */
+function shareDocument(userEmail, docId, cb) {
+  db.User.findOne({ where: { email: userEmail } })
+  .then((user) => {
+    db.Access.create({
+      documentId: docId,
+      usersAccess: user.id
+    }).then((acc) => {
+      cb(null, acc);
+    }).catch((err) => {
+      cb(err);
+    });
+  });
+}
+
 const DocCtrl = {
 
    /**
@@ -11,7 +31,12 @@ const DocCtrl = {
    */
 
   createDoc: (req, res) => {
-    const document = req.body;
+    const document = {
+      title: req.body.title,
+      content: req.body.content,
+      access: req.body.access
+    };
+    const userEmail = req.body.userEmail;
     document.OwnerId = req.decoded.UserId;
     db.Document.findOne({ where: { title: document.title } })
       .then((docExist) => {
@@ -21,7 +46,15 @@ const DocCtrl = {
         }
         db.Document.create(document)
           .then((doc) => {
-            res.status(201).send(doc);
+            if (userEmail !== null && userEmail !== '') {
+              shareDocument(userEmail, doc.id, (err) => {
+                if (err) {
+                  res.status(400).send(err.errors);
+                } else {
+                  res.status(201).send(doc);
+                }
+              });
+            }
           })
           .catch((err) => {
             res.status(400).send(err.errors);
@@ -181,7 +214,7 @@ const DocCtrl = {
 
   getAccessibleDocument: (req, res) => {
     const rawQuery =
-    `SELECT * FROM "Documents" INNER JOIN "Users" ON "Documents"."OwnerId" = "Users"."id" WHERE ("Users"."RoleId" = ${req.decoded.RoleId} AND "Documents".access = 'role') OR ("Documents".access = 'public')`;
+    `SELECT "Documents"."id" as id, "Documents"."title", "Documents"."content", "Documents"."OwnerId", "Documents"."access" FROM "Documents" INNER JOIN "Users" ON "Documents"."OwnerId" = "Users"."id" WHERE ("Users"."RoleId" = ${req.decoded.RoleId} AND "Documents".access = 'role') OR ("Documents".access = 'public')`;
     db.sequelize.query(rawQuery, {
       type: db.sequelize.QueryTypes.SELECT
     })
@@ -206,18 +239,25 @@ const DocCtrl = {
   sharePrivateDocument: (req, res) => {
     const docId = req.body.documentId;
     const userEmail = req.body.userEmail;
-    db.User.findOne({ where: { email: userEmail } })
-    .then((user) => {
-      db.Access.create({
-        documentId: docId,
-        usersAccess: user.id
-      }).then((sharedDocument) => {
-        res.status(201)
-          .send(sharedDocument);
-      })
-      .catch((err) => {
+    // db.User.findOne({ where: { email: userEmail } })
+    // .then((user) => {
+    //   db.Access.create({
+    //     documentId: docId,
+    //     usersAccess: user.id
+    //   }).then((sharedDocument) => {
+    //     res.status(201)
+    //       .send(sharedDocument);
+    //   })
+    //   .catch((err) => {
+    //     res.status(400).send(err.errors);
+    //   });
+    // });
+    shareDocument(userEmail, docId, (err, acc) => {
+      if (err) {
         res.status(400).send(err.errors);
-      });
+      } else {
+        res.status(201).send(acc);
+      }
     });
   },
 
@@ -242,3 +282,4 @@ const DocCtrl = {
 };
 
 export default DocCtrl;
+

@@ -6,7 +6,7 @@ import NavBar from '../navbar/navBar';
 import Dialog from '../diaLog/confirmDialog';
 import EditDocument from './documentEdit';
 import request from '../../helpers/request';
-import { fetchToken } from '../../helpers/auth';
+import { fetchToken, currentUser } from '../../helpers/auth';
 
 /**
  *
@@ -46,6 +46,15 @@ class DocumentView extends Component {
       });
   }
   render() {
+    const userOwnsDocument = currentUser().id === this.props.documents.OwnerId;
+    const modifyButtons = (      
+      <div>        
+        <div className="dialog"><EditDocument {...this.props} /> </div>
+        <div className="dialog">
+          <Dialog header="Confirmation" message="Are you sure you want to delete this document?" action="DELETE" onContinue={this.handleDocumentDelete.bind(this)} />
+        </div>
+      </div>
+    )
     return (
       <div>
         <NavBar />
@@ -63,10 +72,7 @@ class DocumentView extends Component {
             </div>
             <div />
             <div>
-              <div className="dialog"><EditDocument {...this.props} /> </div>
-              <div className="dialog">
-                <Dialog header="Confirmation" message="Are you sure you want to delete this document?" action="DELETE" onContinue={this.handleDocumentDelete.bind(this)} />
-              </div>
+              { userOwnsDocument ? modifyButtons : '' }
             </div>
           </form>
         </div>

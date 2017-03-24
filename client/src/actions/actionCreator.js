@@ -1,4 +1,8 @@
-// create document
+/**
+ * @export
+ * @param {any} payload
+ * @returns
+ */
 export function createDocument(payload) {
   return {
     type: 'CREATE_DOCUMENT',
@@ -6,6 +10,11 @@ export function createDocument(payload) {
   };
 }
 
+/**
+ * @export
+ * @param {any} payload
+ * @returns
+ */
 export function editDocument(payload) {
   return {
     type: 'EDIT_DOCUMENT',
@@ -13,6 +22,11 @@ export function editDocument(payload) {
   };
 }
 
+/**
+ * @export
+ * @param {any} payload
+ * @returns
+ */
 export function deleteDocument(payload) {
   return {
     type: 'DELETE_DOCUMENT',
@@ -20,19 +34,28 @@ export function deleteDocument(payload) {
   };
 }
 
+/**
+ * @export
+ * @param {any} payload
+ * @returns
+ */
 export function fetchUserDocument(payload) {
   return {
-    type: 'FETCH_USER_DOCUMENT',
+    type: 'FETCH_DOCUMENTS',
     payload
   };
 }
 
+/**
+ * @export
+ * @param {any} payload
+ * @returns
+ */
 export function fetchDocumentById(payload) {
   return {
     type: 'FETCH_DOCUMENT_BY_ID',
     payload
   };
 }
-
 
 

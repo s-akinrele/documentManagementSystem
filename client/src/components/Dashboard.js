@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Row, Modal } from 'react-materialize';
+import { Row } from 'react-materialize';
 import { browserHistory } from 'react-router';
 import NavBar from './navbar/navBar';
 import DocumentForm from './documents/documentForm';
@@ -19,14 +19,14 @@ class Dashboard extends React.Component {
       });
     }
   }
-
   render() {
     const documents = this.props.documents;
+    console.log('aaaa', documents)
     return (
       <div className="Main">
         <NavBar />
         <div className="container">
-          <Filter />
+          <Filter {...this.props} />
           <Row>
             { documents.map((document, index) => <DocumentPreview document={document} i={index} key={index} />)}
           </Row>
