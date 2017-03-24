@@ -16,6 +16,13 @@ const request = (url, type, data = null, cb) => {
         cb(err, res);
       });
   }
+  if (type.toLowerCase() === 'put' || type.toLowerCase() === 'patch') {
+    req.put(url)
+    .set('x-access-token', fetchToken())
+    .send(data).end((err, res) => {
+      cb(err, res);
+    });
+  }
 };
 
 export default request;

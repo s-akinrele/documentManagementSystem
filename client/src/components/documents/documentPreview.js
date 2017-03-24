@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Col, CardPanel, Icon, Dropdown, NavItem } from 'react-materialize';
 import '../../main.scss';
-import request from '../../helpers/request';
 
 class DocumentPreview extends Component {
   render() {

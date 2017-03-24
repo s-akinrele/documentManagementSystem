@@ -45,7 +45,7 @@ const DocCtrl = {
         }
         doc.update(req.body)
           .then(() => {
-            res.send({ message: 'Update successful' });
+            res.send(doc);
           })
           .catch((err) => {
             res.status(400)

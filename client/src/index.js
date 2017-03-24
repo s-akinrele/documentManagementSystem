@@ -6,7 +6,8 @@ import store, { history } from './store';
 import homePage from './components/homePage';
 import dashBoard from './components/dashBoard';
 import NotFound from './components/notFoundPage/notFoundPage';
-import viewDocument from './components/documents/documentView';
+import DocumentView from './components/documents/documentView';
+// import View from './components/modalDialog/modalDialog';
 import Main from './main';
 
 
@@ -16,7 +17,8 @@ const router = (
       <Route path="/" component={Main} >
         <IndexRoute component={homePage}> </IndexRoute>
         <Route path="/dashboard" component={dashBoard} />
-        <Route path="/viewDocument/:id" component={viewDocument} />
+        <Route path="/viewDocument/:id" component={DocumentView} />
+         {/*<Route path="/documentView" component={View} />*/}
         <Route path="*" component={NotFound} />
       </Route>
     </Router>

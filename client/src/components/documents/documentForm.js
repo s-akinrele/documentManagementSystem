@@ -4,8 +4,12 @@ import TinyMCE from 'react-tinymce';
 import '../../main.scss';
 import request from '../../helpers/request';
 
-
+/**
+ * @class DocumentForm
+ * @extends {Component}
+ */
 class DocumentForm extends Component {
+
   constructor() {
     super();
     this.state = {
@@ -15,6 +19,10 @@ class DocumentForm extends Component {
     this.handleEditorChange = this.handleEditorChange.bind(this);
     this.handleTextChange = this.handleTextChange.bind(this);
   }
+
+/**
+ * @memberOf DocumentForm
+ */
   componentDidMount() {
     $('select').material_select();
     $('#access').change((e) => {
@@ -26,17 +34,28 @@ class DocumentForm extends Component {
       }
     });
   }
+  /**
+   * @param {any} e
+   * @memberOf DocumentForm
+   */
   handleEditorChange(e) {
     this.setState({ content: e.target.getContent() });
   }
-
+/**
+ * @param {any} e
+ *
+ * @memberOf DocumentForm
+ */
   handleTextChange(e) {
     const value = e.target.value;
     const name = e.target.name;
     this.setState({ [name]: value });
   }
 
-
+/**
+ *
+ * @memberOf DocumentForm
+ */
   handleSubmit() {
     const data = {
       title: this.refs.title.state.value,
@@ -58,36 +77,36 @@ class DocumentForm extends Component {
     return (
       <Modal
         header="Add New Document"
-        actions={[<Button style={{ marginLeft: `${2}em` }} className="btn-cancel" waves="light" modal="close" flat>Close</Button>, <Button waves="light" flat className="btn-save" onClick={this.handleSubmit}>Save</Button>]}
+        actions={[<Button style={{ marginLeft: `${2}em` }} className="btn-cancel" waves="light" modal="close" flat>Close</Button>, <Button waves="light" flat className="btn-save" onClick={this.handleSubmit} modal="close">Save</Button>]}
         trigger={
-          <Button floating waves="light" icon="note_add" className="red" large />
+          <Button floating waves="light" icon="add" className="red" large />
         }
       >
         <div>
           <Row>
             <Input s={4} ref="title" name="title" label="Document Title" validate icon="subtitles" />
             <div className="input-field col s4">
-            <select ref="access" id="access" defaultValue="0">
-              <option value="0" disabled >Access</option>
-              <option value="private">Private</option>
-              <option value="public">Public</option>
-              <option value="role">Role</option>
-            </select>
-          </div>
+              <select ref="access" id="access" defaultValue="0">
+                <option value="0" disabled >Select Access</option>
+                <option value="private">Private</option>
+                <option value="public">Public</option>
+                <option value="role">Role</option>
+              </select>
+            </div>
             <div className="input-field col s4">
-            <input ref="share" type="text" className="validate" disabled/>
-            <label htmlFor="last_name">Share</label>
-          </div>
+              <input ref="share" type="text" className="validate" disabled />
+              <label htmlFor="last_name">Share</label>
+            </div>
 
           </Row>
           <TinyMCE
-          content="<p>This is the initial content of the editor</p>"
-          config={{
-            plugins: 'link image code',
-            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
-          }}
-          onChange={this.handleEditorChange}
-        />
+            content="<p>This is the initial content of the editor</p>"
+            config={{
+              plugins: 'link image code',
+              toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+            }}
+            onChange={this.handleEditorChange}
+          />
         </div>
       </Modal>
     );

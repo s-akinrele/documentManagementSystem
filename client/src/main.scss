@@ -111,12 +111,18 @@ filter: progid:DXImageTransform.Microsoft.Shadow(Strength=13, Direction=135, Col
   &:hover {
         background-color: lightslategrey;
     }
+  &:focus {
+        background-color: lightslategrey;
+    }
 }
 
 .btn-save {
  background-color: darkslategrey;
  color: #fff;
   &:hover {
+        background-color: darkslategrey;
+    }
+    &:focus {
         background-color: darkslategrey;
     }
 }
@@ -144,4 +150,8 @@ li.dropdown-button {
 }
 .card-panel {
     height: 18rem;
+}
+
+.dialog {
+    display: inline-block;
 }

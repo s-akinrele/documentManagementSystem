@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router';
 import NavBar from './navbar/navBar';
 import DocumentForm from './documents/documentForm';
 import DocumentPreview from './documents/documentPreview';
+import Filter from './filter/documentFilter';
 import '../main.scss';
 import request from '../helpers/request';
 import { isLoggedIn } from '../helpers/auth';
@@ -24,10 +25,11 @@ class Dashboard extends React.Component {
     return (
       <div className="Main">
         <NavBar />
-       <div className="container">
-        <Row>
-          { documents.map((document, index) => <DocumentPreview document= {document} i={index} key={index} />)}
-        </Row>
+        <div className="container">
+          <Filter />
+          <Row>
+            { documents.map((document, index) => <DocumentPreview document={document} i={index} key={index} />)}
+          </Row>
         </div>
         <DocumentForm {...this.props} />
       </div>
