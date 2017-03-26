@@ -28,5 +28,12 @@
             "ClassDeclaration": false
         }
     }]
+  },
+    "globals": {
+    "jQuery": true,
+    "$": true,
+    "Materialize": true,
+    "document": true,
+    "localStorage": true
   }
 }

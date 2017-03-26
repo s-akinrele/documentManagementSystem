@@ -15,6 +15,7 @@ class HomePage extends Component {
     };
   }
   componentDidMount() {
+    $('select').material_select();
     if (isLoggedIn()) {
       browserHistory.push('/dashboard');
     }
@@ -39,7 +40,7 @@ class HomePage extends Component {
     const firstname = this.refs.firstname.state.value;
     const lastname = this.refs.lastname.state.value;
     const signup_email = this.refs.signup_email.state.value;
-    const access = this.refs.access.state.value;
+    const access = this.refs.access.value;
     const signup_password = this.refs.signup_password.state.value;
     // request
     //   .post('http://localhost:5000/users/')
@@ -76,8 +77,8 @@ class HomePage extends Component {
           this.setState({ message: res.body.message });
         }
       } else {
-      localStorage.token = res.body.token;
-      localStorage.user = res.body.user;
+        localStorage.token = res.body.token;
+        localStorage.user = JSON.stringify(res.body.user);
         browserHistory.push('/dashboard');
       }
     });
@@ -96,39 +97,47 @@ class HomePage extends Component {
                 <div className=" shadow">
                   <h3 className="logo"> DMS </h3>
                   <Tabs className="tab-demo z-depth-1">
-                  <Tab title="Sign in" active>
-                    <p className="logo">Log in to your account </p>
-                    <form method="post" onSubmit={this.login.bind(this)}>
-                      <Input type="email" label="Email" ref="email" name="email" icon="account_circle" required s={12} />
-                      <Input type="password" label="password" ref="password" name="password" icon="vpn_key" required s={12} />
-                      <p>
-                        <span className="err">{this.state.error}{this.state.message}</span>
-                      </p>
-                      <Button type="submit" className="btn tomato" waves="light">Log in <Icon right>send</Icon></Button>
-                    </form>
-                  </Tab>
-                  <Tab title="Sign up">
-                    <div>
-                      <p className="logo">Create an account </p>
-                      <Input type="text" label="Username" ref="username" required />
-                      <Input type="text" label="Firstname" ref="firstname" required />
-                      <Input type="text" label="Lastname" ref="lastname" required />
-                      <Input type="email" label="Email" ref="signup_email" required />
-                      <Input type="select" label="Access" ref="access" validate defaultValue="2">
+                    <Tab title="Sign in" active>
+                      <p className="logo">Log in to your account </p>
+                      <form method="post" onSubmit={this.login.bind(this)}>
+                        <Input type="email" label="Email" ref="email" name="email" icon="account_circle" required s={12} />
+                        <Input type="password" label="password" ref="password" name="password" icon="vpn_key" required s={12} />
+                        <p>
+                          <span className="err">{this.state.error}{this.state.message}</span>
+                        </p>
+                        <Button type="submit" className="btn tomato" waves="light">Log in <Icon right>send</Icon></Button>
+                      </form>
+                    </Tab>
+                    <Tab title="Sign up">
+                      <div>
+                        <p className="logo">Create an account </p>
+                        <Input type="text" label="Username" ref="username" required />
+                        <Input type="text" label="Firstname" ref="firstname" required />
+                        <Input type="text" label="Lastname" ref="lastname" required />
+                        <Input type="email" label="Email" ref="signup_email" required />
+                        {/* <Input type="select" label="Access" ref="access" validate defaultValue="2">
                         <option value="1">Admin</option>
                         <option value="2">User</option>
                         <option value="2">Guest</option>
-                      </Input>
-                      <Input type="password" label="password" ref="signup_password" required />
-                      <Button className="btn" waves="light" onClick={this.signup.bind(this)}>Sign up<Icon right>send</Icon></Button>
-                    </div>
-                  </Tab>
-                  <Tab title="Why" active>
-                    <div>
-                      <p className="why">We need this information so that you can receive access to the site and its content. Rest assured your information will not be sold, traded, or given to anyone.</p>
-                    </div>
-                  </Tab>
-                </Tabs>
+                      </Input>*/}
+                        <div className="input-field col s4" style={{ width: '150px' }}>
+                          <select id="access" ref="access" defaultValue="0">
+                            <option value="0" disabled >Select Role</option>
+                            <option value="1">Administrator</option>
+                            <option value="2">User</option>
+                            <option value="3">Guest</option>
+                          </select>
+                        </div>
+                        <Input type="password" label="password" ref="signup_password" required />
+                        <Button className="btn" waves="light" onClick={this.signup.bind(this)}>Sign up<Icon right>send</Icon></Button>
+                      </div>
+                    </Tab>
+                    <Tab title="Why" active>
+                      <div>
+                        <p className="why">We need this information so that you can receive access to the site and its content. Rest assured your information will not be sold, traded, or given to anyone.</p>
+                      </div>
+                    </Tab>
+                  </Tabs>
                 </div>
               </Col>
 

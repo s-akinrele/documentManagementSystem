@@ -27,6 +27,8 @@ const userRoute = (router) => {
     .put(auth.verifyToken, userCtrl.updateUser)
     .patch(auth.verifyToken, userCtrl.updateUser)
     .delete(auth.verifyToken, auth.verifyAdmin, userCtrl.deleteUser);
+  router.route('/users/:id/password')
+  .put(auth.verifyToken, userCtrl.updatePassword);
 };
 
 export default userRoute;

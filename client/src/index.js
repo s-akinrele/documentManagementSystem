@@ -7,7 +7,7 @@ import homePage from './components/homePage';
 import dashBoard from './components/dashBoard';
 import NotFound from './components/notFoundPage/notFoundPage';
 import DocumentView from './components/documents/documentView';
-// import View from './components/modalDialog/modalDialog';
+import Profile from './components/user/profile';
 import Main from './main';
 
 
@@ -15,10 +15,10 @@ const router = (
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={Main} >
-        <IndexRoute component={homePage}> </IndexRoute>
+        <IndexRoute component={homePage} />
         <Route path="/dashboard" component={dashBoard} />
         <Route path="/viewDocument/:id" component={DocumentView} />
-         {/*<Route path="/documentView" component={View} />*/}
+        <Route path="/profile" component={Profile} />
         <Route path="*" component={NotFound} />
       </Route>
     </Router>

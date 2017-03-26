@@ -139,6 +139,36 @@ const Userctrl = {
       });
   },
 
+  /**
+   * Update Password
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @returns {Object} Response object
+   */
+
+  updatePassword: (req, res) => {
+    db.User.findOne({ where: { id: req.params.id } })
+      .then((user) => {
+        if (!user) {
+          return res.status(404)
+            .send({ message: 'User not found' });
+        }
+        if (bcrypt.compareSync(req.body.oldPassword, user.password)) {
+          user.password = req.body.newPassword;
+          user.save()
+          .then((updatedUser) => {
+            res.status(200).send({ updatedUser, message: 'Password Update successful' });
+          });
+        } else {
+          return res.status(400)
+            .send({ message: 'Incorrect Password' });
+        }
+      })
+      .catch((err) => {
+        res.status(400).send(err.errors);
+      });
+  },
+
 
   /**
    * Delete a specific user

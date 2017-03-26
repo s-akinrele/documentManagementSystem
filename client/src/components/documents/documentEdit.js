@@ -53,9 +53,8 @@ class EditDocument extends Component {
         >
           <div>
             <Row>
-              <h4>TITLE:</h4>
               <h5 style={{ fontWeight: 100 }}>{ this.props.documents ? this.props.documents.title : 'Loading'}</h5>
-              <h5>{ this.props.documents ? this.props.documents.access : 'Loading'}</h5>
+              <label>{ this.props.documents ? this.props.documents.access : 'Loading'}</label>
 
             </Row>
             {this.props.documents.content &&

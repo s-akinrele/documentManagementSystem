@@ -58,4 +58,15 @@ export function fetchDocumentById(payload) {
   };
 }
 
+/**
+ * @export
+ * @param {any} payload
+ * @returns
+ */
+export function resetPassword(payload) {
+  return {
+    type: 'PASSWORD_RESET',
+    payload
+  };
+}
 

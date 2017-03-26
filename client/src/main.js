@@ -5,12 +5,20 @@ import * as actionCreators from './actions/actionCreator';
 
 import App from './components/app';
 
+/**
+ * @param {any} state
+ * @returns
+ */
 function mapStateToprops(state) {
   return {
     documents: state.documents
   };
 }
 
+/**
+ * @param {any} dispatch
+ * @returns
+ */
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(actionCreators, dispatch);
 }

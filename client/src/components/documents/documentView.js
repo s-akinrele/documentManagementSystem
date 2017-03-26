@@ -14,6 +14,13 @@ import { fetchToken, currentUser } from '../../helpers/auth';
  * @extends {Component}
  */
 class DocumentView extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      loading: true
+    };
+  }
   componentDidMount() {
     this.handleDocumentView();
   }
@@ -25,6 +32,7 @@ class DocumentView extends Component {
       } else {
         this.props.dispatch(this.props.fetchDocumentById(res.body));
       }
+      this.setState({ loading: false });
     });
   }
   /**
@@ -47,17 +55,30 @@ class DocumentView extends Component {
   }
   render() {
     const userOwnsDocument = currentUser().id === this.props.documents.OwnerId;
-    const modifyButtons = (      
-      <div>        
+    const modifyButtons = (
+      <div>
         <div className="dialog"><EditDocument {...this.props} /> </div>
         <div className="dialog">
           <Dialog header="Confirmation" message="Are you sure you want to delete this document?" action="DELETE" onContinue={this.handleDocumentDelete.bind(this)} />
         </div>
       </div>
-    )
+    );
     return (
       <div>
         <NavBar />
+        <div className={'loader ' + (this.state.loading ? '' : 'loader-hide')}>
+        <div className="preloader-wrapper big active">
+          <div className="spinner-layer spinner-blue-only">
+            <div className="circle-clipper left">
+              <div className="circle" />
+            </div><div className="gap-patch">
+              <div className="circle" />
+            </div><div className="circle-clipper right">
+              <div className="circle" />
+            </div>
+          </div>
+        </div>
+        </div>
         <div className="row">
           <form className="col s6 card hoverable offset-s3">
             <div className="row">

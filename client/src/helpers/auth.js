@@ -5,8 +5,8 @@ export const login = (credentials, cb) => {
     if (err) {
       cb(err);
     } else {
-        localStorage.token = res.body.token;
-        localStorage.user = JSON.stringify(res.body.user);
+      localStorage.token = res.body.token;
+      localStorage.user = JSON.stringify(res.body.user);
       cb(null);
     }
   });
