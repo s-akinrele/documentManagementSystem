@@ -1,21 +1,43 @@
 import React, { Component } from 'react';
 import { Icon, Input, Navbar, NavItem, Dropdown } from 'react-materialize';
-import { browserHistory } from 'react-router';
+import { browserHistory, Link } from 'react-router';
 import '../../main.scss';
-import { logout, fetchToken } from '../../helpers/auth';
+import { logout, currentUser } from '../../helpers/auth';
+import request from '../../helpers/request';
 
 class navBar extends Component {
+  constructor() {
+    super();
+    this.state = {
+      searchResult: [],
+      result: ''
+    };
+    this.handleSearch = this.handleSearch.bind(this);
+  }
   signout() {
     logout(() => {
       browserHistory.push('/');
     });
   }
 
+  handleSearch(e) {
+    e.preventDefault();
+    const userId = currentUser().id;
+    const value = e.target.value;
+
+    request(`http://localhost:5000/users/${userId}/documents?q=${value}`, 'get', null, (err, res) => {
+      if (err) {
+        Materialize.toast('Unable to get document', 4000, 'rounded');
+      } else {
+        this.props.searchDocuments(res.body);
+      }
+    });
+  }
   render() {
-    const isAdmin = fetchToken();
+    const isAdmin = currentUser().RoleId === 1;
     return (
       <Navbar brand="DMS" className="dms" right>
-        <NavItem> <Input s={6} label="Search" validate><Icon>search</Icon></Input> </NavItem>
+        <NavItem> <Input s={6} label="Search" onChange={this.handleSearch} validate><Icon>search</Icon></Input> </NavItem>
         <Dropdown
           trigger={
             <NavItem href="#!">
@@ -23,8 +45,14 @@ class navBar extends Component {
             </NavItem>
             }
         >
-          <NavItem href="/profile">Profile</NavItem>
-          <NavItem>Role</NavItem>
+          <div>
+            <ul>
+              <Link to="/profile">Profile</Link>
+            </ul>
+            {isAdmin ? <ul>
+              <Link to="/manageRoles">Role</Link>
+            </ul> : ''}
+          </div>
           <NavItem onClick={this.signout}>Sign out</NavItem>
         </Dropdown>
       </Navbar>

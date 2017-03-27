@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { Col, CardPanel, Icon, Dropdown, NavItem } from 'react-materialize';
+import { Link } from 'react-router';
 import '../../main.scss';
 
+/**
+ * @class DocumentPreview
+ * @extends {Component}
+ */
 class DocumentPreview extends Component {
   render() {
     return (
@@ -10,10 +15,14 @@ class DocumentPreview extends Component {
           <Dropdown
             trigger={
               <NavItem href="#!">
-                <Icon className="info">more_vert</Icon>
+                <Icon className="info more">more_vert</Icon>
               </NavItem>
          }>
-            <NavItem href={`/viewDocument/${this.props.document.id}`}>Details</NavItem>
+            <div>
+              <ul>
+                <Link to={`/viewDocument/${this.props.document.id}`}>Details</Link>
+              </ul>
+            </div>
           </Dropdown>
           <h5 style={{ fontWeight: 100 }}>{this.props.document.title}</h5>
           <span className="truncate" dangerouslySetInnerHTML={{ __html: this.props.document.content }} />

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { Icon, Button, Modal } from 'react-materialize';
 import '../../main.scss';
 import NavBar from '../navbar/navBar';
 import request from '../../helpers/request';
 import { currentUser } from '../../helpers/auth';
-
+import { resetPassword } from '../../actions/actionCreator';
 /**
  *
  * @class Profile
@@ -37,7 +39,7 @@ class Profile extends Component {
           if (err) {
             Materialize.toast('Unable to update password', 4000, 'rounded');
           } else {
-            this.props.dispatch(this.props.resetPassword(res.body));
+            this.props.resetPassword(res.body);
             Materialize.toast('Your password has been updated', 4000, 'rounded');
           }
         });
@@ -104,4 +106,18 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+
+function mapStateToProps(state) {
+  return {
+    users: state.users
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    deleteRole: bindActionCreators(resetPassword, dispatch)
+  };
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

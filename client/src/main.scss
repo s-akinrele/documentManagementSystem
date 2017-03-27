@@ -169,3 +169,24 @@ li.dropdown-button {
 .loader-hide {
     display: none;
 }
+
+nav ul a {
+    transition: background-color .3s;
+    font-size: 1rem;
+    color: black;
+    display: block;
+    padding: 0 15px;
+    cursor: pointer;
+}
+
+.role {
+    position: absolute;
+    font-size: 20px;
+    margin-top:25px;
+}
+
+ul:not(.browser-default) {
+    padding-left: 0;
+    list-style-type: none;
+    text-align: center;
+}

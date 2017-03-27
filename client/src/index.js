@@ -8,6 +8,7 @@ import dashBoard from './components/dashBoard';
 import NotFound from './components/notFoundPage/notFoundPage';
 import DocumentView from './components/documents/documentView';
 import Profile from './components/user/profile';
+import ManageRole from './components/roles/manageRoles';
 import Main from './main';
 
 
@@ -19,6 +20,7 @@ const router = (
         <Route path="/dashboard" component={dashBoard} />
         <Route path="/viewDocument/:id" component={DocumentView} />
         <Route path="/profile" component={Profile} />
+        <Route path="/manageRoles" component={ManageRole} />
         <Route path="*" component={NotFound} />
       </Route>
     </Router>

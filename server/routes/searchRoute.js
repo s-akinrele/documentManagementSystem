@@ -11,5 +11,8 @@ const searchRoute = (router) => {
   // });
   router.route('/search/documents/')
   .get(auth.verifyToken, auth.verifyAdmin, searchCtrl.searchDocument);
+
+  // router.route('/search/accessible/documents')
+  // .get(auth.verifyToken, searchCtrl.fetchUserDocument);
 };
 export default searchRoute;

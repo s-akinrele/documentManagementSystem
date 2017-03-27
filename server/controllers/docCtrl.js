@@ -118,10 +118,7 @@ const DocCtrl = {
 
   getAllDoc: (req, res) => {
     const page = helper.pagination(req);
-    const limit = page.limit;
-    const offset = page.offset;
-    const order = page.order;
-    db.Document.findAndCountAll({ limit, offset, order })
+    db.Document.findAndCountAll(page)
       .then((docs) => {
         if (!docs) {
           return res.status(404)
@@ -129,9 +126,9 @@ const DocCtrl = {
         }
         const meta = {};
         meta.totalCount = docs.count;
-        meta.pageSize = limit;
-        meta.pageCount = Math.floor(meta.totalCount / limit) + 1;
-        meta.currentPage = Math.floor(offset / limit) + 1;
+        meta.pageSize = page.limit;
+        meta.pageCount = Math.floor(meta.totalCount / page.limit) + 1;
+        meta.currentPage = Math.floor(page.offset / page.limit) + 1;
         res.status(200).send({ paginationMeta: meta, result: docs.rows });
       })
       .catch((err) => {
@@ -169,17 +166,24 @@ const DocCtrl = {
    */
 
   getUsersDoc: (req, res) => {
-    db.Document.findAll({ where: { OwnerId: req.params.id } })
-      .then((doc) => {
-        if (!doc) {
+    let rawQuery =
+      `SELECT "Documents"."id" as id, "Documents"."title", "Documents"."content", "Documents"."OwnerId", "Documents"."access" FROM "Documents" INNER JOIN "Users" ON "Documents"."OwnerId" = "Users"."id" WHERE ("Users"."RoleId" = ${req.decoded.RoleId} AND "Documents"."access" = 'role') OR ("Documents"."OwnerId" = ${req.params.id})`;
+
+    if (req.query.q) {
+      rawQuery =
+    `SELECT "Documents"."id" as id, "Documents"."title", "Documents"."content", "Documents"."OwnerId", "Documents"."access" FROM "Documents" INNER JOIN "Users" ON "Documents"."OwnerId" = "Users"."id" WHERE (("Users"."RoleId" = ${req.decoded.RoleId} AND "Documents"."access" = 'role') OR ("Documents"."OwnerId" = ${req.params.id})) AND (( "Documents"."title" ILIKE '%${req.query.q}%' ) OR ( "Documents"."content" ILIKE '%${req.query.q}%'))`;
+    }
+    db.sequelize.query(rawQuery, {
+      type: db.sequelize.QueryTypes.SELECT
+    })
+      .then((docs) => {
+        if (!docs) {
           return res.status(404)
             .send({ message: 'No document found' });
         }
-        res.status(200)
-          .send(doc);
-      })
-      .catch((err) => {
-        res.status(400).send(err.errors);
+        res.status(200).send(docs);
+      }).catch((err) => {
+        res.status(400).send(err.message);
       });
   },
 
@@ -191,14 +195,20 @@ const DocCtrl = {
    */
 
   getMyDoc: (req, res) => {
-    db.Document.findAll({ where: { OwnerId: req.decoded.UserId } })
-      .then((doc) => {
-        if (!doc) {
+    const page = helper.pagination(req);
+    page.where = { OwnerId: req.decoded.UserId };
+    db.Document.findAndCountAll(page)
+      .then((docs) => {
+        if (!docs) {
           return res.status(404)
             .send({ message: 'Document does not belong to this user' });
         }
-        res.status(200)
-          .send(doc);
+        const meta = {};
+        meta.totalCount = docs.count;
+        meta.pageSize = page.limit;
+        meta.pageCount = Math.floor(meta.totalCount / page.limit) + 1;
+        meta.currentPage = Math.floor(page.offset / page.limit) + 1;
+        res.status(200).send({ paginationMeta: meta, result: docs.rows });
       })
       .catch((err) => {
         res.status(400).send(err.errors);
@@ -239,19 +249,6 @@ const DocCtrl = {
   sharePrivateDocument: (req, res) => {
     const docId = req.body.documentId;
     const userEmail = req.body.userEmail;
-    // db.User.findOne({ where: { email: userEmail } })
-    // .then((user) => {
-    //   db.Access.create({
-    //     documentId: docId,
-    //     usersAccess: user.id
-    //   }).then((sharedDocument) => {
-    //     res.status(201)
-    //       .send(sharedDocument);
-    //   })
-    //   .catch((err) => {
-    //     res.status(400).send(err.errors);
-    //   });
-    // });
     shareDocument(userEmail, docId, (err, acc) => {
       if (err) {
         res.status(400).send(err.errors);

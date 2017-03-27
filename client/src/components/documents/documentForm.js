@@ -66,7 +66,7 @@ class DocumentForm extends Component {
 
     request('http://localhost:5000/documents', 'post', data, (err, res) => {
       if (err) {
-        // show toast that create failed
+        Materialize.toast('Document not created', 4000, 'rounded');
       } else {
         this.props.createDocument(res.body);
         Materialize.toast('Document Saved Successfully', 4000, 'rounded');

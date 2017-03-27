@@ -9,7 +9,6 @@ let newState;
  * @returns
  */
 export default function documents(state = [], action) {
-    // console.log(action);
   switch (action.type) {
     case 'FETCH_DOCUMENTS':
       newState = action.payload;
@@ -26,7 +25,10 @@ export default function documents(state = [], action) {
     case 'EDIT_DOCUMENT':
       newState = action.payload;
       return newState;
-    case 'PASSWORD_RESET':
+    case 'DOCUMENT_SEARCH':
+      newState = action.payload;
+      return newState;
+    case 'PAGINATION':
       newState = action.payload;
       return newState;
     default:

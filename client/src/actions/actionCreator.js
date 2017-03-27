@@ -70,3 +70,80 @@ export function resetPassword(payload) {
   };
 }
 
+/**
+ * @export
+ * @param {any} payload
+ * @returns
+ */
+export function fetchRoles(payload) {
+  return {
+    type: 'ROLES',
+    payload
+  };
+}
+
+
+/**
+ * @export
+ * @param {any} payload
+ * @returns
+ */
+export function deleteRole(payload, id) {
+  return {
+    type: 'DELETE_ROLE',
+    payload,
+    id
+  };
+}
+
+/**
+ * @export
+ * @param {any} payload
+ * @returns
+ */
+export function createRole(payload) {
+  return {
+    type: 'CREATE_ROLE',
+    payload
+  };
+}
+
+/**
+ * @export
+ * @param {any} payload
+ * @returns
+ */
+export function editRole(payload, id) {
+  return {
+    type: 'EDIT_ROLE',
+    payload,
+    id
+  };
+}
+
+/**
+ * @export
+ * @param {any} payload
+ * @returns
+ */
+export function searchDocuments(payload, id) {
+  return {
+    type: 'DOCUMENT_SEARCH',
+    payload,
+    id
+  };
+}
+
+/**
+ * @export
+ * @param {any} payload
+ * @returns
+ */
+export function pagination(payload, id) {
+  return {
+    type: 'PAGINATION',
+    payload,
+    id
+  };
+}
+
