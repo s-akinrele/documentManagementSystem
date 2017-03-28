@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-materialize';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import '../../main.scss';
-import request from '../../helpers/request';
-
+import { createRole } from '../../actions/actionCreator';
 
 class AddRole extends Component {
   constructor() {
@@ -16,17 +17,8 @@ class AddRole extends Component {
     const data = {
       title: this.refs.role.value,
     };
-
-    request('http://localhost:5000/role', 'post', data, (err, res) => {
-      if (err) {
-        Materialize.toast('Unable to create Role', 4000, 'rounded');
-      } else {
-        this.props.createRole(res.body);
-        Materialize.toast('Role created Successfully', 4000, 'rounded');
-      }
-    });
+    this.props.createRole(data);
   }
-  
 
   render() {
     return (
@@ -51,4 +43,23 @@ class AddRole extends Component {
   }
 }
 
-export default AddRole;
+/**
+ * @param {any} state
+ * @returns
+ */
+function mapStateToProps(state) {
+  return {
+    roles: state.roles
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    createRole: bindActionCreators(createRole, dispatch),
+
+  };
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddRole);
+

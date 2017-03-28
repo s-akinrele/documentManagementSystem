@@ -1,4 +1,3 @@
-// import 'whatwg-fetch';
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { Button, Row, Col, Icon, Input, Tabs, Tab } from 'react-materialize';
@@ -42,26 +41,6 @@ class HomePage extends Component {
     const signup_email = this.refs.signup_email.state.value;
     const access = this.refs.access.value;
     const signup_password = this.refs.signup_password.state.value;
-    // request
-    //   .post('http://localhost:5000/users/')
-    //   .send({
-    //     username,
-    //     firstname,
-    //     lastname,
-    //     email: signup_email,
-    //     access,
-    //     password: signup_password
-    //   }).end((err, res) => {
-    //     if (err) {
-    //       if (res.status !== 201) {
-    //         this.setState({ error: res.body.message });
-    //       } else {
-    //         this.setState({ message: res.body.message });
-    //       }
-    //     } else {
-    //       browserHistory.push('/dashboard');
-    //     }
-    //   });
     const data = {
       username,
       firstname,
@@ -115,11 +94,6 @@ class HomePage extends Component {
                         <Input type="text" label="Firstname" ref="firstname" required />
                         <Input type="text" label="Lastname" ref="lastname" required />
                         <Input type="email" label="Email" ref="signup_email" required />
-                        {/* <Input type="select" label="Access" ref="access" validate defaultValue="2">
-                        <option value="1">Admin</option>
-                        <option value="2">User</option>
-                        <option value="2">Guest</option>
-                      </Input>*/}
                         <div className="input-field col s4" style={{ width: '150px' }}>
                           <select id="access" ref="access" defaultValue="0">
                             <option value="0" disabled >Select Role</option>

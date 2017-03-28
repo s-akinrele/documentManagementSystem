@@ -6,9 +6,8 @@ import { Pagination } from 'react-materialize';
 import NavBar from '../navbar/navBar';
 import ViewUsers from './viewUsers';
 import '../../main.scss';
-import request from '../../helpers/request';
 import { isLoggedIn } from '../../helpers/auth';
-import { fetchUsers } from '../../actions/actionCreator';
+import { fetchUsers, userPagination } from '../../actions/actionCreator';
 
 
 class ManageUsers extends Component {
@@ -29,25 +28,23 @@ class ManageUsers extends Component {
     }
   }
   fetchAllUsers() {
-    request('http://localhost:5000/users', 'get', null, (err, res) => {
-      if (err) {
-        Materialize.toast('Unable to get users', 4000, 'rounded');
-      } else {
-        console.log(res.body, 'users');
-        this.setState({ metadata: res.body.paginationMeta, result: res.body.result });
-        this.props.fetchUsers(res.body.result);
-      }
-    });
+    this.props.fetchUsers();
   }
+
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.metadata.hasOwnProperty('metadata')) {
+      const { metadata, result } = nextProps.metadata;
+      this.setState({ metadata, result });
+    }
+  }
+
   displayData(pageNumber) {
     const offset = (pageNumber - 1) * this.state.metadata.pageSize;
-    request(`http://localhost:5000/users?offset=${offset}&limit=${10}`, 'get', null, (err, res) => {
-      this.props.userPagination(res.body.result);
-    });
+    this.props.userPagination(offset, 8);
   }
   render() {
     const users = this.props.users;
-    console.log(users);
     const { totalCount, pageSize, currentPage, pageCount } = this.state.metadata;
     return (
       <div>
@@ -63,13 +60,15 @@ class ManageUsers extends Component {
 
 function mapStateToProps(state) {
   return {
-    users: state.users
+    users: state.users,
+    metadata: state.pagination
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchUsers: bindActionCreators(fetchUsers, dispatch)
+    fetchUsers: bindActionCreators(fetchUsers, dispatch),
+    userPagination: bindActionCreators(userPagination, dispatch)
   };
 }
 

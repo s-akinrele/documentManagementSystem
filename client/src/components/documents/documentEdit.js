@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import TinyMCE from 'react-tinymce';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { Row, Modal, Button, Icon } from 'react-materialize';
 import '../../main.scss';
-import request from '../../helpers/request';
+import { editDocument } from '../../actions/actionCreator';
+
 
 /**
  * @class EditDocument
@@ -34,13 +37,7 @@ class EditDocument extends Component {
     const data = {
       content: this.state.content
     };
-    request(`http://localhost:5000/documents/${documentId}`, 'put', data, (err, res) => {
-      if (err) {
-        Materialize.toast('Edit document', 4000, 'rounded');
-      } else {
-        this.props.dispatch(this.props.editDocument(res.body));
-      }
-    });
+    this.props.editDocument(documentId, data);
   }
   render() {
     return (
@@ -73,4 +70,18 @@ class EditDocument extends Component {
   }
  }
 
-export default EditDocument;
+function mapStateToProps(state) {
+  return {
+    documents: state.documents,
+    handler: state.handler
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    editDocument: bindActionCreators(editDocument, dispatch)
+  };
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditDocument);

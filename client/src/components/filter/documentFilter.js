@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import request from '../../helpers/request';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import '../../main.scss';
+import { filterDocuments, filterAccessibleDocuments, fetchUserDocument } from '../../actions/actionCreator';
 
 class Filter extends Component {
   constructor() {
@@ -9,49 +11,24 @@ class Filter extends Component {
       content: ''
     };
     this.handleOption = this.handleOption.bind(this);
-    this.isEmpty = this.isEmpty.bind(this);
   }
 
   componentDidMount() {
     $('select').material_select();
     this.handleOption();
   }
-  isEmpty(obj) {
-    for (const key in obj) {
-      if (obj.hasOwnProperty(key)) { return false; }
-    }
-    return true;
-  }
   handleOption() {
     $('#documentOption').change((e) => {
       const selectedValue = $(e.target).val();
       if (selectedValue === 'privateDoc') {
-        request('http://localhost:5000/documents/access/private', 'get', null, (err, res) => {
-          if (err) {
-        // show toast that create failed
-          } else {
-            if (this.isEmpty(res.body)) {
-              Materialize.toast('You have no private documents', 4000, 'rounded');
-            }
-            this.props.dispatch(this.props.fetchUserDocument(res.body));
-          }
-        });
+        this.props.filterPrivateDocuments();
+        if (this.props.documents.length < 0) {
+          Materialize.toast('You have no private documents', 4000, 'rounded');
+        }
       } else if (selectedValue === 'otherDoc') {
-        request('http://localhost:5000/accessible/documents', 'get', null, (err, res) => {
-          if (err) {
-        // show toast that create failed
-          } else {
-            this.props.dispatch(this.props.fetchUserDocument(res.body));
-          }
-        });
+        this.props.filterAccessibleDocuments();
       } else {
-        request('http://localhost:5000/users/documents', 'get', null, (err, res) => {
-          if (err) {
-        // show toast that create failed
-          } else {
-            this.props.dispatch(this.props.fetchUserDocument(res.body));
-          }
-        });
+        this.props.fetchUserDocument();
       }
     });
   }
@@ -71,4 +48,15 @@ class Filter extends Component {
   }
 }
 
-export default Filter;
+const mapStateToProps = state => ({
+  metadata: state.documents
+});
+
+const mapDispatchToProps = dispatch => ({
+  filterPrivateDocuments: bindActionCreators(filterDocuments, dispatch),
+  filterAccessibleDocuments: bindActionCreators(filterAccessibleDocuments, dispatch),
+  fetchUserDocument: bindActionCreators(fetchUserDocument, dispatch)
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Icon, Input, Navbar, NavItem, Dropdown } from 'react-materialize';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { browserHistory, Link } from 'react-router';
 import '../../main.scss';
 import { logout, currentUser } from '../../helpers/auth';
-import request from '../../helpers/request';
+import { searchDocuments } from '../../actions/actionCreator';
 
 class navBar extends Component {
   constructor() {
@@ -24,14 +26,7 @@ class navBar extends Component {
     e.preventDefault();
     const userId = currentUser().id;
     const value = e.target.value;
-
-    request(`http://localhost:5000/users/${userId}/documents?q=${value}`, 'get', null, (err, res) => {
-      if (err) {
-        Materialize.toast('Unable to get document', 4000, 'rounded');
-      } else {
-        this.props.searchDocuments(res.body);
-      }
-    });
+    this.props.searchDocuments(userId, value);
   }
   render() {
     const isAdmin = currentUser().RoleId === 1;
@@ -66,4 +61,13 @@ class navBar extends Component {
     );
   }
 }
-export default navBar;
+const mapStateToProps = state => ({
+  metadata: state.documents
+});
+
+const mapDispatchToProps = dispatch => ({
+  searchDocuments: bindActionCreators(searchDocuments, dispatch)
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(navBar);

@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import NavBar from '../navbar/navBar';
 import ViewRoles from './viewRoles';
 import '../../main.scss';
-import request from '../../helpers/request';
 import { isLoggedIn } from '../../helpers/auth';
 import AddRole from './addRole';
 import { fetchRoles } from '../../actions/actionCreator';
@@ -15,12 +14,7 @@ class ManageRoles extends Component {
     if (!isLoggedIn()) {
       browserHistory.push('/');
     } else {
-      request('http://localhost:5000/role', 'get', null, (err, res) => {
-        if (err) {
-          Materialize.toast('Unable to get roles', 4000, 'rounded');
-        }
-        this.props.fetchRoles(res.body);
-      });
+      this.props.fetchRoles();
     }
   }
   render() {

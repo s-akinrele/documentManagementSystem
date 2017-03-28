@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Row, Input, Modal, Button } from 'react-materialize';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import TinyMCE from 'react-tinymce';
 import '../../main.scss';
-import request from '../../helpers/request';
+import { createDocument } from '../../actions/actionCreator';
 
 /**
  * @class DocumentForm
@@ -64,14 +66,8 @@ class DocumentForm extends Component {
       userEmail: this.refs.share.value
     };
 
-    request('http://localhost:5000/documents', 'post', data, (err, res) => {
-      if (err) {
-        Materialize.toast('Document not created', 4000, 'rounded');
-      } else {
-        this.props.createDocument(res.body);
-        Materialize.toast('Document Saved Successfully', 4000, 'rounded');
-      }
-    });
+    this.props.createDocument(data);
+    Materialize.toast('Document Saved Successfully', 4000, this.props.handler);
   }
 
   render() {
@@ -114,9 +110,23 @@ class DocumentForm extends Component {
   }
 }
 
-DocumentForm.propTypes = {
-  createDocument: React.PropTypes.func.isRequired
-};
+// DocumentForm.propTypes = {
+//   createDocument: React.PropTypes.func.isRequired
+// };
 
-export default DocumentForm;
+function mapStateToProps(state) {
+  return {
+    documents: state.documents,
+    handler: state.handler
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    createDocument: bindActionCreators(createDocument, dispatch)
+  };
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(DocumentForm);
 

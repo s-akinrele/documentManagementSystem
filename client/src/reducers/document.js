@@ -28,9 +28,6 @@ export default function documents(state = [], action) {
     case 'DOCUMENT_SEARCH':
       newState = action.payload;
       return newState;
-    case 'PAGINATION':
-      newState = action.payload;
-      return newState;
     default:
       return state;
   }

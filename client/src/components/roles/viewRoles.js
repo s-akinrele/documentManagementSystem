@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button, Icon, Modal } from 'react-materialize';
-import * as req from 'superagent';
 import Dialog from '../diaLog/confirmDialog';
 import '../../main.scss';
-import { fetchToken } from '../../helpers/auth';
-import request from '../../helpers/request';
 import { deleteRole, editRole } from '../../actions/actionCreator';
 
 class ViewRoles extends Component {
@@ -23,17 +20,7 @@ class ViewRoles extends Component {
    */
   handleRoleDelete() {
     const roleId = this.props.role.id;
-    req
-      .delete(`http://localhost:5000/role/${roleId}`)
-      .set('x-access-token', fetchToken())
-      .end((err, res) => {
-        if (err) {
-          Materialize.toast('Unable to delete', 4000, 'rounded');
-        } else {
-          this.props.deleteRole(res.body, roleId);
-          Materialize.toast('Successful', 4000, 'rounded');
-        }
-      });
+    this.props.deleteRole(roleId);
   }
 
   handleRoleEdit() {
@@ -41,16 +28,7 @@ class ViewRoles extends Component {
     const data = {
       title: this.refs.role.value
     };
-
-    request(`http://localhost:5000/role/${roleId}`, 'put', data, (err, res) => {
-      if (err) {
-        Materialize.toast('Unable to edit Role', 4000, 'rounded');
-      } else {
-        console.log(this.props, res.body, 'role')
-        this.props.editRole(res.body, roleId);
-        Materialize.toast('Role edit Successfully', 4000, 'rounded');
-      }
-    });
+    this.props.editRole(data, roleId);
   }
   render() {
     return (

@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import { Row, Pagination } from 'react-materialize';
 import { browserHistory } from 'react-router';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import NavBar from './navbar/navBar';
 import DocumentForm from './documents/documentForm';
 import DocumentPreview from './documents/documentPreview';
 import Filter from './filter/documentFilter';
 import '../main.scss';
-import request from '../helpers/request';
 import { isLoggedIn } from '../helpers/auth';
 
-class Dashboard extends React.Component {
-  constructor() {
-    super();
+import { fetchUserDocument, pagination } from '../actions/actionCreator';
+
+class Dashboard extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
       metadata: [],
       result: []
@@ -21,18 +24,20 @@ class Dashboard extends React.Component {
     if (!isLoggedIn()) {
       browserHistory.push('/');
     } else {
-      request('http://localhost:5000/users/documents', 'get', null, (err, res) => {
-        this.setState({ metadata: res.body.paginationMeta, result: res.body.result });
-        this.props.fetchUserDocument(res.body.result);
-      });
+      this.props.fetchUserDocument();
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.metadata.hasOwnProperty('metadata')) {
+      const { metadata, result } = nextProps.metadata;
+      this.setState({ metadata, result });
     }
   }
 
   displayData(pageNumber) {
     const offset = (pageNumber - 1) * this.state.metadata.pageSize;
-    request(`http://localhost:5000/users/documents?offset=${offset}&limit=${10}`, 'get', null, (err, res) => {
-      this.props.pagination(res.body.result);
-    });
+    this.props.pagination(offset, 8);
   }
   render() {
     const documents = this.props.documents;
@@ -52,4 +57,14 @@ class Dashboard extends React.Component {
     );
   }
 }
-export default Dashboard;
+
+const mapStateToProps = state => ({
+  metadata: state.pagination
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchUserDocument: bindActionCreators(fetchUserDocument, dispatch),
+  pagination: bindActionCreators(pagination, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

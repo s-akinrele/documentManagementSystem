@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import * as req from 'superagent';
 import Dialog from '../diaLog/confirmDialog';
 import '../../main.scss';
-import request from '../../helpers/request';
 import { fetchToken } from '../../helpers/auth';
 import { editUser, deleteUser } from '../../actions/actionCreator';
 
@@ -17,30 +16,11 @@ class ViewUsers extends Component {
       firstname: this.refs.firstname.value,
       lastname: this.refs.lastname.value
     };
-    request(`http://localhost:5000/users/${userId}`, 'put', data, (err, res) => {
-      if (err) {
-        Materialize.toast('Unable to edit user', 4000, 'rounded');
-      } else {
-        console.log(this.props, res.body, 'user');
-        this.props.editUser(res.body, userId);
-        console.log(this.props);
-        Materialize.toast('User has been updated', 4000, 'rounded');
-      }
-    });
+    this.props.editUser(userId, data);
   }
   handleUserDelete() {
     const userId = this.props.user.id;
-    req
-      .delete(`http://localhost:5000/users/${userId}`)
-      .set('x-access-token', fetchToken())
-      .end((err, res) => {
-        if (err) {
-          Materialize.toast('Unable to delete', 4000, 'rounded');
-        } else {
-          this.props.deleteUser(res.body, userId);
-          Materialize.toast('Successful', 4000, 'rounded');
-        }
-      });
+    this.props.deleteUser(userId);
   }
 
   render() {

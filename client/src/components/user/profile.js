@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Icon, Button, Modal } from 'react-materialize';
 import '../../main.scss';
 import NavBar from '../navbar/navBar';
-import request from '../../helpers/request';
 import { currentUser } from '../../helpers/auth';
 import { resetPassword } from '../../actions/actionCreator';
 /**
@@ -35,14 +34,8 @@ class Profile extends Component {
         confirmPassword
       };
       if (isPasswordSame) {
-        request(`http://localhost:5000/users/${userId}/password`, 'put', data, (err, res) => {
-          if (err) {
-            Materialize.toast('Unable to update password', 4000, 'rounded');
-          } else {
-            this.props.resetPassword(res.body);
-            Materialize.toast('Your password has been updated', 4000, 'rounded');
-          }
-        });
+        this.props.resetPassword(userId, data);
+        Materialize.toast('Your password has been updated', 4000, this.props.handler);
       } else {
         Materialize.toast('Password does not match', 4000, 'rounded');
       }
@@ -109,7 +102,8 @@ class Profile extends Component {
 
 function mapStateToProps(state) {
   return {
-    users: state.users
+    users: state.users,
+    handler: state.handler
   };
 }
 
