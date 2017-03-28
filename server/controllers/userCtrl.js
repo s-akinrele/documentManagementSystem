@@ -131,7 +131,7 @@ const Userctrl = {
         }
         user.update(req.body)
           .then((updatedUser) => {
-            res.status(200).send({ updatedUser, message: 'Update successful' });
+            res.status(200).send(updatedUser);
           });
       })
       .catch((err) => {

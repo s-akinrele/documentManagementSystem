@@ -171,7 +171,7 @@ const DocCtrl = {
 
     if (req.query.q) {
       rawQuery =
-    `SELECT "Documents"."id" as id, "Documents"."title", "Documents"."content", "Documents"."OwnerId", "Documents"."access" FROM "Documents" INNER JOIN "Users" ON "Documents"."OwnerId" = "Users"."id" WHERE (("Users"."RoleId" = ${req.decoded.RoleId} AND "Documents"."access" = 'role') OR ("Documents"."OwnerId" = ${req.params.id})) AND (( "Documents"."title" ILIKE '%${req.query.q}%' ) OR ( "Documents"."content" ILIKE '%${req.query.q}%'))`;
+      `SELECT "Documents"."id" as id, "Documents"."title", "Documents"."content", "Documents"."OwnerId", "Documents"."access" FROM "Documents" INNER JOIN "Users" ON "Documents"."OwnerId" = "Users"."id" WHERE (("Users"."RoleId" = ${req.decoded.RoleId} AND "Documents"."access" = 'role') OR ("Documents"."OwnerId" = ${req.params.id})) AND (( "Documents"."title" ILIKE '%${req.query.q}%' ) OR ( "Documents"."content" ILIKE '%${req.query.q}%'))`;
     }
     db.sequelize.query(rawQuery, {
       type: db.sequelize.QueryTypes.SELECT
@@ -182,6 +182,34 @@ const DocCtrl = {
             .send({ message: 'No document found' });
         }
         res.status(200).send(docs);
+      }).catch((err) => {
+        res.status(400).send(err.message);
+      });
+  },
+
+  countUsersDoc: (req, res) => {
+    const page = helper.pagination(req);
+    let rawQuery =
+      `SELECT COUNT (*) FROM "Documents" INNER JOIN "Users" ON "Documents"."OwnerId" = "Users"."id" WHERE ("Users"."RoleId" = ${req.decoded.RoleId} AND "Documents"."access" = 'role') OR ("Documents"."OwnerId" = ${req.params.id})`;
+
+    if (req.query.q) {
+      rawQuery =
+      `SELECT COUNT (*) FROM "Documents" INNER JOIN "Users" ON "Documents"."OwnerId" = "Users"."id" WHERE (("Users"."RoleId" = ${req.decoded.RoleId} AND "Documents"."access" = 'role') OR ("Documents"."OwnerId" = ${req.params.id})) AND (( "Documents"."title" ILIKE '%${req.query.q}%' ) OR ( "Documents"."content" ILIKE '%${req.query.q}%'))`;
+    }
+    db.sequelize.query(rawQuery, {
+      type: db.sequelize.QueryTypes.SELECT
+    })
+      .then((count) => {
+        if (!count) {
+          return res.status(404)
+            .send({ message: 'No document found' });
+        }
+        const meta = {};
+        meta.totalCount = count[0].count;
+        meta.pageSize = page.limit;
+        meta.pageCount = Math.floor(meta.totalCount / page.limit) + 1;
+        meta.currentPage = Math.floor(page.offset / page.limit) + 1;
+        res.status(200).send({ paginationMeta: meta });
       }).catch((err) => {
         res.status(400).send(err.message);
       });

@@ -18,6 +18,9 @@ const docRoute = (router) => {
   router.route('/documents/access/private')
   .post(auth.verifyToken, docCtrl.sharePrivateDocument)
   .get(auth.verifyToken, docCtrl.viewPrivateDocuments);
+
+  router.route('/document/:id/count')
+  .get(auth.verifyToken, docCtrl.countUsersDoc);
 };
 
 export default docRoute;

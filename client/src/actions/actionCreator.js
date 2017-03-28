@@ -147,3 +147,56 @@ export function pagination(payload, id) {
   };
 }
 
+/**
+ * @export
+ * @param {any} payload
+ * @returns
+ */
+export function fetchUsers(payload, id) {
+  return {
+    type: 'FETCH_USERS',
+    payload,
+    id
+  };
+}
+
+
+/**
+ * @export
+ * @param {any} payload
+ * @returns
+ */
+export function editUser(payload, id) {
+  return {
+    type: 'EDIT_USERS',
+    payload,
+    id
+  };
+}
+
+/**
+ * @export
+ * @param {any} payload
+ * @returns
+ */
+export function userPagination(payload, id) {
+  return {
+    type: 'USER_PAGINATION',
+    payload,
+    id
+  };
+}
+
+/**
+ * @export
+ * @param {any} payload
+ * @param {any} id
+ * @returns
+ */
+export function deleteUser(payload, id) {
+  return {
+    type: 'DELETE_USER',
+    payload,
+    id
+  };
+}

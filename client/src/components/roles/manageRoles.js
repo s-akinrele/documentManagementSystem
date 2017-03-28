@@ -8,7 +8,7 @@ import '../../main.scss';
 import request from '../../helpers/request';
 import { isLoggedIn } from '../../helpers/auth';
 import AddRole from './addRole';
-import { fetchRoles,  } from '../../actions/actionCreator';
+import { fetchRoles } from '../../actions/actionCreator';
 
 class ManageRoles extends Component {
   componentDidMount() {

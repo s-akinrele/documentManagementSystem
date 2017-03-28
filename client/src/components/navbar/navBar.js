@@ -35,6 +35,15 @@ class navBar extends Component {
   }
   render() {
     const isAdmin = currentUser().RoleId === 1;
+    const permission = (
+      <div>
+        <ul>
+          <Link to="/manageRoles">Roles</Link>
+        </ul>
+        <ul>
+          <Link to="/users">Users</Link>
+        </ul> </div>
+    );
     return (
       <Navbar brand="DMS" className="dms" right>
         <NavItem> <Input s={6} label="Search" onChange={this.handleSearch} validate><Icon>search</Icon></Input> </NavItem>
@@ -49,9 +58,7 @@ class navBar extends Component {
             <ul>
               <Link to="/profile">Profile</Link>
             </ul>
-            {isAdmin ? <ul>
-              <Link to="/manageRoles">Role</Link>
-            </ul> : ''}
+            {isAdmin ? permission : ''}
           </div>
           <NavItem onClick={this.signout}>Sign out</NavItem>
         </Dropdown>

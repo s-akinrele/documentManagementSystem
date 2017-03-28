@@ -23,7 +23,6 @@ class Dashboard extends React.Component {
     } else {
       request('http://localhost:5000/users/documents', 'get', null, (err, res) => {
         this.setState({ metadata: res.body.paginationMeta, result: res.body.result });
-        // console.log(this.state);
         this.props.fetchUserDocument(res.body.result);
       });
     }

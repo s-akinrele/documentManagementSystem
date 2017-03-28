@@ -86,7 +86,7 @@ class ViewRoles extends Component {
 
 function mapStateToProps(state) {
   return {
-    roles: state
+    roles: state.roles
   };
 }
 
