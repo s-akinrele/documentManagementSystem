@@ -86,17 +86,14 @@ describe('Document suite', () => {
       });
     });
     it('Should be able to create a document', (done) => {
-function dd(){
-  server
+      server
       .post('/documents')
       .set('X-ACCESS-TOKEN', jwtToken)
       .send(helper.newDoc)
       .end((err, res) => {
         assert.equal(res.status, 201);
-        done();
+        setTimeout(done(), 6000);
       });
-    }
-      setTimeout(dd, 6000);
     });
     it('Should return status 200 when a document has been deleted', (done) => {
       server
