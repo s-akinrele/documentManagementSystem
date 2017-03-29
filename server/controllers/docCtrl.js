@@ -46,7 +46,7 @@ const DocCtrl = {
         }
         db.Document.create(document)
           .then((doc) => {
-            if (userEmail !== null && userEmail !== '') {
+            if (userEmail !== null && userEmail !== '' && userEmail !== undefined) {
               shareDocument(userEmail, doc.id, (err) => {
                 if (err) {
                   res.status(400).send(err.errors);
@@ -54,11 +54,15 @@ const DocCtrl = {
                   res.status(201).send(doc);
                 }
               });
+            } else {
+              res.status(201).send(doc);
             }
           })
           .catch((err) => {
             res.status(400).send(err.errors);
           });
+      }).catch((err) => {
+        res.status(400).send(err.errors);
       });
   },
 

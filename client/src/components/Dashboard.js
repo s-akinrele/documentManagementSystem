@@ -19,6 +19,7 @@ class Dashboard extends Component {
       result: []
     };
   }
+
   componentDidMount() {
     if (!isLoggedIn()) {
       browserHistory.push('/');

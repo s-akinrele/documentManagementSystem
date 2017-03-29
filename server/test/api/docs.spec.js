@@ -94,7 +94,7 @@ describe('Document suite', () => {
         assert.equal(res.status, 201);
         done();
       });
-    });
+    }).timeout(8000);
     it('Should return status 200 when a document has been deleted', (done) => {
       server
       .delete('/documents/6')
