@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import TinyMCE from 'react-tinymce';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Row, Modal, Button, Icon } from 'react-materialize';
 import '../../main.scss';
@@ -70,18 +69,26 @@ class EditDocument extends Component {
   }
  }
 
-function mapStateToProps(state) {
-  return {
-    documents: state.documents,
-    handler: state.handler
-  };
-}
+const mapStateToProps = state => ({
+  documents: state.documents,
+  handler: state.handler
+});
 
-function mapDispatchToProps(dispatch) {
-  return {
-    editDocument: bindActionCreators(editDocument, dispatch)
-  };
-}
+const mapDispatchToProps = {
+  editDocument
+};
 
+EditDocument.propTypes = {
+  editDocument: PropTypes.func.isRequired,
+  documents: PropTypes.shape({
+    OwnerId: PropTypes.number,
+    access: PropTypes.string,
+    content: PropTypes.string,
+    createdAt: PropTypes.string,
+    id: PropTypes.number,
+    title: PropTypes.string,
+    updatedAt: PropTypes.string
+  })
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditDocument);

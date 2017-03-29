@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -30,22 +30,19 @@ class ManageRoles extends Component {
   }
 }
 
-/**
- * @param {any} state
- * @returns
- */
-function mapStateToProps(state) {
-  return {
-    roles: state.roles
-  };
-}
 
-function mapDispatchToProps(dispatch) {
-  return {
-    fetchRoles: bindActionCreators(fetchRoles, dispatch)
 
-  };
-}
+ManageRoles.propTypes = {
+  fetchRoles: PropTypes.func.isRequired
+};
 
+const mapStateToProps = state => ({
+  roles: state.roles
+});
+
+
+const mapDispatchToProps = {
+  fetchRoles
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageRoles);

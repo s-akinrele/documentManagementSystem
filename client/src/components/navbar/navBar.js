@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Icon, Input, Navbar, NavItem, Dropdown } from 'react-materialize';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { browserHistory, Link } from 'react-router';
 import '../../main.scss';
 import { logout, currentUser } from '../../helpers/auth';
@@ -16,6 +15,7 @@ class navBar extends Component {
     };
     this.handleSearch = this.handleSearch.bind(this);
   }
+
   signout() {
     logout(() => {
       browserHistory.push('/');
@@ -61,13 +61,19 @@ class navBar extends Component {
     );
   }
 }
+
+navBar.propTypes = {
+  searchDocuments: PropTypes.func.isRequired
+};
+
 const mapStateToProps = state => ({
   metadata: state.documents
 });
 
-const mapDispatchToProps = dispatch => ({
-  searchDocuments: bindActionCreators(searchDocuments, dispatch)
+const mapDispatchToProps = () => ({
+  searchDocuments
 
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(navBar);
+

@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import '../../main.scss';
 import NavBar from '../navbar/navBar';
@@ -20,6 +19,7 @@ class DocumentView extends Component {
     this.state = {
       loading: true
     };
+    this.handleDocumentDelete = this.handleDocumentDelete.bind(this);
   }
   componentDidMount() {
     this.handleDocumentView();
@@ -42,25 +42,30 @@ class DocumentView extends Component {
       <div>
         <div className="dialog"><EditDocument {...this.props} /> </div>
         <div className="dialog">
-          <Dialog header="Confirmation" message="Are you sure you want to delete this document?" action="DELETE" onContinue={this.handleDocumentDelete.bind(this)} />
+          <Dialog
+            header="Confirmation"
+            message="Are you sure you want to delete this document?"
+            action="DELETE"
+            onContinue={this.handleDocumentDelete}
+          />
         </div>
       </div>
     );
     return (
       <div>
         <NavBar />
-        <div className={'loader ' + (this.state.loading ? '' : 'loader-hide')}>
-        <div className="preloader-wrapper big active">
-          <div className="spinner-layer spinner-blue-only">
-            <div className="circle-clipper left">
-              <div className="circle" />
-            </div><div className="gap-patch">
-              <div className="circle" />
-            </div><div className="circle-clipper right">
-              <div className="circle" />
+        <div className={`loader ${this.state.loading ? '' : 'loader-hide'}`}>
+          <div className="preloader-wrapper big active">
+            <div className="spinner-layer spinner-blue-only">
+              <div className="circle-clipper left">
+                <div className="circle" />
+              </div><div className="gap-patch">
+                <div className="circle" />
+              </div><div className="circle-clipper right">
+                <div className="circle" />
+              </div>
             </div>
           </div>
-        </div>
         </div>
         <div className="row">
           <form className="col s6 card hoverable offset-s3">
@@ -71,7 +76,8 @@ class DocumentView extends Component {
             </div>
             <div className="row">
               <div className="input-field col s12">
-                {this.props.documents && <div dangerouslySetInnerHTML={{ __html: this.props.documents.content }} />}
+                {this.props.documents &&
+                <div dangerouslySetInnerHTML={{ __html: this.props.documents.content }} />}
               </div>
             </div>
             <div />
@@ -85,24 +91,22 @@ class DocumentView extends Component {
   }
 }
 
-// DocumentView.propTypes = {
-//   fetchDocumentById: React.PropTypes.func.isRequired,
-//   dispatch: React.PropTypes.func.isRequired
-// };
 
-function mapStateToProps(state) {
-  return {
-    documents: state.documents,
-    handler: state.handler
-  };
-}
+DocumentView.propTypes = {
+  fetchDocumentById: PropTypes.func.isRequired,
+  deleteDocument: PropTypes.func.isRequired
+};
 
-function mapDispatchToProps(dispatch) {
-  return {
-    deleteDocument: bindActionCreators(deleteDocument, dispatch),
-    fetchDocumentById: bindActionCreators(fetchDocumentById, dispatch)
-  };
-}
+const mapStateToProps = state => ({
+  documents: state.documents,
+  handler: state.handler
+});
+
+
+const mapDispatchToProps = {
+  deleteDocument,
+  fetchDocumentById
+};
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(DocumentView);

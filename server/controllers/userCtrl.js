@@ -123,13 +123,21 @@ const Userctrl = {
    */
 
   updateUser: (req, res) => {
+    const body = req.body;
     db.User.findOne({ where: { id: req.params.id } })
       .then((user) => {
         if (!user) {
           return res.status(404)
             .send({ message: 'User not found' });
         }
-        user.update(req.body)
+        user.update({
+          username: body.username || user.username,
+          firstname: body.firstname || user.firstname,
+          lastname: body.lastname || user.lastname,
+          password: body.password || user.password,
+          email: body.email || user.email,
+          RoleId: req.decoded.RoleId === 1 && body.RoleId ? body.RoleId : user.RoleId
+        })
           .then((updatedUser) => {
             res.status(200).send(updatedUser);
           });

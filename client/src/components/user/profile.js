@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Icon, Button, Modal } from 'react-materialize';
 import '../../main.scss';
@@ -14,9 +13,6 @@ import { resetPassword } from '../../actions/actionCreator';
 class Profile extends Component {
   constructor() {
     super();
-    this.state = {
-      content: ''
-    };
 
     this.handlePasswordReset = this.handlePasswordReset.bind(this);
   }
@@ -100,18 +96,19 @@ class Profile extends Component {
 }
 
 
-function mapStateToProps(state) {
-  return {
-    users: state.users,
-    handler: state.handler
-  };
-}
+Profile.propTypes = {
+  resetPassword: PropTypes.func.isRequired,
+  handler: PropTypes.string.isRequired
+};
 
-function mapDispatchToProps(dispatch) {
-  return {
-    deleteRole: bindActionCreators(resetPassword, dispatch)
-  };
-}
+const mapStateToProps = state => ({
+  users: state.users,
+  handler: state.handler
+});
 
+
+const mapDispatchToProps = {
+  resetPassword
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

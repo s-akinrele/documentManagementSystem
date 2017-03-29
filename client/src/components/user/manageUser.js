@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Pagination } from 'react-materialize';
 import NavBar from '../navbar/navBar';
@@ -31,16 +30,16 @@ class ManageUsers extends Component {
       this.fetchAllUsers();
     }
   }
-  fetchAllUsers() {
-    this.props.fetchUsers();
-  }
-
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.metadata.hasOwnProperty('metadata')) {
       const { metadata, result } = nextProps.metadata;
       this.setState({ metadata, result });
     }
+  }
+
+  fetchAllUsers() {
+    this.props.fetchUsers();
   }
 
   displayData(pageNumber) {
@@ -70,20 +69,22 @@ class ManageUsers extends Component {
 }
 
 
-function mapStateToProps(state) {
-  return {
-    users: state.users,
-    metadata: state.pagination
-  };
-}
+ManageUsers.propTypes = {
+  fetchUsers: PropTypes.func.isRequired,
+  userPagination: PropTypes.func.isRequired,
+  searchUsers: PropTypes.func.isRequired
+};
 
-function mapDispatchToProps(dispatch) {
-  return {
-    fetchUsers: bindActionCreators(fetchUsers, dispatch),
-    userPagination: bindActionCreators(userPagination, dispatch),
-    searchUsers: bindActionCreators(searchUsers, dispatch)
-  };
-}
+const mapStateToProps = state => ({
+  users: state.users,
+  metadata: state.pagination
+});
 
+
+const mapDispatchToProps = {
+  fetchUsers,
+  userPagination,
+  searchUsers
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageUsers);

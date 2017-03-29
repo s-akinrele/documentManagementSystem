@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import '../../main.scss';
 import { filterPrivateDocuments, filterAccessibleDocuments, fetchUserDocument, fetchAllDocuments } from '../../actions/actionCreator';
@@ -63,4 +63,10 @@ const mapDispatchToProps = {
   fetchAllDocuments
 };
 
+Filter.propTypes = {
+  filterPrivateDocuments: PropTypes.func.isRequired,
+  filterAccessibleDocuments: PropTypes.func.isRequired,
+  fetchAllDocuments: PropTypes.func.isRequired,
+  fetchUserDocument: PropTypes.func.isRequired
+};
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);

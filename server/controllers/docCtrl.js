@@ -1,5 +1,6 @@
 import db from '../models';
 import helper from '../helpers/helper';
+import getUserDocumentQuery, { getAccessibleDocuments, countDoc } from '../utils/query';
 
 /**
  * Share document privately
@@ -7,7 +8,7 @@ import helper from '../helpers/helper';
  * @param {any} docId
  * @param {any} cb
  */
-function shareDocument(userEmail, docId, cb) {
+const shareDocument = (userEmail, docId, cb) => {
   db.User.findOne({ where: { email: userEmail } })
   .then((user) => {
     db.Access.create({
@@ -19,7 +20,7 @@ function shareDocument(userEmail, docId, cb) {
       cb(err);
     });
   });
-}
+};
 
 const DocCtrl = {
 
@@ -170,14 +171,7 @@ const DocCtrl = {
    */
 
   getUsersDoc: (req, res) => {
-    let rawQuery =
-      `SELECT "Documents"."id" as id, "Documents"."title", "Documents"."content", "Documents"."OwnerId", "Documents"."access" FROM "Documents" INNER JOIN "Users" ON "Documents"."OwnerId" = "Users"."id" WHERE ("Users"."RoleId" = ${req.decoded.RoleId} AND "Documents"."access" = 'role') OR ("Documents"."OwnerId" = ${req.params.id})`;
-
-    if (req.query.q) {
-      rawQuery =
-      `SELECT "Documents"."id" as id, "Documents"."title", "Documents"."content", "Documents"."OwnerId", "Documents"."access" FROM "Documents" INNER JOIN "Users" ON "Documents"."OwnerId" = "Users"."id" WHERE (("Users"."RoleId" = ${req.decoded.RoleId} AND "Documents"."access" = 'role') OR ("Documents"."OwnerId" = ${req.params.id})) AND (( "Documents"."title" ILIKE '%${req.query.q}%' ) OR ( "Documents"."content" ILIKE '%${req.query.q}%'))`;
-    }
-    db.sequelize.query(rawQuery, {
+    db.sequelize.query(getUserDocumentQuery(req), {
       type: db.sequelize.QueryTypes.SELECT
     })
       .then((docs) => {
@@ -191,16 +185,16 @@ const DocCtrl = {
       });
   },
 
+  /**
+   * Get the count of document returned
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
+
   countUsersDoc: (req, res) => {
     const page = helper.pagination(req);
-    let rawQuery =
-      `SELECT COUNT (*) FROM "Documents" INNER JOIN "Users" ON "Documents"."OwnerId" = "Users"."id" WHERE ("Users"."RoleId" = ${req.decoded.RoleId} AND "Documents"."access" = 'role') OR ("Documents"."OwnerId" = ${req.params.id})`;
-
-    if (req.query.q) {
-      rawQuery =
-      `SELECT COUNT (*) FROM "Documents" INNER JOIN "Users" ON "Documents"."OwnerId" = "Users"."id" WHERE (("Users"."RoleId" = ${req.decoded.RoleId} AND "Documents"."access" = 'role') OR ("Documents"."OwnerId" = ${req.params.id})) AND (( "Documents"."title" ILIKE '%${req.query.q}%' ) OR ( "Documents"."content" ILIKE '%${req.query.q}%'))`;
-    }
-    db.sequelize.query(rawQuery, {
+    db.sequelize.query(countDoc(req), {
       type: db.sequelize.QueryTypes.SELECT
     })
       .then((count) => {
@@ -255,9 +249,7 @@ const DocCtrl = {
    */
 
   getAccessibleDocument: (req, res) => {
-    const rawQuery =
-    `SELECT "Documents"."id" as id, "Documents"."title", "Documents"."content", "Documents"."OwnerId", "Documents"."access" FROM "Documents" INNER JOIN "Users" ON "Documents"."OwnerId" = "Users"."id" WHERE ("Users"."RoleId" = ${req.decoded.RoleId} AND "Documents".access = 'role') OR ("Documents".access = 'public')`;
-    db.sequelize.query(rawQuery, {
+    db.sequelize.query(getAccessibleDocuments(req), {
       type: db.sequelize.QueryTypes.SELECT
     })
       .then((docs) => {

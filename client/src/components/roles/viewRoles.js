@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Button, Icon, Modal } from 'react-materialize';
 import Dialog from '../diaLog/confirmDialog';
@@ -47,7 +46,13 @@ class ViewRoles extends Component {
                   <div>
                     <div className="input-field col s6">
                       <i className="material-icons prefix">person_pin</i>
-                      <input id="role" ref="role" type="text" className="validate" defaultValue={this.props.role.title} />
+                      <input
+                        id="role"
+                        ref="role"
+                        type="text"
+                        className="validate"
+                        defaultValue={this.props.role.title}
+                      />
                     </div>
                   </div>
                 </Modal>
@@ -62,18 +67,20 @@ class ViewRoles extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    roles: state.roles
-  };
-}
 
-function mapDispatchToProps(dispatch) {
-  return {
-    deleteRole: bindActionCreators(deleteRole, dispatch),
-    editRole: bindActionCreators(editRole, dispatch)
-  };
-}
+ViewRoles.propTypes = {
+  deleteRole: PropTypes.func.isRequired,
+  editRole: PropTypes.func.isRequired
+};
 
+const mapStateToProps = state => ({
+  roles: state.roles
+});
+
+
+const mapDispatchToProps = {
+  deleteRole,
+  editRole
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewRoles);

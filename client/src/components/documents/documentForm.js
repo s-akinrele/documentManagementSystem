@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Row, Input, Modal, Button } from 'react-materialize';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import TinyMCE from 'react-tinymce';
 import '../../main.scss';
@@ -110,22 +109,21 @@ class DocumentForm extends Component {
   }
 }
 
-// DocumentForm.propTypes = {
-//   createDocument: React.PropTypes.func.isRequired
-// };
 
-function mapStateToProps(state) {
-  return {
-    documents: state.documents,
-    handler: state.handler
-  };
-}
+DocumentForm.propTypes = {
+  createDocument: PropTypes.func.isRequired,
+  handler: PropTypes.string.isRequired
+};
 
-function mapDispatchToProps(dispatch) {
-  return {
-    createDocument: bindActionCreators(createDocument, dispatch)
-  };
-}
+const mapStateToProps = state => ({
+  documents: state.documents,
+  handler: state.handler
+});
+
+
+const mapDispatchToProps = {
+  createDocument
+};
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(DocumentForm);

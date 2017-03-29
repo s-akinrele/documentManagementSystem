@@ -22,7 +22,8 @@ const Signin = ({ handleLogin, handleChange }) =>
         required s={12}
         onChange={handleChange}
       />
-      <Button type="submit" className="btn tomato" waves="light">Log in <Icon right>send</Icon></Button>
+      <Button type="submit" className="btn tomato" waves="light">
+        Log in <Icon right>send</Icon></Button>
     </form>
   </div>;
 

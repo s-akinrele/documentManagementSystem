@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { Row, Col, Tabs, Tab } from 'react-materialize';
@@ -105,25 +105,25 @@ class HomePage extends Component {
   }
 }
 
-/**
- * @param {any} state
- * @returns
- */
-function mapStateToProps(state) {
-  return {
-    roles: state.roles,
-    handler: state.handler
-  };
-}
+const mapStateToProps = state => ({
+  roles: state.roles,
+  handler: state.handler
+});
 
-/**
- * @param {any} dispatch
- * @returns
- */
+
 const mapDispatchToProps = {
   fetchRoles,
   signup
 };
 
+HomePage.propTypes = {
+  fetchRoles: PropTypes.func.isRequired,
+  signup: PropTypes.func.isRequired,
+  handler: PropTypes.string.isRequired,
+  roles: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.number.isRequired
+  })
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

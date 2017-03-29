@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Modal, Button } from 'react-materialize';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import '../../main.scss';
 import { createRole } from '../../actions/actionCreator';
@@ -8,9 +7,6 @@ import { createRole } from '../../actions/actionCreator';
 class AddRole extends Component {
   constructor() {
     super();
-    this.state = {
-      content: ''
-    };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleSubmit() {
@@ -43,23 +39,19 @@ class AddRole extends Component {
   }
 }
 
-/**
- * @param {any} state
- * @returns
- */
-function mapStateToProps(state) {
-  return {
-    roles: state.roles
-  };
-}
 
-function mapDispatchToProps(dispatch) {
-  return {
-    createRole: bindActionCreators(createRole, dispatch),
+AddRole.propTypes = {
+  createRole: PropTypes.func.isRequired
+};
 
-  };
-}
+const mapStateToProps = state => ({
+  roles: state.roles
+});
 
+
+const mapDispatchToProps = {
+  createRole
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddRole);
 

@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Row, Pagination } from 'react-materialize';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import NavBar from './navbar/navBar';
 import DocumentForm from './documents/documentForm';
 import DocumentPreview from './documents/documentPreview';
@@ -18,6 +17,7 @@ class Dashboard extends Component {
       metadata: [],
       result: []
     };
+    this.displayData = this.displayData.bind(this);
   }
 
   componentDidMount() {
@@ -48,11 +48,17 @@ class Dashboard extends Component {
         <div className="container">
           <Filter {...this.props} />
           <Row>
-            { documents.map((document, index) => <DocumentPreview document={document} i={index} key={index} />)}
+            { documents.map((document, index) =>
+              <DocumentPreview document={document} i={index} key={index} />)}
           </Row>
         </div>
         <DocumentForm {...this.props} />
-        <Pagination items={pageCount} activePage={currentPage} maxButtons={Math.ceil(totalCount / pageSize)} onSelect={this.displayData.bind(this)} />
+        <Pagination
+          items={pageCount}
+          activePage={currentPage}
+          maxButtons={Math.ceil(totalCount / pageSize)}
+          onSelect={this.displayData}
+        />
       </div>
     );
   }
@@ -62,9 +68,23 @@ const mapStateToProps = state => ({
   metadata: state.pagination
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchUserDocument: bindActionCreators(fetchUserDocument, dispatch),
-  pagination: bindActionCreators(pagination, dispatch)
-});
+const mapDispatchToProps = {
+  fetchUserDocument,
+  pagination
+};
+
+Dashboard.propTypes = {
+  fetchUserDocument: PropTypes.func.isRequired,
+  documents: PropTypes.arrayOf(PropTypes.shape({
+    OwnerId: PropTypes.number,
+    access: PropTypes.string,
+    content: PropTypes.string,
+    createdAt: PropTypes.string,
+    id: PropTypes.number,
+    title: PropTypes.string,
+    updatedAt: PropTypes.string
+  })),
+  pagination: PropTypes.func.isRequired
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
