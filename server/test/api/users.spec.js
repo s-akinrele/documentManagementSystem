@@ -94,6 +94,15 @@ describe('Users', () => {
         done();
       });
     });
+    it('Should return users document with a particular userId', (done) => {
+      server
+      .get('/users/3/documents')
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .end((err, res) => {
+        assert.isNotNull(res.body);
+        done();
+      });
+    });
     it('Should be able to udpate password', (done) => {
       server
       .put('/users/3/password')
@@ -164,6 +173,26 @@ describe('Users', () => {
       .end((err, res) => {
         assert.equal(res.status, 401);
         assert.equal(res.body.message, 'Authentication required to access this route!');
+        done();
+      });
+    });
+    it('Should fetch users document', (done) => {
+      server
+      .get('/users/documents?offset=5&limit=2&order=DESC')
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.isNotNull(res.body);
+        done();
+      });
+    });
+    it('Should validate offset, limit before getting document', (done) => {
+      server
+      .get('/users/documents?offset=q&limit=c&order=ASC')
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.isNotNull(res.body);
         done();
       });
     });
