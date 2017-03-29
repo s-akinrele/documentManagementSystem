@@ -94,7 +94,17 @@ describe('Document suite', () => {
         assert.equal(res.status, 201);
         done();
       });
-    }).timeout(8000);
+    });
+    it('Should be able to create a document and share privately', (done) => {
+      server
+      .post('/documents')
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .send(helper.sharePrivateDocument)
+      .end((err, res) => {
+        assert.equal(res.status, 201);
+        done();
+      });
+    });
     it('Should return status 200 when a document has been deleted', (done) => {
       server
       .delete('/documents/6')

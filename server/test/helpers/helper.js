@@ -94,6 +94,16 @@ const data = {
   },
   createRole: {
     title: faker.lorem.word()
+  },
+  privatedoc: {
+    documentId: 3,
+    usersAccess: 3
+  },
+  sharePrivateDocument: {
+    title: faker.company.catchPhrase(),
+    content: faker.lorem.paragraph(),
+    access: 'private',
+    userEmail: 'barbara@gmail.com'
   }
 };
 export default data;

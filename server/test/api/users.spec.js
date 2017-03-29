@@ -94,6 +94,27 @@ describe('Users', () => {
         done();
       });
     });
+    it('Should be able to udpate password', (done) => {
+      server
+      .put('/users/3/password')
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .send({ oldPassword: 'password', newPassword: 'simisola' })
+      .end((err, res) => {
+        assert.isNotNull(res.body);
+        done();
+      });
+    });
+    it('Should be able to udpate password', (done) => {
+      server
+      .put('/users/1/password')
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .send({ oldPassword: 'simisola', newPassword: 'simisola' })
+      .end((err, res) => {
+        assert.equal(res.status, 400);
+        assert.equal(res.body.message, 'Incorrect Password');
+        done();
+      });
+    });
     it('Should return status 200 when a user has been deleted', (done) => {
       server
       .delete('/users/3')
@@ -123,6 +144,17 @@ describe('Users', () => {
       .expect(200)
       .end((err, res) => {
         assert.equal(res.status, 200);
+        done();
+      });
+    });
+    it('Should return users if found', (done) => {
+      server
+      .get('/search/users/?q=simi')
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .expect(200)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.isNotNull(res.body);
         done();
       });
     });

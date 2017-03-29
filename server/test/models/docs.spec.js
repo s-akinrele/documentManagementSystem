@@ -16,8 +16,8 @@ describe('Document model', () => {
         });
     done();
   });
-  before('sss', ()=>{
-          db.Document.create(document)
+  before('createdocument', () => {
+    db.Document.create(document)
            .then((doc) => {
              documentData = doc;
            });
@@ -28,7 +28,6 @@ describe('Document model', () => {
       expect(typeof document).to.equal('object');
     });
     it('should create a document with title and content', () => {
-      console.log('doc title', document, 'doc title other', documentData);
       expect(document.title).to.equal(documentData.title);
       expect(document.content).to.equal(documentData.content);
     });
