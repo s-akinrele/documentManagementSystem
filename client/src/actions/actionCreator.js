@@ -392,7 +392,7 @@ export function deleteUser(userId) {
  * @param {any} id
  * @returns
  */
-export function filterDocuments() {
+export function filterPrivateDocuments() {
   return (dispatch) => {
     request('http://localhost:5000/documents/access/private', 'get', null, (err, res) => {
       if (err) {

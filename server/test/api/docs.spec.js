@@ -92,7 +92,7 @@ describe('Document suite', () => {
       .send(helper.newDoc)
       .end((err, res) => {
         assert.equal(res.status, 201);
-        setTimeout(done(), 6000);
+        done();
       });
     });
     it('Should return status 200 when a document has been deleted', (done) => {
