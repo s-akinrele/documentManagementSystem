@@ -42,7 +42,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchRoles: bindActionCreators(fetchRoles, dispatch),
+    fetchRoles: bindActionCreators(fetchRoles, dispatch)
 
   };
 }

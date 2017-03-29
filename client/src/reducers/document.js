@@ -28,6 +28,9 @@ export default function documents(state = [], action) {
     case 'DOCUMENT_SEARCH':
       newState = action.payload;
       return newState;
+    case 'FETCH_ALL_DOCUMENTS':
+      newState = action.payload;
+      return newState;
     default:
       return state;
   }

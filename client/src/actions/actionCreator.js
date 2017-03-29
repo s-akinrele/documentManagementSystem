@@ -3,6 +3,8 @@ import { browserHistory } from 'react-router';
 import request from '../helpers/request';
 import { fetchToken } from '../helpers/auth';
 
+
+
 /**
  * @export
  * @param {any} payload
@@ -25,6 +27,31 @@ export function createDocument(data) {
           type: 'MESSAGE',
           message: 'Document Saved Successfully'
         });
+      }
+    });
+  };
+}
+
+export function signup(data) {
+  return (dispatch) => {
+    request('http://localhost:5000/users/', 'post', data, (err, res) => {
+      if (err) {
+        dispatch({
+          type: 'MESSAGE',
+          message: 'An error occured'
+        });
+      } else {
+        dispatch({
+          type: 'SIGNUP',
+          payload: res.body
+        });
+        dispatch({
+          type: 'MESSAGE',
+          message: 'Welcome'
+        });
+        localStorage.token = res.body.token;
+        localStorage.user = JSON.stringify(res.body.user);
+        browserHistory.push('/dashboard');
       }
     });
   };
@@ -365,7 +392,7 @@ export function deleteUser(userId) {
  * @param {any} id
  * @returns
  */
-export function filterDocuments() {
+export function filterPrivateDocuments() {
   return (dispatch) => {
     request('http://localhost:5000/documents/access/private', 'get', null, (err, res) => {
       if (err) {
@@ -397,6 +424,23 @@ export function filterAccessibleDocuments() {
           payload: res.body
         });
       }
+    });
+  };
+}
+
+
+export function fetchAllDocuments() {
+  return (dispatch) => {
+    request('http://localhost:5000/documents', 'get', null, (err, res) => {
+      console.log(res.body);
+      dispatch({
+        type: 'PAGINATION',
+        payload: { metadata: res.body.paginationMeta, result: res.body.result }
+      });
+      dispatch({
+        type: 'FETCH_ALL_DOCUMENTS',
+        payload: res.body.result
+      });
     });
   };
 }

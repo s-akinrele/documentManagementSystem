@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import '../../main.scss';
-import { filterDocuments, filterAccessibleDocuments, fetchUserDocument } from '../../actions/actionCreator';
+import { filterPrivateDocuments, filterAccessibleDocuments, fetchUserDocument, fetchAllDocuments } from '../../actions/actionCreator';
+import { currentUser } from '../../helpers/auth';
 
 class Filter extends Component {
   constructor() {
@@ -27,12 +27,15 @@ class Filter extends Component {
         }
       } else if (selectedValue === 'otherDoc') {
         this.props.filterAccessibleDocuments();
+      } else if (selectedValue === 'alldocuments') {
+        this.props.fetchAllDocuments();
       } else {
         this.props.fetchUserDocument();
       }
     });
   }
   render() {
+    const isAdmin = currentUser().RoleId === 1;
     return (
       <div>
         <div className="input-field col s4" style={{ width: '200px' }}>
@@ -41,6 +44,7 @@ class Filter extends Component {
             <option value="myDoc">My documents</option>
             <option value="otherDoc">Other Documents</option>
             <option value="privateDoc">Private Documents</option>
+            { isAdmin ? <option value="alldocuments"> All Documents </option> : '' }
           </select>
         </div>
       </div>
@@ -52,11 +56,11 @@ const mapStateToProps = state => ({
   metadata: state.documents
 });
 
-const mapDispatchToProps = dispatch => ({
-  filterPrivateDocuments: bindActionCreators(filterDocuments, dispatch),
-  filterAccessibleDocuments: bindActionCreators(filterAccessibleDocuments, dispatch),
-  fetchUserDocument: bindActionCreators(fetchUserDocument, dispatch)
-
-});
+const mapDispatchToProps = {
+  filterPrivateDocuments,
+  filterAccessibleDocuments,
+  fetchUserDocument,
+  fetchAllDocuments
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);

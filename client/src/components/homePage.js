@@ -1,30 +1,41 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
-import { Button, Row, Col, Icon, Input, Tabs, Tab } from 'react-materialize';
+import { connect } from 'react-redux';
+import { Row, Col, Tabs, Tab } from 'react-materialize';
 import '../main.scss';
 import { login, isLoggedIn } from '../helpers/auth';
-import request from '../helpers/request';
+import { fetchRoles, signup } from '../actions/actionCreator';
+import Signup from './authentication/signup';
+import Signin from './authentication/signin';
 
 class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       error: '',
-      message: ''
+      user: {
+        username: '',
+        firstname: '',
+        lastname: '',
+        RoleId: '',
+        email: '',
+        password: ''
+      }
     };
+    this.handleLogin = this.handleLogin.bind(this);
+    this.handleSignup = this.handleSignup.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
   componentDidMount() {
-    $('select').material_select();
     if (isLoggedIn()) {
       browserHistory.push('/dashboard');
     }
+    this.props.fetchRoles();
   }
 
-  login(e) {
+  handleLogin(e) {
     e.preventDefault();
-    const email = this.refs.email.state.value;
-    const password = this.refs.password.state.value;
-    login({ email, password }, (err) => {
+    login(this.state.user, (err) => {
       if (err) {
         Materialize.toast('Invalid Username or Password', 4000, 'rounded');
       } else {
@@ -32,37 +43,24 @@ class HomePage extends Component {
       }
     });
   }
-
-  signup(e) {
+  handleChange(e) {
     e.preventDefault();
-    const username = this.refs.username.state.value;
-    const firstname = this.refs.firstname.state.value;
-    const lastname = this.refs.lastname.state.value;
-    const signup_email = this.refs.signup_email.state.value;
-    const access = this.refs.access.value;
-    const signup_password = this.refs.signup_password.state.value;
-    const data = {
-      username,
-      firstname,
-      lastname,
-      email: signup_email,
-      access,
-      password: signup_password };
-    request('http://localhost:5000/users/', 'post', data, (err, res) => {
-      if (err) {
-        if (res.status !== 201) {
-          this.setState({ error: res.body.message });
-        } else {
-          this.setState({ message: res.body.message });
-        }
-      } else {
-        localStorage.token = res.body.token;
-        localStorage.user = JSON.stringify(res.body.user);
-        browserHistory.push('/dashboard');
-      }
+    const field = e.target.name;
+    const user = this.state.user;
+    user[field] = e.target.value;
+
+    this.setState({
+      user
     });
   }
+  handleSignup(e) {
+    e.preventDefault();
+    this.props.signup(this.state.user);
+    Materialize.toast('Welcome', 4000, this.props.handler);
+  }
   render() {
+    const { roles } = this.props;
+    const { user } = this.state;
     return (
       <div className="Main">
         <Row>
@@ -77,34 +75,18 @@ class HomePage extends Component {
                   <h3 className="logo"> DMS </h3>
                   <Tabs className="tab-demo z-depth-1">
                     <Tab title="Sign in" active>
-                      <p className="logo">Log in to your account </p>
-                      <form method="post" onSubmit={this.login.bind(this)}>
-                        <Input type="email" label="Email" ref="email" name="email" icon="account_circle" required s={12} />
-                        <Input type="password" label="password" ref="password" name="password" icon="vpn_key" required s={12} />
-                        <p>
-                          <span className="err">{this.state.error}{this.state.message}</span>
-                        </p>
-                        <Button type="submit" className="btn tomato" waves="light">Log in <Icon right>send</Icon></Button>
-                      </form>
+                      <Signin
+                        handleLogin={this.handleLogin}
+                        handleChange={this.handleChange}
+                      />
                     </Tab>
                     <Tab title="Sign up">
-                      <div>
-                        <p className="logo">Create an account </p>
-                        <Input type="text" label="Username" ref="username" required />
-                        <Input type="text" label="Firstname" ref="firstname" required />
-                        <Input type="text" label="Lastname" ref="lastname" required />
-                        <Input type="email" label="Email" ref="signup_email" required />
-                        <div className="input-field col s4" style={{ width: '150px' }}>
-                          <select id="access" ref="access" defaultValue="0">
-                            <option value="0" disabled >Select Role</option>
-                            <option value="1">Administrator</option>
-                            <option value="2">User</option>
-                            <option value="3">Guest</option>
-                          </select>
-                        </div>
-                        <Input type="password" label="password" ref="signup_password" required />
-                        <Button className="btn" waves="light" onClick={this.signup.bind(this)}>Sign up<Icon right>send</Icon></Button>
-                      </div>
+                      <Signup
+                        user={user}
+                        handleChange={this.handleChange}
+                        handleSignup={this.handleSignup}
+                        roles={roles}
+                      />
                     </Tab>
                     <Tab title="Why" active>
                       <div>
@@ -123,5 +105,25 @@ class HomePage extends Component {
   }
 }
 
+/**
+ * @param {any} state
+ * @returns
+ */
+function mapStateToProps(state) {
+  return {
+    roles: state.roles,
+    handler: state.handler
+  };
+}
 
-export default HomePage;
+/**
+ * @param {any} dispatch
+ * @returns
+ */
+const mapDispatchToProps = {
+  fetchRoles,
+  signup
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

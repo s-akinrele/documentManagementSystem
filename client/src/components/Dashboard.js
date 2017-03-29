@@ -9,7 +9,6 @@ import DocumentPreview from './documents/documentPreview';
 import Filter from './filter/documentFilter';
 import '../main.scss';
 import { isLoggedIn } from '../helpers/auth';
-
 import { fetchUserDocument, pagination } from '../actions/actionCreator';
 
 class Dashboard extends Component {

@@ -8,6 +8,9 @@ let newState;
  */
 export default function users(state = [], action) {
   switch (action.type) {
+    case 'SIGNUP':
+      newState = [...state, action.payload];
+      return newState;
     case 'PASSWORD_RESET':
       newState = action.payload;
       return newState;
