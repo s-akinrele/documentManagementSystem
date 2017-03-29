@@ -11,7 +11,7 @@
     "serve": "node dist/server.js",
     "db_migrate": "sequelize db:migrate",
     "seed": "babel-node server/db/seeders/index.js",
-    "cover": "babel-node ./node_modules/babel-istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha server/test/**/*.spec.js",
+    "cover": "babel-node ./node_modules/babel-istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha server/test/**/*.spec.js --timeout 60000",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
   },
   "author": "",
