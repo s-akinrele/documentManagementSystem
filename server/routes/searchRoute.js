@@ -3,7 +3,7 @@ import auth from '../middlewares/auth';
 
 const searchRoute = (router) => {
   router.route('/search/users/')
-  .get(auth.verifyToken, searchCtrl.searchUser);
+  .get(auth.verifyToken, auth.verifyAdmin, searchCtrl.searchUser);
 
   // router.route('/documents/search')
   // .post((req, res) => {

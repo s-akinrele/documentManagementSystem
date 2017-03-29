@@ -392,7 +392,7 @@ export function deleteUser(userId) {
  * @param {any} id
  * @returns
  */
-export function filterPrivateDocuments() {
+export function filterDocuments() {
   return (dispatch) => {
     request('http://localhost:5000/documents/access/private', 'get', null, (err, res) => {
       if (err) {
@@ -428,7 +428,10 @@ export function filterAccessibleDocuments() {
   };
 }
 
-
+/**
+ * @export
+ * @returns
+ */
 export function fetchAllDocuments() {
   return (dispatch) => {
     request('http://localhost:5000/documents', 'get', null, (err, res) => {
@@ -440,6 +443,23 @@ export function fetchAllDocuments() {
       dispatch({
         type: 'FETCH_ALL_DOCUMENTS',
         payload: res.body.result
+      });
+    });
+  };
+}
+
+
+/**
+ * @export
+ * @param {any} payload
+ * @returns
+ */
+export function searchUsers(value) {
+  return (dispatch) => {
+    request(`http://localhost:5000/search/users/?q=${value}`, 'get', null, (err, res) => {
+      dispatch({
+        type: 'USER_SEARCH',
+        payload: res.body
       });
     });
   };

@@ -7,7 +7,8 @@ import NavBar from '../navbar/navBar';
 import ViewUsers from './viewUsers';
 import '../../main.scss';
 import { isLoggedIn } from '../../helpers/auth';
-import { fetchUsers, userPagination } from '../../actions/actionCreator';
+import { fetchUsers, userPagination, searchUsers } from '../../actions/actionCreator';
+import SearchUser from './searchUser';
 
 
 class ManageUsers extends Component {
@@ -18,7 +19,10 @@ class ManageUsers extends Component {
       metadata: []
     };
     this.fetchAllUsers = this.fetchAllUsers.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+    this.displayData = this.displayData.bind(this);
   }
+
 
   componentDidMount() {
     if (!isLoggedIn()) {
@@ -43,15 +47,23 @@ class ManageUsers extends Component {
     const offset = (pageNumber - 1) * this.state.metadata.pageSize;
     this.props.userPagination(offset, 8);
   }
+
+  handleSearch(e) {
+    e.preventDefault();
+    const value = e.target.value;
+    this.props.searchUsers(value);
+  }
+
   render() {
     const users = this.props.users;
     const { totalCount, pageSize, currentPage, pageCount } = this.state.metadata;
     return (
       <div>
         <NavBar />
+        <SearchUser handleSearch={this.handleSearch} />
         <h3 style={{ fontWeight: 100, textAlign: 'center' }}>Manage Users </h3>
         { users.map((user, index) => <ViewUsers user={user} i={index} key={index} />)}
-        <Pagination items={pageCount} activePage={currentPage} maxButtons={Math.ceil(totalCount / pageSize)} onSelect={this.displayData.bind(this)} />
+        <Pagination items={pageCount} activePage={currentPage} maxButtons={Math.ceil(totalCount / pageSize)} onSelect={this.displayData} />
       </div>
     );
   }
@@ -68,7 +80,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     fetchUsers: bindActionCreators(fetchUsers, dispatch),
-    userPagination: bindActionCreators(userPagination, dispatch)
+    userPagination: bindActionCreators(userPagination, dispatch),
+    searchUsers: bindActionCreators(searchUsers, dispatch)
   };
 }
 

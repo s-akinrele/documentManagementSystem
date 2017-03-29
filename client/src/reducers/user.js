@@ -35,6 +35,9 @@ export default function users(state = [], action) {
         }
       });
       return newState;
+    case 'USER_SEARCH':
+      newState = action.payload;
+      return newState;
     default:
       return state;
   }
