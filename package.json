@@ -4,14 +4,14 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha server/test/**/*.spec.js --compilers js:babel-register",
+    "test": "mocha --require ignore-styles --compilers js:babel-register server/test/**/*.spec.js -w ./.setup.js client/test/**/*.spec.js",
     "start": "nodemon server/server.js --exec babel-node",
     "client": "webpack-dev-server --progress --inline --open",
     "build": "babel server -d dist",
     "serve": "node dist/server.js",
     "db_migrate": "sequelize db:migrate",
     "seed": "babel-node server/db/seeders/index.js",
-    "cover": "babel-node ./node_modules/babel-istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha server/test/**/*.spec.js",
+    "cover": "babel-node ./node_modules/babel-istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha js:babel-register server/test/**/*.spec.js -w ./.setup.js client/test/**/*.spec.js",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "client:test": "./node_modules/mocha/bin/_mocha --require ignore-styles -w ./.setup.js client/test/**/*.spec.js"
   },
