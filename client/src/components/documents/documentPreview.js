@@ -5,7 +5,7 @@ import '../../main.scss';
 
 const DocumentPreview = ({ document }) =>
   <Col s={12} m={6} l={3}>
-    <CardPanel className="lighten-4 black-text">
+    <CardPanel id="cardpanel" className="lighten-4 black-text">
       <Dropdown
         trigger={
           <NavItem href="#!">
@@ -15,14 +15,17 @@ const DocumentPreview = ({ document }) =>
       >
         <div>
           <ul>
-            <Link to={`/viewDocument/${document.id}`}>Details</Link>
+            <Link to={`/viewdocument/${document.id}`}>Details</Link>
           </ul>
         </div>
       </Dropdown>
       <h5 style={{ fontWeight: 100 }}>{document.title}</h5>
-      <span className="truncate" dangerouslySetInnerHTML={{ __html: document.content }} />
+      <span
+        id="content" className="truncate"
+        dangerouslySetInnerHTML={{ __html: document.content }}
+      />
       <div style={{ marginTop: `${2}em` }}>
-        <div className="access"><Icon>person_pin</Icon>
+        <div id="access" className="access"><Icon>person_pin</Icon>
           <div>{document.access}</div></div>
       </div>
     </CardPanel>

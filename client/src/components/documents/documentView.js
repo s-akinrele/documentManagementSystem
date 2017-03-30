@@ -37,7 +37,7 @@ class DocumentView extends Component {
     this.props.deleteDocument(documentId);
   }
   render() {
-    const userOwnsDocument = currentUser().id === this.props.documents.OwnerId;
+    const userOwnsDocument = currentUser().id === this.props.document.OwnerId;
     const modifyButtons = (
       <div>
         <div className="dialog"><EditDocument {...this.props} /> </div>
@@ -71,13 +71,13 @@ class DocumentView extends Component {
           <form className="col s6 card hoverable offset-s3">
             <div className="row">
               <div className="input-field col s6">
-                <h3 style={{ fontWeight: 100 }} name="title">{ this.props.documents ? this.props.documents.title : 'Loading'}</h3>
+                <h3 style={{ fontWeight: 100 }} name="title">{ this.props.document ? this.props.document.title : 'Loading'}</h3>
               </div>
             </div>
             <div className="row">
               <div className="input-field col s12">
-                {this.props.documents &&
-                <div dangerouslySetInnerHTML={{ __html: this.props.documents.content }} />}
+                {this.props.document &&
+                <div dangerouslySetInnerHTML={{ __html: this.props.document.content }} />}
               </div>
             </div>
             <div />
@@ -98,7 +98,7 @@ DocumentView.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  documents: state.documents,
+  document: state.document,
   handler: state.handler
 });
 

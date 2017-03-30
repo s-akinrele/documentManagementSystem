@@ -10,6 +10,7 @@ const NotFound = () =>
               <Col s={8} className="bkg">
                 <h2>Document Management System</h2>
                 <p
+                  id="dms"
                   className="text"
                 >
                   Document Management System helps you to manage your documents in an organized way.
@@ -18,7 +19,7 @@ const NotFound = () =>
               <Col s={4} className="login">
                 <div className=" shadow">
                   <h3 className="logo"> Page Not Found </h3>
-                  <p className="logo">Whoops! Sorry there is nothing to see here</p>
+                  <p id="sorry" className="logo">Whoops! Sorry there is nothing to see here</p>
                 </div>
               </Col>
 

@@ -33,7 +33,7 @@ class navBar extends Component {
     const permission = (
       <div>
         <ul>
-          <Link to="/manageRoles">Roles</Link>
+          <Link to="/manageroles">Roles</Link>
         </ul>
         <ul>
           <Link to="/users">Users</Link>
@@ -70,10 +70,5 @@ const mapStateToProps = state => ({
   metadata: state.documents
 });
 
-const mapDispatchToProps = () => ({
-  searchDocuments
-
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(navBar);
+export default connect(mapStateToProps, { searchDocuments })(navBar);
 

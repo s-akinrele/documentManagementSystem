@@ -88,7 +88,7 @@ class HomePage extends Component {
                         roles={roles}
                       />
                     </Tab>
-                    <Tab title="Why" active>
+                    <Tab title="Why">
                       <div>
                         <p className="why">We need this information so that you can receive access to the site and its content. Rest assured your information will not be sold, traded, or given to anyone.</p>
                       </div>
@@ -120,10 +120,10 @@ HomePage.propTypes = {
   fetchRoles: PropTypes.func.isRequired,
   signup: PropTypes.func.isRequired,
   handler: PropTypes.string.isRequired,
-  roles: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.number.isRequired
-  })
+  roles: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    title: PropTypes.string
+  })).isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

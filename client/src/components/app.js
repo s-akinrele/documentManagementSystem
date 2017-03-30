@@ -1,14 +1,12 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { PropTypes } from 'react';
 
-class App extends Component {
-  render() {
-    return (
+const App = props =>
       <div className="app">
-        {React.cloneElement(this.props.children, this.props)}
-      </div>
-    );
-  }
-}
+        {React.cloneElement(props.children, props)}
+      </div>;
 
-export default connect()(App);
+App.propTypes = {
+  children: PropTypes.node.isRequired
+};
+
+export default App;

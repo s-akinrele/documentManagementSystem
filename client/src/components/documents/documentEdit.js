@@ -49,13 +49,13 @@ class EditDocument extends Component {
         >
           <div>
             <Row>
-              <h5 style={{ fontWeight: 100 }}>{ this.props.documents ? this.props.documents.title : 'Loading'}</h5>
-              <label>{ this.props.documents ? this.props.documents.access : 'Loading'}</label>
+              <h5 style={{ fontWeight: 100 }}>{ this.props.document ? this.props.document.title : 'Loading'}</h5>
+              <label>{ this.props.document ? this.props.document.access : 'Loading'}</label>
 
             </Row>
-            {this.props.documents.content &&
+            {this.props.document.content &&
             <TinyMCE
-              content={this.props.documents.content}
+              content={this.props.document.content}
               config={{
                 plugins: 'link image code',
                 toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
@@ -70,7 +70,7 @@ class EditDocument extends Component {
  }
 
 const mapStateToProps = state => ({
-  documents: state.documents,
+  document: state.document,
   handler: state.handler
 });
 
@@ -80,7 +80,7 @@ const mapDispatchToProps = {
 
 EditDocument.propTypes = {
   editDocument: PropTypes.func.isRequired,
-  documents: PropTypes.shape({
+  document: PropTypes.shape({
     OwnerId: PropTypes.number,
     access: PropTypes.string,
     content: PropTypes.string,

@@ -19,9 +19,9 @@ const router = (
       <Route path="/" component={Main} >
         <IndexRoute component={homePage} />
         <Route path="/dashboard" component={dashBoard} />
-        <Route path="/viewDocument/:id" component={DocumentView} />
+        <Route path="/viewdocument/:id" component={DocumentView} />
         <Route path="/profile" component={Profile} />
-        <Route path="/manageRoles" component={ManageRole} />
+        <Route path="/manageroles" component={ManageRole} />
         <Route path="/users" component={ManageUser} />
         <Route path="*" component={NotFound} />
       </Route>
