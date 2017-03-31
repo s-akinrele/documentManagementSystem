@@ -10,7 +10,7 @@ import { fetchToken } from '../helpers/auth';
  * @returns
  */
 export const createDocument = data => (dispatch) => {
-  request('http://localhost:5000/documents', 'post', data, (err, res) => {
+  request('/documents', 'post', data, (err, res) => {
     if (err) {
       dispatch({
         type: 'MESSAGE',
@@ -30,7 +30,7 @@ export const createDocument = data => (dispatch) => {
 };
 
 export const signup = data => (dispatch) => {
-  request('http://localhost:5000/users/', 'post', data, (err, res) => {
+  request('/users/', 'post', data, (err, res) => {
     if (err) {
       dispatch({
         type: 'MESSAGE',
@@ -63,7 +63,7 @@ export const successMessage = message => ({
  * @returns
  */
 export const editDocument = (documentId, data) => (dispatch) => {
-  request(`http://localhost:5000/documents/${documentId}`, 'put', data, (err, res) => {
+  request(`/documents/${documentId}`, 'put', data, (err, res) => {
     if (err) {
       Materialize.toast('Unable to edit document', 4000, 'rounded');
     }
@@ -72,7 +72,7 @@ export const editDocument = (documentId, data) => (dispatch) => {
       payload: res.body,
       id: documentId
     });
-    Materialize.toast('Succesful', 4000, 'rounded');
+    Materialize.toast('Successful', 4000, 'rounded');
   });
 };
 
@@ -83,7 +83,7 @@ export const editDocument = (documentId, data) => (dispatch) => {
  */
 export const deleteDocument = documentId => (dispatch) => {
   req
-      .delete(`http://localhost:5000/documents/${documentId}`)
+      .delete(`/documents/${documentId}`)
       .set('x-access-token', fetchToken())
       .end((err, res) => {
         if (err) {
@@ -107,7 +107,7 @@ export const deleteDocument = documentId => (dispatch) => {
  * @returns
  */
 export const fetchUserDocument = () => (dispatch) => {
-  request('http://localhost:5000/users/documents', 'get', null, (err, res) => {
+  request('/users/documents', 'get', null, (err, res) => {
     dispatch({
       type: 'PAGINATION',
       payload: { metadata: res.body.paginationMeta, result: res.body.result }
@@ -125,7 +125,7 @@ export const fetchUserDocument = () => (dispatch) => {
  * @returns
  */
 export const fetchDocumentById = documentId => (dispatch) => {
-  request(`http://localhost:5000/documents/${documentId}`, 'get', null, (err, res) => {
+  request(`/documents/${documentId}`, 'get', null, (err, res) => {
     if (err) {
       Materialize.toast('Unable to get document', 4000, 'rounded');
     }
@@ -142,7 +142,7 @@ export const fetchDocumentById = documentId => (dispatch) => {
  * @returns
  */
 export const resetPassword = (userId, data) => (dispatch) => {
-  request(`http://localhost:5000/users/${userId}/password`, 'put', data, (err, res) => {
+  request(`/users/${userId}/password`, 'put', data, (err, res) => {
     if (err) {
       dispatch({
         type: 'MESSAGE',
@@ -168,7 +168,7 @@ export const resetPassword = (userId, data) => (dispatch) => {
  * @returns
  */
 export const fetchRoles = () => (dispatch) => {
-  request('http://localhost:5000/role', 'get', null, (err, res) => {
+  request('/role', 'get', null, (err, res) => {
     if (err) {
         // show toast that create failed
     } else {
@@ -188,7 +188,7 @@ export const fetchRoles = () => (dispatch) => {
  */
 export const deleteRole = roleId => (dispatch) => {
   req
-      .delete(`http://localhost:5000/role/${roleId}`)
+      .delete(`/role/${roleId}`)
       .set('x-access-token', fetchToken())
       .end((err, res) => {
         if (err) {
@@ -210,7 +210,7 @@ export const deleteRole = roleId => (dispatch) => {
  * @returns
  */
 export const createRole = data => (dispatch) => {
-  request('http://localhost:5000/role', 'post', data, (err, res) => {
+  request('/role', 'post', data, (err, res) => {
     if (err) {
       Materialize.toast('Unable to create Role', 4000, 'rounded');
     }
@@ -228,7 +228,7 @@ export const createRole = data => (dispatch) => {
  * @returns
  */
 export const editRole = (data, roleId) => (dispatch) => {
-  request(`http://localhost:5000/role/${roleId}`, 'put', data, (err, res) => {
+  request(`/role/${roleId}`, 'put', data, (err, res) => {
     if (err) {
       Materialize.toast('Unable to edit Role', 4000, 'rounded');
     }
@@ -247,7 +247,7 @@ export const editRole = (data, roleId) => (dispatch) => {
  * @returns
  */
 export const searchDocuments = (userId, value) => (dispatch) => {
-  request(`http://localhost:5000/users/${userId}/documents?q=${value}`, 'get', null, (err, res) => {
+  request(`/users/${userId}/documents?q=${value}`, 'get', null, (err, res) => {
     dispatch({
       type: 'FETCH_DOCUMENTS',
       payload: res.body
@@ -261,7 +261,7 @@ export const searchDocuments = (userId, value) => (dispatch) => {
  * @returns
  */
 export const pagination = (offset, limit) => (dispatch) => {
-  request(`http://localhost:5000/users/documents?offset=${offset}&limit=${limit}`, 'get', null, (err, res) => {
+  request(`/users/documents?offset=${offset}&limit=${limit}`, 'get', null, (err, res) => {
     dispatch({
       type: 'FETCH_DOCUMENTS',
       payload: res.body.result
@@ -275,7 +275,7 @@ export const pagination = (offset, limit) => (dispatch) => {
  * @returns
  */
 export const fetchUsers = () => (dispatch) => {
-  request('http://localhost:5000/users', 'get', null, (err, res) => {
+  request('/users', 'get', null, (err, res) => {
     dispatch({
       type: 'PAGINATION',
       payload: { metadata: res.body.paginationMeta, result: res.body.result }
@@ -298,7 +298,7 @@ export const fetchUsers = () => (dispatch) => {
  * @returns
  */
 export const editUser = (userId, data) => (dispatch) => {
-  request(`http://localhost:5000/users/${userId}`, 'put', data, (err, res) => {
+  request(`/users/${userId}`, 'put', data, (err, res) => {
     if (err) {
       Materialize.toast('Unable to edit user', 4000, 'rounded');
     }
@@ -317,7 +317,7 @@ export const editUser = (userId, data) => (dispatch) => {
  * @returns
  */
 export const userPagination = (offset, limit) => (dispatch) => {
-  request(`http://localhost:5000/users?offset=${offset}&limit=${limit}`, 'get', null, (err, res) => {
+  request(`/users?offset=${offset}&limit=${limit}`, 'get', null, (err, res) => {
     dispatch({
       type: 'FETCH_USERS',
       payload: res.body.result
@@ -333,7 +333,7 @@ export const userPagination = (offset, limit) => (dispatch) => {
  */
 export const deleteUser = userId => (dispatch) => {
   req
-      .delete(`http://localhost:5000/users/${userId}`)
+      .delete(`/users/${userId}`)
       .set('x-access-token', fetchToken())
       .end((err, res) => {
         if (err) {
@@ -356,7 +356,7 @@ export const deleteUser = userId => (dispatch) => {
  * @returns
  */
 export const filterPrivateDocuments = () => (dispatch) => {
-  request('http://localhost:5000/documents/access/private', 'get', null, (err, res) => {
+  request('/documents/access/private', 'get', null, (err, res) => {
     if (err) {
       Materialize.toast('An error occurred', 4000, 'rounded');
     } else {
@@ -375,7 +375,7 @@ export const filterPrivateDocuments = () => (dispatch) => {
  * @returns
  */
 export const filterAccessibleDocuments = () => (dispatch) => {
-  request('http://localhost:5000/accessible/documents', 'get', null, (err, res) => {
+  request('/accessible/documents', 'get', null, (err, res) => {
     if (err) {
       Materialize.toast('An error occurred', 4000, 'rounded');
     } else {
@@ -392,7 +392,7 @@ export const filterAccessibleDocuments = () => (dispatch) => {
  * @returns
  */
 export const fetchAllDocuments = () => (dispatch) => {
-  request('http://localhost:5000/documents', 'get', null, (err, res) => {
+  request('/documents', 'get', null, (err, res) => {
     dispatch({
       type: 'PAGINATION',
       payload: { metadata: res.body.paginationMeta, result: res.body.result }
@@ -411,7 +411,7 @@ export const fetchAllDocuments = () => (dispatch) => {
  * @returns
  */
 export const searchUsers = value => (dispatch) => {
-  request(`http://localhost:5000/search/users/?q=${value}`, 'get', null, (err, res) => {
+  request(`/search/users/?q=${value}`, 'get', null, (err, res) => {
     dispatch({
       type: 'USER_SEARCH',
       payload: res.body
