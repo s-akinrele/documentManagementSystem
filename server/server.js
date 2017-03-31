@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import webpack from 'webpack';
 import path from 'path';
-import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import routes from './routes/index';
 import webpackConfig from '../webpack.config';
@@ -14,7 +13,6 @@ require('dotenv').config();
 
 const app = express();
 const router = express.Router();
-app.use(morgan());
 
 app.use(express.static(path.join(__dirname, '../client')));
 
