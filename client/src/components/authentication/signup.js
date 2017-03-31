@@ -3,7 +3,7 @@ import { Button, Icon, Input } from 'react-materialize';
 import '../../main.scss';
 
 
-const Signup = ({ handleChange, user, roles, handleSignup }) =>
+const Signup = ({ handleChange, user, handleSignup }) =>
   <div>
     <form method="post" onSubmit={handleSignup}>
       <p className="logo">Create an account </p>
@@ -39,19 +39,6 @@ const Signup = ({ handleChange, user, roles, handleSignup }) =>
         value={user.email}
         required
       />
-      <div className="input-field col s4" style={{ width: '150px' }}>
-        <select
-          name="RoleId"
-          style={{ display: 'block' }}
-          defaultValue="0"
-          onChange={handleChange}
-        >
-          <option value="0" disabled >Select Role</option>
-          {roles && roles.map(role => (
-            <option key={role.id} value={role.id}>{role.title}</option>
-          ))}
-        </select>
-      </div>
       <Input
         type="password"
         label="password"
@@ -79,11 +66,7 @@ Signup.propTypes = {
     email: PropTypes.string,
     password: PropTypes.string,
     RoleId: PropTypes.string
-  }).isRequired,
-  roles: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string
-  })).isRequired
+  }).isRequired
 };
 
 export default Signup;

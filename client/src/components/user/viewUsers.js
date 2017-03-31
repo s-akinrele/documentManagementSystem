@@ -16,7 +16,8 @@ class ViewUsers extends Component {
     const data = {
       username: this.refs.username.value,
       firstname: this.refs.firstname.value,
-      lastname: this.refs.lastname.value
+      lastname: this.refs.lastname.value,
+      RoleId: this.refs.RoleId.value
     };
     this.props.editUser(userId, data);
   }
@@ -26,6 +27,7 @@ class ViewUsers extends Component {
   }
 
   render() {
+    const roles = this.props.roles;
     return (
       <div>
         <div className="row">
@@ -54,7 +56,7 @@ class ViewUsers extends Component {
                         ref="username"
                         type="text"
                         className="validate"
-                        defaultValue={this.props.user.username} 
+                        defaultValue={this.props.user.username}
                       />
                     </div>
                     <div className="input-field col s6">
@@ -74,6 +76,18 @@ class ViewUsers extends Component {
                         className="validate"
                         defaultValue={this.props.user.lastname}
                       />
+                    </div>
+                    <div className="input-field col s4" style={{ width: '150px' }}>
+                      <select
+                        ref="RoleId"
+                        style={{ display: 'block' }}
+                        defaultValue="0"
+                      >
+                        <option value="0" disabled >Select Role</option>
+                        {roles && roles.map(role => (
+                          <option key={role.id} value={role.id}>{role.title}</option>
+                      ))}
+                      </select>
                     </div>
                     <div className="input-field col s6">
                       <i className="material-icons prefix">assignment_ind</i>
@@ -101,10 +115,15 @@ class ViewUsers extends Component {
 
 ViewUsers.propTypes = {
   editUser: PropTypes.func.isRequired,
-  deleteUser: PropTypes.func.isRequired
+  deleteUser: PropTypes.func.isRequired,
+  roles: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    title: PropTypes.string
+  })).isRequired
 };
 
 const mapStateToProps = state => ({
+  roles: state.roles,
   users: state.users
 });
 

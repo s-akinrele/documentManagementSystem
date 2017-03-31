@@ -134,7 +134,6 @@ const Userctrl = {
           username: body.username || user.username,
           firstname: body.firstname || user.firstname,
           lastname: body.lastname || user.lastname,
-          password: body.password || user.password,
           email: body.email || user.email,
           RoleId: req.decoded.RoleId === 1 && body.RoleId ? body.RoleId : user.RoleId
         })

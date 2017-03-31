@@ -17,7 +17,6 @@ class HomePage extends Component {
         username: '',
         firstname: '',
         lastname: '',
-        RoleId: '',
         email: '',
         password: ''
       }
@@ -85,7 +84,6 @@ class HomePage extends Component {
                         user={user}
                         handleChange={this.handleChange}
                         handleSignup={this.handleSignup}
-                        roles={roles}
                       />
                     </Tab>
                     <Tab title="Why">
@@ -106,7 +104,6 @@ class HomePage extends Component {
 }
 
 const mapStateToProps = state => ({
-  roles: state.roles,
   handler: state.handler
 });
 
@@ -119,11 +116,7 @@ const mapDispatchToProps = {
 HomePage.propTypes = {
   fetchRoles: PropTypes.func.isRequired,
   signup: PropTypes.func.isRequired,
-  handler: PropTypes.string.isRequired,
-  roles: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string
-  })).isRequired
+  handler: PropTypes.string.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

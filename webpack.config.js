@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 const config = {
   context: path.join(__dirname, 'client/src'),
@@ -31,6 +32,10 @@ const config = {
   devServer: {
     contentBase: 'client/public',
     historyApiFallback: true
-  }
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
+  ]
 };
 module.exports = config;
