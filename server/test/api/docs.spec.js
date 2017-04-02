@@ -41,6 +41,7 @@ describe('Document suite', () => {
         assert.typeOf(res.body.paginationMeta, 'object');
         done();
       });
+    });
     it('Should return all documents if offset and limit is invalid', (done) => {
       server
       .get('/documents/?limit=a&offset=c')
