@@ -40,7 +40,7 @@ class navBar extends Component {
           <Link id="role" to="/manageroles">Roles</Link>
         </ul>
         <ul>
-          <Link id="user" to="/users">Users</Link>
+          <Link id="user" to="/manageusers">Users</Link>
         </ul> </div>
     );
     let searchNav;

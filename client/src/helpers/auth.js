@@ -29,3 +29,9 @@ export const isLoggedIn = () => {
   return false;
 };
 
+export const checkAuth = (nextState, replace, callback) => {
+  if (!isLoggedIn()) {
+    replace('/');
+  }
+  return callback();
+};

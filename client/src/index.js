@@ -11,6 +11,7 @@ import Profile from './components/user/profile';
 import ManageRole from './components/roles/manageRoles';
 import ManageUser from './components/user/manageUser';
 import Main from './main';
+import { checkAuth } from './helpers/auth';
 
 
 const router = (
@@ -18,11 +19,11 @@ const router = (
     <Router history={history}>
       <Route path="/" component={Main} >
         <IndexRoute component={homePage} />
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/viewdocument/:id" component={DocumentView} />
-        <Route path="/profile" component={Profile} />
-        <Route path="/manageroles" component={ManageRole} />
-        <Route path="/users" component={ManageUser} />
+        <Route path="/dashboard" component={Dashboard} onEnter={checkAuth} />
+        <Route path="/profile" component={Profile} onEnter={checkAuth} />
+        <Route path="/manageroles" component={ManageRole} onEnter={checkAuth} />
+        <Route path="/manageusers" component={ManageUser} onEnter={checkAuth} />
+        <Route path="/viewdocument/:id" component={DocumentView} onEnter={checkAuth} />
         <Route path="*" component={NotFound} />
       </Route>
     </Router>

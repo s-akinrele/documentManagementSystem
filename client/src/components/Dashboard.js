@@ -73,6 +73,10 @@ const mapDispatchToProps = {
   pagination
 };
 
+Dashboard.contextTypes = {
+  router: PropTypes.object
+};
+
 Dashboard.propTypes = {
   fetchUserDocument: PropTypes.func.isRequired,
   documents: PropTypes.arrayOf(PropTypes.shape({
