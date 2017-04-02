@@ -38,9 +38,9 @@ class ViewRoles extends Component {
               <li className="collection-item"><div className="role">{this.props.role.title}</div>
                 <Modal
                   header="Manage Role"
-                  actions={[<Button style={{ marginLeft: `${2}em` }} className="btn-cancel" waves="light" modal="close" flat>Close</Button>, <Button waves="light" flat className="btn-save" onClick={this.handleRoleEdit} modal="close">Save</Button>]}
+                  actions={[<Button style={{ marginLeft: `${2}em` }} className="btn-cancel" waves="light" modal="close" flat>Close</Button>, <Button id="role-edit" waves="light" flat className="btn-save" onClick={this.handleRoleEdit} modal="close" >Save</Button>]}
                   trigger={
-                    <Button waves="light" className="btn-save right"><Icon>edit</Icon> </Button>
+                    <Button waves="light" id={`btn-${this.props.role.title.toLowerCase()}`} className="btn-save right"><Icon>edit</Icon> </Button>
   }
                 >
                   <div>

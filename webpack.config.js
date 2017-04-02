@@ -4,7 +4,6 @@ const webpack = require('webpack');
 const config = {
   context: path.join(__dirname, 'client/src'),
   entry: './index.js',
-
   output: {
     filename: 'bundle.js',
     publicPath: '/',
@@ -35,7 +34,8 @@ const config = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin()
   ]
 };
 module.exports = config;

@@ -32,6 +32,7 @@ const Signup = ({ handleChange, user, handleSignup }) =>
         required
       />
       <Input
+        id="em"
         type="email"
         label="Email"
         name="email"
@@ -40,6 +41,7 @@ const Signup = ({ handleChange, user, handleSignup }) =>
         required
       />
       <Input
+        id="pd"
         type="password"
         label="password"
         name="password"
@@ -48,6 +50,7 @@ const Signup = ({ handleChange, user, handleSignup }) =>
         required
       />
       <Button
+        id="sub"
         type="submit"
         className="btn"
         waves="light"

@@ -58,7 +58,6 @@ class HomePage extends Component {
     Materialize.toast('Welcome', 4000, this.props.handler);
   }
   render() {
-    const { roles } = this.props;
     const { user } = this.state;
     return (
       <div className="Main">
@@ -66,8 +65,14 @@ class HomePage extends Component {
           <Col s={12}>
             <Row>
               <Col s={8} className="bkg">
-                <h2>Document Management System</h2>
-                <p className="text">Document Management System helps you to manage your documents in an organized way. You can create a document, edit it and share it with other users. </p>
+                <h2 id="title" >Document Management System</h2>
+                <p
+                  id="text"
+                  className="text"
+                >
+                  Document Management System helps you to manage
+                  your documents in an organized way. You can create a document,
+                  edit it and share it with other users. </p>
               </Col>
               <Col s={4} className="login">
                 <div className=" shadow">
@@ -79,16 +84,19 @@ class HomePage extends Component {
                         handleChange={this.handleChange}
                       />
                     </Tab>
-                    <Tab title="Sign up">
+                    <Tab title="Sign up" className="signup">
                       <Signup
                         user={user}
                         handleChange={this.handleChange}
                         handleSignup={this.handleSignup}
                       />
                     </Tab>
-                    <Tab title="Why">
+                    <Tab title="Why" className="info">
                       <div>
-                        <p className="why">We need this information so that you can receive access to the site and its content. Rest assured your information will not be sold, traded, or given to anyone.</p>
+                        <p id="why" className="why">We need this information so that you
+                           can receive access to the site and its content.
+                           Rest assured your information will not be sold,
+                           traded, or given to anyone.</p>
                       </div>
                     </Tab>
                   </Tabs>

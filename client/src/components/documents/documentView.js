@@ -67,7 +67,7 @@ class DocumentView extends Component {
             </div>
           </div>
         </div>
-        <div className="row">
+        <div className="row" id="view">
           <form className="col s6 card hoverable offset-s3">
             <div className="row">
               <div className="input-field col s6">

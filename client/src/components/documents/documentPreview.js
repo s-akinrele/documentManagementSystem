@@ -15,7 +15,7 @@ const DocumentPreview = ({ document }) =>
       >
         <div>
           <ul>
-            <Link to={`/viewdocument/${document.id}`}>Details</Link>
+            <Link id="view" to={`/viewdocument/${document.id}`}>Details</Link>
           </ul>
         </div>
       </Dropdown>

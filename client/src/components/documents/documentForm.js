@@ -25,7 +25,6 @@ class DocumentForm extends Component {
  * @memberOf DocumentForm
  */
   componentDidMount() {
-    $('select').material_select();
     $('#access').change((e) => {
       const selectedValue = $(e.target).val();
       if (selectedValue.toLowerCase() === 'private') {
@@ -73,16 +72,16 @@ class DocumentForm extends Component {
     return (
       <Modal
         header="Add New Document"
-        actions={[<Button style={{ marginLeft: `${2}em` }} className="btn-cancel" waves="light" modal="close" flat>Close</Button>, <Button waves="light" flat className="btn-save" onClick={this.handleSubmit} modal="close">Save</Button>]}
+        actions={[<Button style={{ marginLeft: `${2}em` }} className="btn-cancel" waves="light" modal="close" flat>Close</Button>, <Button id="sav" waves="light" flat className="btn-save" onClick={this.handleSubmit} modal="close">Save</Button>]}
         trigger={
-          <Button floating waves="light" icon="add" className="red" large />
+          <Button id="createdocument" floating waves="light" icon="add" className="red" large />
         }
       >
         <div>
           <Row>
             <Input s={4} ref="title" name="title" label="Document Title" validate icon="subtitles" />
             <div className="input-field col s4">
-              <select ref="access" id="access" defaultValue="0">
+              <select style={{ display: 'block' }} ref="access" id="access" defaultValue="0">
                 <option value="0" disabled >Select Access</option>
                 <option value="private">Private</option>
                 <option value="public">Public</option>
@@ -96,12 +95,13 @@ class DocumentForm extends Component {
 
           </Row>
           <TinyMCE
+            id="tiny"
             content="<p>This is the initial content of the editor</p>"
             config={{
               plugins: 'link image code',
               toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
             }}
-            onChange={this.handleEditorChange}
+            onSetContent={this.handleEditorChange}
           />
         </div>
       </Modal>

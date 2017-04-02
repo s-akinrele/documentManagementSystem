@@ -41,6 +41,17 @@ describe('Document suite', () => {
         assert.typeOf(res.body.paginationMeta, 'object');
         done();
       });
+    it('Should return all documents if offset and limit is invalid', (done) => {
+      server
+      .get('/documents/?limit=a&offset=c')
+      .expect(200)
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.isNotNull(res.body.paginationMeta);
+        assert.typeOf(res.body.paginationMeta, 'object');
+        done();
+      });
     });
     it('Should return document when searched by the document id', (done) => {
       server

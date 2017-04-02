@@ -21,7 +21,7 @@ class AddRole extends Component {
       <div>
         <Modal
           header="Create a new Role"
-          actions={[<Button style={{ marginLeft: `${2}em` }} className="btn-cancel" waves="light" modal="close" flat>Close</Button>, <Button waves="light" flat className="btn-save" onClick={this.handleSubmit} modal="close">Save</Button>]}
+          actions={[<Button style={{ marginLeft: `${2}em` }} className="btn-cancel" waves="light" modal="close" flat>Close</Button>, <Button waves="light" id="add-role" flat className="btn-save" onClick={this.handleSubmit} modal="close">Save</Button>]}
           trigger={
             <Button floating waves="light" icon="add" className="red" large />
   }

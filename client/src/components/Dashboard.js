@@ -45,7 +45,7 @@ class Dashboard extends Component {
     return (
       <div className="Main">
         <NavBar {...this.props} />
-        <div className="container">
+        <div id="main" className="container">
           <Filter {...this.props} />
           <Row>
             { documents.map((document, index) =>

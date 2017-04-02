@@ -255,6 +255,15 @@ export const searchDocuments = (userId, value) => (dispatch) => {
   });
 };
 
+export const searchAllDocuments = value => (dispatch) => {
+  request(`/search/documents/?q=${value}`, 'get', null, (err, res) => {
+    dispatch({
+      type: 'FETCH_DOCUMENTS',
+      payload: res.body
+    });
+  });
+};
+
 /**
  * @export
  * @param {any} payload

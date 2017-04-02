@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { browserHistory, Link } from 'react-router';
 import '../../main.scss';
 import { logout, currentUser } from '../../helpers/auth';
-import { searchDocuments } from '../../actions/actionCreator';
+import { searchDocuments, searchAllDocuments } from '../../actions/actionCreator';
 
 class navBar extends Component {
   constructor() {
@@ -26,25 +26,41 @@ class navBar extends Component {
     e.preventDefault();
     const userId = currentUser().id;
     const value = e.target.value;
-    this.props.searchDocuments(userId, value);
+    if (currentUser().RoleId === 1) {
+      this.props.searchAllDocuments(value);
+    } else {
+      this.props.searchDocuments(userId, value);
+    }
   }
   render() {
     const isAdmin = currentUser().RoleId === 1;
     const permission = (
       <div>
         <ul>
-          <Link to="/manageroles">Roles</Link>
+          <Link id="role" to="/manageroles">Roles</Link>
         </ul>
         <ul>
-          <Link to="/users">Users</Link>
+          <Link id="user" to="/users">Users</Link>
         </ul> </div>
     );
+    let searchNav;
+    if (!this.props.documents) {
+      searchNav = 'none';
+    }
     return (
-      <Navbar brand="DMS" className="dms" right>
-        <NavItem> <Input s={6} label="Search" onChange={this.handleSearch} validate><Icon>search</Icon></Input> </NavItem>
+      <Navbar id="nav" brand="DMS" className="dms" right>
+        <NavItem style={{ display: searchNav }}>
+          <Input
+            id="search"
+            s={6}
+            label="Search"
+            onChange={this.handleSearch}
+            validate
+            className="search"
+          ><Icon>search</Icon></Input> </NavItem>
         <Dropdown
           trigger={
-            <NavItem href="#!">
+            <NavItem id="more_vert" href="#!">
               <Icon>more_vert</Icon>
             </NavItem>
             }
@@ -63,12 +79,22 @@ class navBar extends Component {
 }
 
 navBar.propTypes = {
-  searchDocuments: PropTypes.func.isRequired
+  searchDocuments: PropTypes.func.isRequired,
+  searchAllDocuments: PropTypes.func.isRequired,
+  documents: PropTypes.arrayOf(PropTypes.shape({
+    OwnerId: PropTypes.number,
+    access: PropTypes.string,
+    content: PropTypes.string,
+    createdAt: PropTypes.string,
+    id: PropTypes.number,
+    title: PropTypes.string,
+    updatedAt: PropTypes.string
+  }))
 };
 
 const mapStateToProps = state => ({
   metadata: state.documents
 });
 
-export default connect(mapStateToProps, { searchDocuments })(navBar);
+export default connect(mapStateToProps, { searchDocuments, searchAllDocuments })(navBar);
 
