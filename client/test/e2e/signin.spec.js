@@ -1,6 +1,5 @@
 
 module.exports = {
-  '@disabled': true,
   'Login Users': (browser) => {
     browser
       .url('http://localhost:5000')

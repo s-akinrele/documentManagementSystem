@@ -1,7 +1,6 @@
 import faker from 'faker';
 
 module.exports = {
-  '@disabled': true,
   'Sign up': (browser) => {
     browser
         .url('http://localhost:5000')

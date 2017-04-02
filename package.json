@@ -12,7 +12,7 @@
     "db_migrate": "sequelize db:migrate",
     "seed": "babel-node server/db/seeders/index.js",
     "cover": "babel-node ./node_modules/babel-istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha js:babel-register server/test/**/*.spec.js -w ./.setup.js client/test/**/*.spec.js",
-    "coverage": "NODE_ENV=test rm -rf /coverage && node_modules/.bin/babel-node node_modules/.bin/babel-istanbul cover node_modules/.bin/_mocha --reporter server/test/**/*.spec.js ./.setup.js client/test/**/*.spec.js -- --require ignore-styles && npm run coveralls --timeout 60000",
+    "coverage": "NODE_ENV=test rm -rf /coverage && node_modules/.bin/babel-node node_modules/.bin/babel-istanbul cover node_modules/.bin/_mocha --reporter server/test/**/*.spec.js --timeout 60000 ./.setup.js client/test/**/*.spec.js -- --require ignore-styles && npm run coveralls",
     "coveralls": "cat ./coverage/*.info | ./node_modules/coveralls/bin/coveralls.js",
     "client:test": "./node_modules/mocha/bin/_mocha --require ignore-styles -w ./.setup.js client/test/**/*.spec.js",
     "server:test": "mocha server/test/**/*.spec.js --compilers js:babel-register --timeout 60000",

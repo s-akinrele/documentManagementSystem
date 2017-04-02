@@ -2,7 +2,6 @@ import faker from 'faker';
 
 
 module.exports = {
-  '@disabled': true,
   'Edit document': (browser) => {
     browser
      .url('http://localhost:5000')

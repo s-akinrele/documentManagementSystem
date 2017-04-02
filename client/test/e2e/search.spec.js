@@ -1,6 +1,5 @@
 
 module.exports = {
-  '@disabled': true,
   Search: (browser) => {
     browser
      .url('http://localhost:5000')

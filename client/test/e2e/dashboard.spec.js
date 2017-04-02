@@ -1,5 +1,4 @@
 module.exports = {
-  '@disabled': true,
   'Dashboard page': (browser) => {
     browser
           .url('http://localhost:5000')
