@@ -9,7 +9,8 @@ let jwtToken;
 
 
 describe('Document suite', () => {
-  describe('Test Document', () => {
+  describe('Test Document', function() {
+    this.timeout(60000);
     before((done) => {
       server
       .post('/users/')
