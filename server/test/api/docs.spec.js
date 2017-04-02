@@ -42,7 +42,7 @@ describe('Document suite', () => {
         done();
       });
     });
-    it('Should return all documents if offset and limit is invalid', (done) => {
+    it('Should test for pagination meta when returning all documents', (done) => {
       server
       .get('/documents/?limit=a&offset=c')
       .expect(200)
