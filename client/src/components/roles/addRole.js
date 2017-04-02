@@ -5,13 +5,21 @@ import '../../main.scss';
 import { createRole } from '../../actions/actionCreator';
 
 class AddRole extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.state = {
+      role: ''
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleRoleChange = this.handleRoleChange.bind(this);
+  }
+
+  handleRoleChange(e) {
+    this.setState({ role: e.target.value });
   }
   handleSubmit() {
     const data = {
-      title: this.refs.role.value,
+      title: this.state.role
     };
     this.props.createRole(data);
   }
@@ -29,7 +37,7 @@ class AddRole extends Component {
           <div>
             <div className="input-field col s6">
               <i className="material-icons prefix">person_pin</i>
-              <input id="role" ref="role" type="text" className="validate" />
+              <input id="role" name="role" type="text" value={this.state.role} className="validate" onChange={this.handleRoleChange} />
               <label htmlFor="icon_telephone">New Role</label>
             </div>
           </div>

@@ -144,20 +144,14 @@ export const fetchDocumentById = documentId => (dispatch) => {
 export const resetPassword = (userId, data) => (dispatch) => {
   request(`/users/${userId}/password`, 'put', data, (err, res) => {
     if (err) {
-      dispatch({
-        type: 'MESSAGE',
-        message: 'An error occured'
-      });
+      Materialize.toast('Your password is incorrect');
     } else {
       dispatch({
         type: 'PASSWORD_RESET',
         payload: res.body,
         id: userId
       });
-      dispatch({
-        type: 'MESSAGE',
-        message: 'You password has been reset'
-      });
+      Materialize.toast('Your password has been updated', 4000);
     }
   });
 };

@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha --require ignore-styles --compilers js:babel-register server/test/**/*.spec.js -w ./.setup.js client/test/**/*.spec.js --timeout 60000",
-    "start": "nodemon server/server.js --exec babel-node",
+    "start": "nodemon server/server.js --exec babel-node --ignore ./client",
     "client": "webpack-dev-server --progress --inline --open",
     "build": "babel server -d dist",
     "serve": "node dist/server.js",

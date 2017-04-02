@@ -18,6 +18,7 @@ app.use(express.static(path.join(__dirname, '../client')));
 
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
+  hot: true,
   publicPath: webpackConfig.output.publicPath
 }));
 

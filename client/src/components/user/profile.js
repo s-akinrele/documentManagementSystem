@@ -11,17 +11,26 @@ import { resetPassword } from '../../actions/actionCreator';
  * @extends {Component}
  */
 class Profile extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.state = {
+      oldPassword: '',
+      newPassword: '',
+      confirmPassword: ''
+    };
 
     this.handlePasswordReset = this.handlePasswordReset.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
+  handleChange(e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({ [name]: value });
+  }
   handlePasswordReset() {
+    const { oldPassword, newPassword, confirmPassword } = this.state;
     const userId = currentUser().id;
-    const oldPassword = this.refs.oldPassword.value;
-    const newPassword = this.refs.newPassword.value;
-    const confirmPassword = this.refs.confirmPassword.value;
     if (newPassword.length >= 6 && confirmPassword.length >= 6) {
       const isPasswordSame = newPassword === confirmPassword;
       const data = {
@@ -31,7 +40,6 @@ class Profile extends Component {
       };
       if (isPasswordSame) {
         this.props.resetPassword(userId, data);
-        Materialize.toast('Your password has been updated', 4000, this.props.handler);
       } else {
         Materialize.toast('Password does not match', 4000, 'rounded');
       }
@@ -66,23 +74,23 @@ class Profile extends Component {
               header="Reset Password"
               actions={[<Button style={{ marginLeft: `${2}em` }} className="btn-cancel" waves="light" modal="close" flat>Close</Button>, <Button waves="light" flat className="btn-save" modal="close" onClick={this.handlePasswordReset}>Update</Button>]}
               trigger={
-                <Button waves="light" className="btn-save right"><Icon>edit</Icon> </Button>
+                <Button waves="light" className="btn-save right">Change Password </Button>
                }
             >
               <div>
                 <div className="input-field col s6">
                   <i className="material-icons prefix">verified_user</i>
-                  <input id="password" ref="oldPassword" type="password" className="validate" />
+                  <input id="password" name="oldPassword" type="password" value={this.state.oldPassword} className="validate" onChange={this.handleChange} />
                   <label htmlFor="icon_telephone">Old Password</label>
                 </div>
                 <div className="input-field col s6">
                   <i className="material-icons prefix">verified_user</i>
-                  <input id="password" ref="newPassword" type="password" className="validate" />
+                  <input id="password" name="newPassword" type="password" className="validate" value={this.state.newPassword} onChange={this.handleChange} />
                   <label htmlFor="icon_telephone">New Password</label>
                 </div>
                 <div className="input-field col s6">
                   <i className="material-icons prefix">verified_user</i>
-                  <input id="password" ref="confirmPassword" type="password" className="validate" />
+                  <input id="password" name="confirmPassword" type="password" value={this.state.confirmPassword} className="validate" onChange={this.handleChange} />
                   <label htmlFor="icon_telephone">Confirm Password</label>
                 </div>
               </div>

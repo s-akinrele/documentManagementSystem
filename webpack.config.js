@@ -2,8 +2,13 @@ const path = require('path');
 const webpack = require('webpack');
 
 const config = {
+  devtool: 'inline-source-map',
   context: path.join(__dirname, 'client/src'),
-  entry: './index.js',
+  entry: [
+    'webpack-hot-middleware/client?reload=true', // note that it reloads
+    // the page if hot module reloading fails.
+    path.resolve(__dirname, 'client/src/index')
+  ],
   output: {
     filename: 'bundle.js',
     publicPath: '/',

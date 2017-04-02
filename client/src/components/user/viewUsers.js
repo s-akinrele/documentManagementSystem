@@ -6,18 +6,38 @@ import '../../main.scss';
 import { editUser, deleteUser } from '../../actions/actionCreator';
 
 class ViewUsers extends Component {
-  constructor() {
-    super();
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: props.user.username,
+      firstname: props.user.firstname,
+      lastname: this.props.user.lastname,
+      email: this.props.user.email,
+      RoleId: '0'
+    };
     this.handleUserDelete = this.handleUserDelete.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.handleUserEdit = this.handleUserEdit.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
   }
+  onChange(e) {
+    const value = e.target.value;
+    const name = e.target.name;
+    this.setState({ [name]: value });
+  }
+  handleSelect(e) {
+    this.setState({ RoleId: e.target.value });
+  }
+
   handleUserEdit() {
     const userId = this.props.user.id;
+    const { username, firstname, lastname, email, RoleId } = this.state;
     const data = {
-      username: this.refs.username.value,
-      firstname: this.refs.firstname.value,
-      lastname: this.refs.lastname.value,
-      RoleId: this.refs.RoleId.value
+      username,
+      firstname,
+      lastname,
+      email,
+      RoleId
     };
     this.props.editUser(userId, data);
   }
@@ -44,7 +64,7 @@ class ViewUsers extends Component {
                 </div>
                 <Modal
                   header="Manage User"
-                  actions={[<Button style={{ marginLeft: `${2}em` }} className="btn-cancel" waves="light" modal="close" flat>Close</Button>, <Button waves="light" flat className="btn-save" onClick={this.handleUserEdit.bind(this)} modal="close">Save</Button>]}
+                  actions={[<Button style={{ marginLeft: `${2}em` }} className="btn-cancel" waves="light" modal="close" flat>Close</Button>, <Button waves="light" flat className="btn-save" onClick={this.handleUserEdit} modal="close">Save</Button>]}
                   trigger={
                     <Button waves="light" className="btn-save right"><Icon>edit</Icon> </Button>
   }
@@ -53,35 +73,39 @@ class ViewUsers extends Component {
                     <div className="input-field col s6">
                       <i className="material-icons prefix">person_pin</i>
                       <input
-                        ref="username"
+                        name="username"
                         type="text"
+                        onChange={this.onChange}
                         className="validate"
-                        defaultValue={this.props.user.username}
+                        value={this.state.username}
                       />
                     </div>
                     <div className="input-field col s6">
                       <i className="material-icons prefix">perm_identity</i>
                       <input
-                        ref="firstname"
+                        name="firstname"
                         type="text"
+                        onChange={this.onChange}
                         className="validate"
-                        defaultValue={this.props.user.firstname}
+                        value={this.state.firstname}
                       />
                     </div>
                     <div className="input-field col s6">
                       <i className="material-icons prefix">perm_identity</i>
                       <input
-                        ref="lastname"
+                        name="lastname"
                         type="text"
+                        onChange={this.onChange}
                         className="validate"
-                        defaultValue={this.props.user.lastname}
+                        value={this.state.lastname}
                       />
                     </div>
                     <div className="input-field col s4" style={{ width: '150px' }}>
                       <select
-                        ref="RoleId"
+                        name="RoleId"
                         style={{ display: 'block' }}
-                        defaultValue="0"
+                        value={this.state.RoleId}
+                        onChange={this.handleSelect}
                       >
                         <option value="0" disabled >Select Role</option>
                         {roles && roles.map(role => (
@@ -92,11 +116,12 @@ class ViewUsers extends Component {
                     <div className="input-field col s6">
                       <i className="material-icons prefix">assignment_ind</i>
                       <input
-                        ref="email"
+                        name="email"
                         type="text"
                         className="validate"
                         disabled
-                        defaultValue={this.props.user.email}
+                        value={this.state.email}
+                        onChange={this.onChange}
                       />
                     </div>
                   </div>

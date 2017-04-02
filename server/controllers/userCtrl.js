@@ -161,7 +161,8 @@ const Userctrl = {
             .send({ message: 'User not found' });
         }
         if (bcrypt.compareSync(req.body.oldPassword, user.password)) {
-          user.password = req.body.newPassword;
+          const newPassword = bcrypt.hashSync(req.body.newPassword, bcrypt.genSaltSync(10));
+          user.password = newPassword;
           user.save()
           .then((updatedUser) => {
             res.status(200).send({ updatedUser, message: 'Password Update successful' });

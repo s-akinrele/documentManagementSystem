@@ -11,29 +11,20 @@ import { createDocument } from '../../actions/actionCreator';
  */
 class DocumentForm extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      content: ''
+      title: '',
+      content: '',
+      access: '0',
+      userEmail: ''
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleEditorChange = this.handleEditorChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTextChange = this.handleTextChange.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
   }
 
-/**
- * @memberOf DocumentForm
- */
-  componentDidMount() {
-    $('#access').change((e) => {
-      const selectedValue = $(e.target).val();
-      if (selectedValue.toLowerCase() === 'private') {
-        this.refs.share.disabled = false;
-      } else {
-        this.refs.share.disabled = true;
-      }
-    });
-  }
   /**
    * @param {any} e
    * @memberOf DocumentForm
@@ -51,17 +42,20 @@ class DocumentForm extends Component {
     const name = e.target.name;
     this.setState({ [name]: value });
   }
-
+  handleSelect(e) {
+    this.setState({ access: e.target.value });
+  }
 /**
  *
  * @memberOf DocumentForm
  */
   handleSubmit() {
+    const { title, content, access, userEmail } = this.state;
     const data = {
-      title: this.refs.title.state.value,
-      content: this.state.content,
-      access: this.refs.access.value,
-      userEmail: this.refs.share.value
+      title,
+      content,
+      access,
+      userEmail
     };
 
     this.props.createDocument(data);
@@ -79,17 +73,17 @@ class DocumentForm extends Component {
       >
         <div>
           <Row>
-            <Input s={4} ref="title" name="title" label="Document Title" validate icon="subtitles" />
+            <Input s={4} name="title" label="Document Title" validate icon="subtitles" value={this.state.title} onChange={this.handleTextChange} />
             <div className="input-field col s4">
-              <select style={{ display: 'block' }} ref="access" id="access" defaultValue="0">
+              <select style={{ display: 'block' }} id="access" value={this.state.access} onChange={this.handleSelect} >
                 <option value="0" disabled >Select Access</option>
-                <option value="private">Private</option>
-                <option value="public">Public</option>
-                <option value="role">Role</option>
+                <option value="private" >Private</option>
+                <option value="public" >Public</option>
+                <option value="role" >Role</option>
               </select>
             </div>
             <div className="input-field col s4">
-              <input ref="share" type="text" className="validate" disabled />
+              <input name="userEmail" type="text" className="validate" disabled={this.state.access !== 'private'} value={this.state.userEmail} onChange={this.handleTextChange} />
               <label htmlFor="last_name">Share</label>
             </div>
 
@@ -101,7 +95,7 @@ class DocumentForm extends Component {
               plugins: 'link image code',
               toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
             }}
-            onSetContent={this.handleEditorChange}
+            onChange={this.handleEditorChange}
           />
         </div>
       </Modal>

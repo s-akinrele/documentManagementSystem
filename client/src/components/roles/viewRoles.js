@@ -6,13 +6,14 @@ import '../../main.scss';
 import { deleteRole, editRole } from '../../actions/actionCreator';
 
 class ViewRoles extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      content: ''
+      title: props.role.title
     };
     this.handleRoleDelete = this.handleRoleDelete.bind(this);
     this.handleRoleEdit = this.handleRoleEdit.bind(this);
+    this.handleRoleChange = this.handleRoleChange.bind(this);
   }
   /**
    * @memberOf DocumentView
@@ -22,10 +23,14 @@ class ViewRoles extends Component {
     this.props.deleteRole(roleId);
   }
 
+  handleRoleChange(e) {
+    this.setState({ title: e.target.value });
+  }
+
   handleRoleEdit() {
     const roleId = this.props.role.id;
     const data = {
-      title: this.refs.role.value
+      title: this.state.title
     };
     this.props.editRole(data, roleId);
   }
@@ -48,10 +53,11 @@ class ViewRoles extends Component {
                       <i className="material-icons prefix">person_pin</i>
                       <input
                         id="role"
-                        ref="role"
+                        name="role"
                         type="text"
                         className="validate"
-                        defaultValue={this.props.role.title}
+                        value={this.state.title}
+                        onChange={this.handleRoleChange}
                       />
                     </div>
                   </div>
