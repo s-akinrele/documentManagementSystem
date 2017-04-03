@@ -5,6 +5,7 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import routes from './routes/index';
 import webpackConfig from '../webpack.config';
+import db from './models';
 
 
 const compiler = webpack(webpackConfig);
@@ -35,9 +36,10 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/public/index.html'));
 });
 
-const port = process.env.PORT || 5000;
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+db.sequelize.sync().then(() => {
+  const port = process.env.PORT || 5000;
+  app.listen(port, () => {
+    console.log(`Server listening on port ${port}`);
+  });
 });
-
 export default app;

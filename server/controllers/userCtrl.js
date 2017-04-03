@@ -69,7 +69,6 @@ const Userctrl = {
   * Get a specific user by UserId
   * @param {Object} req - Request object
   * @param {Object} res - Response object
-  * @returns {Object} Response object
   */
   findUser: (req, res) => {
     db.User.findOne({ where: { id: req.params.id } })
@@ -89,7 +88,6 @@ const Userctrl = {
    * Get all users in the database
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @returns {Object} Response object
    */
   findAllUsers: (req, res) => {
     const page = helper.pagination(req);

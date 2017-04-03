@@ -44,7 +44,12 @@ class EditDocument extends Component {
         <Modal
           actions={[<Button style={{ marginLeft: `${2}em` }} className="btn-cancel" waves="light" modal="close" flat>Close</Button>, <Button waves="light" flat id="save" className="btn-save" modal="close" onClick={this.handleDocumentEdit}>Save</Button>]}
           trigger={
-            <Button waves="light" id="edit" className="btn-save">{this.props.action}<Icon>edit</Icon> </Button>
+            <Button
+              waves="light"
+              id="edit"
+              className="btn-save"
+            >{this.props.action}
+              <Icon>edit</Icon> </Button>
       }
         >
           <div>
@@ -60,7 +65,7 @@ class EditDocument extends Component {
                 plugins: 'link image code',
                 toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
               }}
-              onSetContent={this.handleEditorChange}
+              onChange={this.handleEditorChange}
             />}
           </div>
         </Modal>

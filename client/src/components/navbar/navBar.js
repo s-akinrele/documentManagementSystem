@@ -57,7 +57,7 @@ class navBar extends Component {
             onChange={this.handleSearch}
             validate
             className="search"
-          ><Icon>search</Icon></Input> </NavItem>
+          ><Icon style={{ color: 'white' }} >search</Icon></Input> </NavItem>
         <Dropdown
           trigger={
             <NavItem id="more_vert" href="#!">

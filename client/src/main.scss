@@ -92,6 +92,7 @@ filter: progid:DXImageTransform.Microsoft.Shadow(Strength=13, Direction=135, Col
 
 .search {
     background-color: #fff;
+    color: #fff;
 }
 
 .red {
@@ -197,4 +198,12 @@ ul:not(.browser-default) {
 
 .email {
     color: navy;
+}
+
+.input-field .prefix {
+    position: absolute;
+    width: 3rem;
+    font-size: 2rem;
+    transition: color .2s;
+    color: white;
 }
