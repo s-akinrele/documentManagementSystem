@@ -24,12 +24,12 @@ const shareDocument = (userEmail, docId, cb) => {
 
 const DocCtrl = {
 
-   /**
-   * Create a new document
-   * @param {Object} req Request object
-   * @param {Object} res Response object
-   * @returns {Void} Returns Void
-   */
+/**
+ * Create a new document
+ * @param {Object} req Request object
+ * @param {Object} res Response object
+ * @returns {Void} Returns Void
+ */
 
   createDoc: (req, res) => {
     const document = {
@@ -67,12 +67,12 @@ const DocCtrl = {
       });
   },
 
-  /**
-   * Edit and update a specific document
-   * @param {Object} req Request object
-   * @param {Object} res Response object
-   * @returns {Void} Returns Void
-   */
+/**
+ * Edit and update a specific document
+ * @param {Object} req Request object
+ * @param {Object} res Response object
+ * @returns {Void} Returns Void
+ */
 
   editDoc: (req, res) => {
     db.Document.findOne({ where: { id: req.params.id } })
