@@ -11,7 +11,7 @@ const data = {
         limit = req.query.limit;
       }
     } else {
-      limit = 10;
+      limit = 8;
     }
     if (req.query.offset) {
       if (isNaN(Number(req.query.offset)) || req.query.limit < 0) {

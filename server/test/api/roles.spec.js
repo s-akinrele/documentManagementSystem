@@ -76,7 +76,18 @@ describe('Role suite', () => {
       .send({ title: 'people' })
       .end((err, res) => {
         assert.equal(res.status, 200);
-        assert.equal(res.body.message, 'Update successful');
+        assert.isNotNull(res.body);
+        done();
+      });
+  });
+  it('Should return error message if trying to edit a role that does not exist', (done) => {
+    server
+      .put('/role/0')
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .send({ title: 'people' })
+      .end((err, res) => {
+        assert.equal(res.status, 404);
+        assert.equal(res.body.message, 'Role does not exist');
         done();
       });
   });
@@ -89,6 +100,16 @@ describe('Role suite', () => {
       .end((err, res) => {
         assert.equal(res.status, 200);
         assert.equal(res.body.message, 'Delete successful');
+        done();
+      });
+    });
+    it('Should return status 404 when a role has been deleted', (done) => {
+      server
+      .delete('/role/0')
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .end((err, res) => {
+        assert.equal(res.status, 404);
+        assert.equal(res.body.message, 'Role does not exist');
         done();
       });
     });

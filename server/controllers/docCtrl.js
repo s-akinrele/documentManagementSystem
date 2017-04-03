@@ -1,17 +1,43 @@
 import db from '../models';
 import helper from '../helpers/helper';
+import getUserDocumentQuery, { getAccessibleDocuments, countDoc } from '../utils/query';
+
+/**
+ * Share document privately
+ * @param {any} userEmail
+ * @param {any} docId
+ * @param {any} cb
+ */
+const shareDocument = (userEmail, docId, cb) => {
+  db.User.findOne({ where: { email: userEmail } })
+  .then((user) => {
+    db.Access.create({
+      documentId: docId,
+      usersAccess: user.id
+    }).then((acc) => {
+      cb(null, acc);
+    }).catch((err) => {
+      cb(err);
+    });
+  });
+};
 
 const DocCtrl = {
 
-   /**
-   * Create a new document
-   * @param {Object} req Request object
-   * @param {Object} res Response object
-   * @returns {Void} Returns Void
-   */
+/**
+ * Create a new document
+ * @param {Object} req Request object
+ * @param {Object} res Response object
+ * @returns {Void} Returns Void
+ */
 
   createDoc: (req, res) => {
-    const document = req.body;
+    const document = {
+      title: req.body.title,
+      content: req.body.content,
+      access: req.body.access
+    };
+    const userEmail = req.body.userEmail;
     document.OwnerId = req.decoded.UserId;
     db.Document.findOne({ where: { title: document.title } })
       .then((docExist) => {
@@ -21,20 +47,32 @@ const DocCtrl = {
         }
         db.Document.create(document)
           .then((doc) => {
-            res.status(201).send(doc);
+            if (userEmail !== null && userEmail !== '' && userEmail !== undefined) {
+              shareDocument(userEmail, doc.id, (err) => {
+                if (err) {
+                  res.status(400).send(err.errors);
+                } else {
+                  res.status(201).send(doc);
+                }
+              });
+            } else {
+              res.status(201).send(doc);
+            }
           })
           .catch((err) => {
             res.status(400).send(err.errors);
           });
+      }).catch((err) => {
+        res.status(400).send(err.errors);
       });
   },
 
-  /**
-   * Edit and update a specific document
-   * @param {Object} req Request object
-   * @param {Object} res Response object
-   * @returns {Void} Returns Void
-   */
+/**
+ * Edit and update a specific document
+ * @param {Object} req Request object
+ * @param {Object} res Response object
+ * @returns {Void} Returns Void
+ */
 
   editDoc: (req, res) => {
     db.Document.findOne({ where: { id: req.params.id } })
@@ -45,7 +83,7 @@ const DocCtrl = {
         }
         doc.update(req.body)
           .then(() => {
-            res.send({ message: 'Update successful' });
+            res.send(doc);
           })
           .catch((err) => {
             res.status(400)
@@ -85,10 +123,7 @@ const DocCtrl = {
 
   getAllDoc: (req, res) => {
     const page = helper.pagination(req);
-    const limit = page.limit;
-    const offset = page.offset;
-    const order = page.order;
-    db.Document.findAndCountAll({ limit, offset, order })
+    db.Document.findAndCountAll(page)
       .then((docs) => {
         if (!docs) {
           return res.status(404)
@@ -96,9 +131,9 @@ const DocCtrl = {
         }
         const meta = {};
         meta.totalCount = docs.count;
-        meta.pageSize = limit;
-        meta.pageCount = Math.floor(meta.totalCount / limit) + 1;
-        meta.currentPage = Math.floor(offset / limit) + 1;
+        meta.pageSize = page.limit;
+        meta.pageCount = Math.floor(meta.totalCount / page.limit) + 1;
+        meta.currentPage = Math.floor(page.offset / page.limit) + 1;
         res.status(200).send({ paginationMeta: meta, result: docs.rows });
       })
       .catch((err) => {
@@ -136,17 +171,45 @@ const DocCtrl = {
    */
 
   getUsersDoc: (req, res) => {
-    db.Document.findAll({ where: { OwnerId: req.params.id } })
-      .then((doc) => {
-        if (!doc) {
+    db.sequelize.query(getUserDocumentQuery(req), {
+      type: db.sequelize.QueryTypes.SELECT
+    })
+      .then((docs) => {
+        if (!docs) {
           return res.status(404)
             .send({ message: 'No document found' });
         }
-        res.status(200)
-          .send(doc);
-      })
-      .catch((err) => {
-        res.status(400).send(err.errors);
+        res.status(200).send(docs);
+      }).catch((err) => {
+        res.status(400).send(err.message);
+      });
+  },
+
+  /**
+   * Get the count of document returned
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
+
+  countUsersDoc: (req, res) => {
+    const page = helper.pagination(req);
+    db.sequelize.query(countDoc(req), {
+      type: db.sequelize.QueryTypes.SELECT
+    })
+      .then((count) => {
+        if (!count) {
+          return res.status(404)
+            .send({ message: 'No document found' });
+        }
+        const meta = {};
+        meta.totalCount = count[0].count;
+        meta.pageSize = page.limit;
+        meta.pageCount = Math.floor(meta.totalCount / page.limit) + 1;
+        meta.currentPage = Math.floor(page.offset / page.limit) + 1;
+        res.status(200).send({ paginationMeta: meta });
+      }).catch((err) => {
+        res.status(400).send(err.message);
       });
   },
 
@@ -158,14 +221,20 @@ const DocCtrl = {
    */
 
   getMyDoc: (req, res) => {
-    db.Document.findAll({ where: { OwnerId: req.decoded.UserId } })
-      .then((doc) => {
-        if (!doc) {
+    const page = helper.pagination(req);
+    page.where = { OwnerId: req.decoded.UserId };
+    db.Document.findAndCountAll(page)
+      .then((docs) => {
+        if (!docs) {
           return res.status(404)
             .send({ message: 'Document does not belong to this user' });
         }
-        res.status(200)
-          .send(doc);
+        const meta = {};
+        meta.totalCount = docs.count;
+        meta.pageSize = page.limit;
+        meta.pageCount = Math.floor(meta.totalCount / page.limit) + 1;
+        meta.currentPage = Math.floor(page.offset / page.limit) + 1;
+        res.status(200).send({ paginationMeta: meta, result: docs.rows });
       })
       .catch((err) => {
         res.status(400).send(err.errors);
@@ -180,9 +249,7 @@ const DocCtrl = {
    */
 
   getAccessibleDocument: (req, res) => {
-    const rawQuery =
-    `SELECT * FROM "Documents" INNER JOIN "Users" ON "Documents"."OwnerId" = "Users"."id" WHERE ("Users"."RoleId" = ${req.decoded.RoleId} AND "Documents".access = 'role') OR ("Documents".access = 'public')`;
-    db.sequelize.query(rawQuery, {
+    db.sequelize.query(getAccessibleDocuments(req), {
       type: db.sequelize.QueryTypes.SELECT
     })
       .then((docs) => {
@@ -206,18 +273,12 @@ const DocCtrl = {
   sharePrivateDocument: (req, res) => {
     const docId = req.body.documentId;
     const userEmail = req.body.userEmail;
-    db.User.findOne({ where: { email: userEmail } })
-    .then((user) => {
-      db.Access.create({
-        documentId: docId,
-        usersAccess: user.id
-      }).then((sharedDocument) => {
-        res.status(201)
-          .send(sharedDocument);
-      })
-      .catch((err) => {
+    shareDocument(userEmail, docId, (err, acc) => {
+      if (err) {
         res.status(400).send(err.errors);
-      });
+      } else {
+        res.status(201).send(acc);
+      }
     });
   },
 
@@ -242,3 +303,4 @@ const DocCtrl = {
 };
 
 export default DocCtrl;
+

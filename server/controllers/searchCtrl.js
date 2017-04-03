@@ -38,9 +38,15 @@ const searchCtrl = {
   searchDocument: (req, res) => {
     db.Document.findAll({
       where: {
-        title: {
-          $iLike: `%${req.query.q}%`
-        }
+        $or: [{
+          title: {
+            $iLike: `%${req.query.q}%`
+          }
+        }, {
+          content: {
+            $iLike: `%${req.query.q}%`
+          }
+        }]
       }
     }).then((documents) => {
       if (!documents) {

@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Document Management System Index</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.flatly.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top ">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">Document Management System</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="global.html#secret">secret</a></li><li><a href="global.html#shareDocument">shareDocument</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-8">
+	
+		<div id="main">
+			
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+
+
+
+
+
+    <section class="readme-section">
+        <article><p><a href="https://travis-ci.org/andela-oakinrele/documentManagementSystem"><img src="https://travis-ci.org/andela-oakinrele/documentManagementSystem.svg?branch=develop" alt="Build Status"></a>
+<a href="https://coveralls.io/github/andela-oakinrele/documentManagementSystem?branch=develop"><img src="https://coveralls.io/repos/github/andela-oakinrele/documentManagementSystem/badge.svg?branch=develop" alt="Coverage Status"></a></p>
+<h1>Document Management System</h1><p>Document Management System API contains several API end points that allows users to create, edit, retrieve and delete documents. It also offers a way to ensure that only authorized users can perform certain operations.</p>
+<h2>Development</h2><p>The application was developed with <a href="http://nodejs.org">NodeJs</a> and <a href="http://expressjs.com">Express</a> is used for routing. The <a href="http://postgresql.com">Postgres</a> database was used with <a href="http://sequelizejs.com">sequelize</a> as the ORM</p>
+<h2>Installation</h2><ol>
+<li>Ensure you have NodeJs and postgres installed</li>
+<li>Clone the repository <code>git clone https://github.com/andela-oakinrele/documentManagementSystem.git</code></li>
+<li>Change your directory <code>cd documentManagementSystem</code></li>
+<li>Install all dependencies <code>npm install</code></li>
+<li>Run tests  <code>npm test</code></li>
+<li>Run integration test <code>npm run e2e</code></li>
+<li>Start the app <code>npm start</code> and use <a href="https://www.getpostman.com/">postman</a> to consume the API</li>
+</ol>
+<h2>API ENDPOINTS</h2><p><strong>Users</strong></p>
+<table>
+<thead>
+<tr>
+<th>Request type</th>
+<th>Endpoint</th>
+<th>Action </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><a href="#create-users">/users</a></td>
+<td>Create a new user</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#get-users">/users</a></td>
+<td>Get all users</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#get-a-user">/users/:id</a></td>
+<td>Get details of a specific user</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><a href="#update-user">/users/:id</a></td>
+<td>Edit user details</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><a href="#update-user">/users/:id</a></td>
+<td>Edit user details</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><a href="#delete-user">/users/:id</a></td>
+<td>Remove a user from storage</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><a href="#login">/users/login</a></td>
+<td>To log a user in</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#get-usersdoc">/users/documents</a></td>
+<td>To get a users personal documents</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#get-usersdoc">/users/:id/documents</a></td>
+<td>To get document of a specific user</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#get-userbyemail">/users/search/:email</a></td>
+<td>To get a user by email</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><a href="#reset-password">/users/:id/password</a></td>
+<td>To reset users password</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Roles</strong></p>
+<table>
+<thead>
+<tr>
+<th>Request type</th>
+<th>Endpoint</th>
+<th>Action </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><a href="#create-role">/roles</a></td>
+<td>Create a new role</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#get-roles">/roles</a></td>
+<td>Get all created roles</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><a href="#update-role">/role/:id</a></td>
+<td>To edit a role</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><a href="#update-role">/role/:id</a></td>
+<td>To edit a role</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#get-a-role">/role/:id</a></td>
+<td>To get a role</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Documents</strong></p>
+<table>
+<thead>
+<tr>
+<th>Request type</th>
+<th>Endpoint</th>
+<th>Action </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><a href="#create-document">/documents</a></td>
+<td>Create a new document</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#get-documents">/documents</a></td>
+<td>Retrieve all documents </td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#get-a-document">/documents/:id</a></td>
+<td>Retrieve a specific document</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><a href="#update-document">/documents/:id</a></td>
+<td>Update a specific document</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><a href="#delete-document">/documents/:id</a></td>
+<td>Remove a specific document from storage</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#get-documents">/documents??offset=1&amp;limit=10</a></td>
+<td>Retrieve maximum of first 10 documents</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#get-accessible-documents">/accessible/documents</a></td>
+<td>Retrieve documents created by other users that are public and on the role level</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#get-private-doc">/documents/access/private</a></td>
+<td>Gets documents that has been share privately with the user</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Search</strong></p>
+<table>
+<thead>
+<tr>
+<th>Request type</th>
+<th>Endpoint</th>
+<th>Action </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><a href="#search-user">/search/users</a></td>
+<td>Search for a user</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#search-document">/search/documents/</a></td>
+<td>Search for a document</td>
+</tr>
+</tbody>
+</table>
+<h2>Users</h2><h2>Create Users</h2><p>To create a new user, make a <strong>POST</strong> request to <code>/users</code></p>
+<h4>Request</h4><pre class="prettyprint source"><code>{
+    &quot;username&quot;: &quot;Ada&quot;,
+    &quot;firstname&quot;: &quot;Addnana&quot;,
+    &quot;lastname&quot;: &quot;Ada&quot;,
+    &quot;email&quot;: &quot;ada@gmail.com&quot;,
+    &quot;password&quot;:&quot;password&quot;
+}</code></pre><h4>Response</h4><pre class="prettyprint source"><code>{
+  &quot;token&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjE1LCJFbWFpbCI6ImFkYUBnbWFpbC5jb20iLCJSb2xlSWQiOjEsImlhdCI6MTQ5MTIyMTk4NiwiZXhwIjoxNDkxMjU3OTg2fQ.MtqGTyA5q7zrs7pgbKwtsVUqiTyWYcH6KINgnQK8KJA&quot;,
+  &quot;expiresIn&quot;: &quot;10h&quot;,
+  &quot;user&quot;: {
+    &quot;id&quot;: 15,
+    &quot;username&quot;: &quot;Ada&quot;,
+    &quot;firstname&quot;: &quot;Addnana&quot;,
+    &quot;lastname&quot;: &quot;Ada&quot;,
+    &quot;email&quot;: &quot;ada@gmail.com&quot;,
+    &quot;password&quot;: &quot;$2a$10$.jAF5xr2IGeZDyUOsivN2etYd8HaUPwvVc3bjPlI0quQEZy5yexN2&quot;,
+    &quot;RoleId&quot;: 2,
+    &quot;updatedAt&quot;: &quot;2017-04-03T12:19:45.740Z&quot;,
+    &quot;createdAt&quot;: &quot;2017-04-03T12:19:45.740Z&quot;
+  }
+}</code></pre><h2>Get Users</h2><p>Fetches all users' details,</p>
+<h4>Request</h4><ul>
+<li>Endpoint: <strong>GET</strong>: <code>/users</code></li>
+<li>Requires <code>Authorization</code> header to be set<h4>Response</h4><pre class="prettyprint source"><code>{
+&quot;paginationMeta&quot;: {
+&quot;totalCount&quot;: 13,
+&quot;pageSize&quot;: 8,
+&quot;pageCount&quot;: 2,
+&quot;currentPage&quot;: 1
+},
+&quot;result&quot;: [
+{
+  &quot;id&quot;: 1,
+  &quot;username&quot;: &quot;simi&quot;,
+  &quot;firstname&quot;: &quot;Simisola&quot;,
+  &quot;lastname&quot;: &quot;Akinrele&quot;,
+  &quot;email&quot;: &quot;akinrelesimi@gmail.com&quot;,
+  &quot;password&quot;: &quot;$2a$10$J/1mi4mPbP4XwEGJSknwlOS1/luSdiTlXueor5GoYO7eWnaXN4fZ.&quot;,
+  &quot;RoleId&quot;: 1,
+  &quot;createdAt&quot;: &quot;2017-04-02T16:47:41.251Z&quot;,
+  &quot;updatedAt&quot;: &quot;2017-04-02T16:47:41.251Z&quot;
+},
+{
+  &quot;id&quot;: 4,
+  &quot;username&quot;: &quot;dede&quot;,
+  &quot;firstname&quot;: &quot;Dedele&quot;,
+  &quot;lastname&quot;: &quot;Adebiyi&quot;,
+  &quot;email&quot;: &quot;dede@gmail.com&quot;,
+  &quot;password&quot;: &quot;$2a$10$kWVzQ1qR/DXeYhkhURQMQ.wq0fDj5z1ndqcgVceAOGpA7sQbItpsa&quot;,
+  &quot;RoleId&quot;: 2,
+  &quot;createdAt&quot;: &quot;2017-04-02T16:47:41.251Z&quot;,
+  &quot;updatedAt&quot;: &quot;2017-04-02T16:47:41.251Z&quot;
+},
+{
+  &quot;id&quot;: 2,
+  &quot;username&quot;: &quot;barbie&quot;,
+  &quot;firstname&quot;: &quot;Barbara&quot;,
+  &quot;lastname&quot;: &quot;Ezomo&quot;,
+  &quot;email&quot;: &quot;barbara@gmail.com&quot;,
+  &quot;password&quot;: &quot;simisola&quot;,
+  &quot;RoleId&quot;: 2,
+  &quot;createdAt&quot;: &quot;2017-04-02T16:47:41.251Z&quot;,
+  &quot;updatedAt&quot;: &quot;2017-04-02T21:22:08.187Z&quot;
+},
+{
+  &quot;id&quot;: 5,
+  &quot;username&quot;: &quot;seyi&quot;,
+  &quot;firstname&quot;: &quot;Seyi&quot;,
+  &quot;lastname&quot;: &quot;Adebiyi&quot;,
+  &quot;email&quot;: &quot;seyi@gmail.com&quot;,
+  &quot;password&quot;: &quot;$2a$10$T2K8zrYS2zMADhzf4yd17eBV7q3VEG7ZDVuWGWLtEtvKFXnCgV5/C&quot;,
+  &quot;RoleId&quot;: 1,
+  &quot;createdAt&quot;: &quot;2017-04-02T16:47:41.251Z&quot;,
+  &quot;updatedAt&quot;: &quot;2017-04-03T10:56:58.067Z&quot;
+},
+{
+  &quot;id&quot;: 6,
+  &quot;username&quot;: &quot;Jaylin_Harberdd&quot;,
+  &quot;firstname&quot;: &quot;Bertsss&quot;,
+  &quot;lastname&quot;: &quot;Jastsss&quot;,
+  &quot;email&quot;: &quot;simisoola@gmail.com&quot;,
+  &quot;password&quot;: &quot;$2a$10$YhkR1owE9.NT7AM27293VeimpYAQSe/6M976p5EDc7QprPL18z.eK&quot;,
+  &quot;RoleId&quot;: 1,
+  &quot;createdAt&quot;: &quot;2017-04-02T16:48:03.390Z&quot;,
+  &quot;updatedAt&quot;: &quot;2017-04-02T22:04:50.756Z&quot;
+},
+{
+  &quot;id&quot;: 7,
+  &quot;username&quot;: &quot;bola&quot;,
+  &quot;firstname&quot;: &quot;Bolarinwa&quot;,
+  &quot;lastname&quot;: &quot;Adetayo&quot;,
+  &quot;email&quot;: &quot;rere@gmail.com&quot;,
+  &quot;password&quot;: &quot;$2a$10$jH3g1lbWeDcHBnKUVI/qQ.i9lalNI88lXTqUOQ.4DA4n05b8a3d36&quot;,
+  &quot;RoleId&quot;: 2,
+  &quot;createdAt&quot;: &quot;2017-04-02T16:48:17.033Z&quot;,
+  &quot;updatedAt&quot;: &quot;2017-04-02T16:48:17.033Z&quot;
+},
+{
+  &quot;id&quot;: 8,
+  &quot;username&quot;: &quot;Jayde_Sanford&quot;,
+  &quot;firstname&quot;: &quot;Carlie&quot;,
+  &quot;lastname&quot;: &quot;Hintz&quot;,
+  &quot;email&quot;: &quot;Wilmer.Von@gmail.com&quot;,
+  &quot;password&quot;: &quot;$2a$10$Pl1Cu3yCcuOmOldt3nLOQ.wLE3D.LFSk4hVL877Ub7h7M44KicHH6&quot;,
+  &quot;RoleId&quot;: 1,
+  &quot;createdAt&quot;: &quot;2017-04-02T16:48:17.753Z&quot;,
+  &quot;updatedAt&quot;: &quot;2017-04-02T16:48:17.753Z&quot;
+},
+{
+  &quot;id&quot;: 9,
+  &quot;username&quot;: &quot;Leif.King19&quot;,
+  &quot;firstname&quot;: &quot;Christiana&quot;,
+  &quot;lastname&quot;: &quot;Conn&quot;,
+  &quot;email&quot;: &quot;Rogelio77@yahoo.com&quot;,
+  &quot;password&quot;: &quot;$2a$10$zTl51.Osql6gkdHBfHuBxePTNbz1CJvoiRk/VOTcMY3xGFO0cN9VC&quot;,
+  &quot;RoleId&quot;: 2,
+  &quot;createdAt&quot;: &quot;2017-04-02T16:48:18.297Z&quot;,
+  &quot;updatedAt&quot;: &quot;2017-04-02T16:48:18.297Z&quot;
+}
+]
+}</code></pre></li>
+</ul>
+<h2>Get A User</h2><h4>Request</h4><ul>
+<li>Endpoint: <strong>GET</strong>: <code>/users/:id</code></li>
+<li>Requires <code>Authorization</code> header to be set<h4>Response</h4><pre class="prettyprint source"><code>{
+&quot;id&quot;: 8,
+&quot;username&quot;: &quot;Jayde_Sanford&quot;,
+&quot;firstname&quot;: &quot;Carlie&quot;,
+&quot;lastname&quot;: &quot;Hintz&quot;,
+&quot;email&quot;: &quot;Wilmer.Von@gmail.com&quot;,
+&quot;password&quot;: &quot;$2a$10$Pl1Cu3yCcuOmOldt3nLOQ.wLE3D.LFSk4hVL877Ub7h7M44KicHH6&quot;,
+&quot;RoleId&quot;: 1,
+&quot;createdAt&quot;: &quot;2017-04-02T16:48:17.753Z&quot;,
+&quot;updatedAt&quot;: &quot;2017-04-02T16:48:17.753Z&quot;
+}</code></pre><h2>Update user</h2><h4>Request</h4></li>
+<li>Enpoint: <strong>PUT</strong>: <code>/users/:id</code></li>
+<li>Requires <code>Authorization</code> header to be set<pre class="prettyprint source"><code>{
+&quot;RoleId&quot;: 2
+}</code></pre><h4>Response</h4><pre class="prettyprint source"><code>{
+&quot;id&quot;: 8,
+&quot;username&quot;: &quot;Jayde_Sanford&quot;,
+&quot;firstname&quot;: &quot;Carlie&quot;,
+&quot;lastname&quot;: &quot;Hintz&quot;,
+&quot;email&quot;: &quot;Wilmer.Von@gmail.com&quot;,
+&quot;password&quot;: &quot;$2a$10$Pl1Cu3yCcuOmOldt3nLOQ.wLE3D.LFSk4hVL877Ub7h7M44KicHH6&quot;,
+&quot;RoleId&quot;: 2,
+&quot;createdAt&quot;: &quot;2017-04-02T16:48:17.753Z&quot;,
+&quot;updatedAt&quot;: &quot;2017-04-03T12:30:50.315Z&quot;
+}</code></pre></li>
+</ul>
+<h2>Delete user</h2><h4>Request</h4><ul>
+<li>Enpoint: <strong>DELETE</strong>: <code>/users/:id</code></li>
+<li>Requires <code>Authorization</code> header to be set<h4>Response</h4></li>
+</ul>
+<pre class="prettyprint source"><code>{
+  &quot;message&quot;: &quot;Delete successful&quot;
+}</code></pre><h2>User login</h2><h3>Request</h3><ul>
+<li>Endpoint: <strong>POST</strong>: <code>/users/login</code><pre class="prettyprint source"><code>{
+ &quot;email&quot;: &quot;akinrelesimi@gmail.com&quot;,
+ &quot;password&quot;:&quot;password&quot;
+}</code></pre></li>
+</ul>
+<h3>Response</h3><pre class="prettyprint source"><code>{
+  &quot;token&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEsIkVtYWlsIjoiYWtpbnJlbGVzaW1pQGdtYWlsLmNvbSIsIlJvbGVJZCI6MSwiaWF0IjoxNDkxMjIyNzQ2LCJleHAiOjE0OTEyNTg3NDZ9.YA3vFPmoCoVM_z9ykCUuT-V7yAlRHQfTY1pFgr4DcZI&quot;,
+  &quot;user&quot;: {
+    &quot;id&quot;: 1,
+    &quot;username&quot;: &quot;simi&quot;,
+    &quot;firstname&quot;: &quot;Simisola&quot;,
+    &quot;lastname&quot;: &quot;Akinrele&quot;,
+    &quot;email&quot;: &quot;akinrelesimi@gmail.com&quot;,
+    &quot;password&quot;: &quot;$2a$10$J/1mi4mPbP4XwEGJSknwlOS1/luSdiTlXueor5GoYO7eWnaXN4fZ.&quot;,
+    &quot;RoleId&quot;: 1,
+    &quot;createdAt&quot;: &quot;2017-04-02T16:47:41.251Z&quot;,
+    &quot;updatedAt&quot;: &quot;2017-04-02T16:47:41.251Z&quot;
+  }
+}</code></pre><h1>Get Logged-in user's Document</h1><h3>Request</h3><ul>
+<li>Enpoint: <strong>GET</strong>: <code>/users/documents</code></li>
+<li>Requires <code>Authorization</code> header to be set</li>
+</ul>
+<h3>Response</h3><pre class="prettyprint source"><code>{
+  &quot;paginationMeta&quot;: {
+    &quot;totalCount&quot;: 4,
+    &quot;pageSize&quot;: 8,
+    &quot;pageCount&quot;: 1,
+    &quot;currentPage&quot;: 1
+  },
+  &quot;result&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;title&quot;: &quot;hey there&quot;,
+      &quot;content&quot;: &quot;&lt;p>ea reiciendis fuga&lt;/p>&quot;,
+      &quot;OwnerId&quot;: 1,
+      &quot;access&quot;: &quot;private&quot;,
+      &quot;createdAt&quot;: &quot;2017-04-02T16:47:41.262Z&quot;,
+      &quot;updatedAt&quot;: &quot;2017-04-02T20:35:06.436Z&quot;
+    },
+    {
+      &quot;id&quot;: 4,
+      &quot;title&quot;: &quot;meal &quot;,
+      &quot;content&quot;: &quot;&lt;p>et ratione earum&lt;/p>&quot;,
+      &quot;OwnerId&quot;: 1,
+      &quot;access&quot;: &quot;role&quot;,
+      &quot;createdAt&quot;: &quot;2017-04-02T16:47:41.262Z&quot;,
+      &quot;updatedAt&quot;: &quot;2017-04-02T20:38:10.399Z&quot;
+    },
+    {
+      &quot;id&quot;: 13,
+      &quot;title&quot;: &quot;ddd&quot;,
+      &quot;content&quot;: &quot;&lt;p>simi&lt;/p>&quot;,
+      &quot;OwnerId&quot;: 1,
+      &quot;access&quot;: &quot;private&quot;,
+      &quot;createdAt&quot;: &quot;2017-04-02T20:20:16.614Z&quot;,
+      &quot;updatedAt&quot;: &quot;2017-04-03T10:04:25.359Z&quot;
+    },
+    {
+      &quot;id&quot;: 15,
+      &quot;title&quot;: &quot;bla bla&quot;,
+      &quot;content&quot;: &quot;&lt;p>A random text to test how things are working&lt;/p>&quot;,
+      &quot;OwnerId&quot;: 1,
+      &quot;access&quot;: &quot;public&quot;,
+      &quot;createdAt&quot;: &quot;2017-04-02T20:34:02.046Z&quot;,
+      &quot;updatedAt&quot;: &quot;2017-04-02T20:34:02.046Z&quot;
+    }
+  ]
+}</code></pre><h1>Search for a user with email</h1><h3>Request</h3><ul>
+<li>Enpoint: <strong>GET</strong>: <code>/users/search/:email</code></li>
+<li>Requires <code>Authorization</code> header to be set</li>
+</ul>
+<h3>Response</h3><pre class="prettyprint source"><code>{
+  &quot;id&quot;: 15,
+  &quot;username&quot;: &quot;Ada&quot;,
+  &quot;firstname&quot;: &quot;Addnana&quot;,
+  &quot;lastname&quot;: &quot;Ada&quot;,
+  &quot;email&quot;: &quot;ada@gmail.com&quot;,
+  &quot;password&quot;: &quot;$2a$10$.jAF5xr2IGeZDyUOsivN2etYd8HaUPwvVc3bjPlI0quQEZy5yexN2&quot;,
+  &quot;RoleId&quot;: 1,
+  &quot;createdAt&quot;: &quot;2017-04-03T12:19:45.740Z&quot;,
+  &quot;updatedAt&quot;: &quot;2017-04-03T12:19:45.740Z&quot;
+}</code></pre><h1>Update password</h1><h3>Request</h3><ul>
+<li>Enpoint: <strong>PUT</strong>: <code>/users/:id/password</code></li>
+<li>Requires <code>Authorization</code> header to be set</li>
+</ul>
+<p>Body (application/json)</p>
+<pre class="prettyprint source"><code>{
+    &quot;oldPassword&quot;: &quot;password&quot;,
+    &quot;newPassword&quot;: &quot;simisola&quot;,
+    &quot;confirmPassword&quot;: &quot;simisola&quot;
+}</code></pre><h3>Response</h3><pre class="prettyprint source"><code>{
+    &quot;message&quot;: &quot;Password Update successful&quot;
+}</code></pre><h2>ROLES</h2><h2>Create Role</h2><h4>Request</h4><ul>
+<li>Endpoint <strong>POST</strong> <code>/roles</code></li>
+<li>Requires <code>Authorization</code> header to be set
+Body (application/json)<pre class="prettyprint source"><code>{
+&quot;title&quot;: &quot;Admin&quot;
+}</code></pre><h4>Response</h4>Body (application/json)<pre class="prettyprint source"><code>{
+status: 201,
+message: 'Successfully created'
+}</code></pre></li>
+</ul>
+<h2>Get Roles</h2><h4>Request</h4><ul>
+<li>Endpoint <strong>GET</strong> <code>/roles</code></li>
+<li>Requires <code>Authorization</code> header to be set</li>
+</ul>
+<h4>Response</h4><p>Body (application/json)</p>
+<pre class="prettyprint source"><code>[
+  {
+    &quot;id&quot;: 1,
+    &quot;title&quot;: &quot;Admin&quot;,
+    &quot;createdAt&quot;: &quot;2017-04-02T16:47:40.183Z&quot;,
+    &quot;updatedAt&quot;: &quot;2017-04-02T16:47:40.183Z&quot;
+  },
+  {
+    &quot;id&quot;: 2,
+    &quot;title&quot;: &quot;User&quot;,
+    &quot;createdAt&quot;: &quot;2017-04-02T16:47:40.183Z&quot;,
+    &quot;updatedAt&quot;: &quot;2017-04-02T16:47:40.183Z&quot;
+  }
+]</code></pre><h2>Update Role</h2><h4>Request</h4><ul>
+<li>Endpoint <strong>POST</strong> <code>/roles/:id</code></li>
+<li>Requires <code>Authorization</code> header to be set
+Body (application/json)<pre class="prettyprint source"><code>{
+&quot;title&quot;: &quot;Account Manager&quot;
+}</code></pre><h4>Response</h4>Body (application/json)<pre class="prettyprint source"><code>{
+&quot;id&quot;: 6,
+&quot;title&quot;: &quot;Account Manager&quot;,
+&quot;createdAt&quot;: &quot;2017-04-02T16:47:40.183Z&quot;,
+&quot;updatedAt&quot;: &quot;2017-04-03T13:30:46.792Z&quot;
+}</code></pre></li>
+</ul>
+<h2>DOCUMENTS</h2><h2>Create Document</h2><h4>Request</h4><ul>
+<li>Endpoint <strong>POST</strong> <code>/documents</code></li>
+<li>Requires <code>Authorization</code> header to be set<pre class="prettyprint source"><code>{
+&quot;title&quot;: &quot;Marvel&quot;,
+&quot;content&quot;: &quot;Diary of a movie addict&quot;
+}</code></pre><h4>Response</h4></li>
+<li>Body <code>(application/json)</code><pre class="prettyprint source"><code>{
+&quot;access&quot;: &quot;public&quot;,
+&quot;id&quot;: 19,
+&quot;title&quot;: &quot;Marvel&quot;,
+&quot;content&quot;: &quot;Diary of a movie addict&quot;,
+&quot;OwnerId&quot;: 1,
+&quot;updatedAt&quot;: &quot;2017-04-03T13:32:34.887Z&quot;,
+&quot;createdAt&quot;: &quot;2017-04-03T13:32:34.887Z&quot;
+}</code></pre><h2>Get Document</h2><h4>Request</h4></li>
+<li>Endpoint <strong>GET</strong> <code>/documents</code></li>
+<li>Optional queries <strong>page</strong> (for the page number) &amp;&amp; <strong>limit</strong> (number of documents per page)</li>
+<li>Requires <code>Authorization</code> header to be set</li>
+</ul>
+<h4>Response</h4><pre class="prettyprint source"><code>{
+  &quot;paginationMeta&quot;: {
+    &quot;totalCount&quot;: 11,
+    &quot;pageSize&quot;: 8,
+    &quot;pageCount&quot;: 2,
+    &quot;currentPage&quot;: 1
+  },
+  &quot;result&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;title&quot;: &quot;hey there&quot;,
+      &quot;content&quot;: &quot;&lt;p>ea reiciendis fuga&lt;/p>&quot;,
+      &quot;OwnerId&quot;: 1,
+      &quot;access&quot;: &quot;private&quot;,
+      &quot;createdAt&quot;: &quot;2017-04-02T16:47:41.262Z&quot;,
+      &quot;updatedAt&quot;: &quot;2017-04-02T20:35:06.436Z&quot;
+    },
+    {
+      &quot;id&quot;: 5,
+      &quot;title&quot;: &quot;bread &quot;,
+      &quot;content&quot;: &quot;bread and beans&quot;,
+      &quot;OwnerId&quot;: 2,
+      &quot;access&quot;: &quot;role&quot;,
+      &quot;createdAt&quot;: &quot;2017-04-02T16:47:41.262Z&quot;,
+      &quot;updatedAt&quot;: &quot;2017-04-02T16:47:41.262Z&quot;
+    },
+    {
+      &quot;id&quot;: 4,
+      &quot;title&quot;: &quot;meal &quot;,
+      &quot;content&quot;: &quot;&lt;p>et ratione earum&lt;/p>&quot;,
+      &quot;OwnerId&quot;: 1,
+      &quot;access&quot;: &quot;role&quot;,
+      &quot;createdAt&quot;: &quot;2017-04-02T16:47:41.262Z&quot;,
+      &quot;updatedAt&quot;: &quot;2017-04-02T20:38:10.399Z&quot;
+    },
+    {
+      &quot;id&quot;: 3,
+      &quot;title&quot;: &quot;new doc &quot;,
+      &quot;content&quot;: &quot;This is my test second data&quot;,
+      &quot;OwnerId&quot;: 2,
+      &quot;access&quot;: &quot;private&quot;,
+      &quot;createdAt&quot;: &quot;2017-04-02T16:47:41.262Z&quot;,
+      &quot;updatedAt&quot;: &quot;2017-04-02T16:47:41.262Z&quot;
+    },
+    {
+      &quot;id&quot;: 7,
+      &quot;title&quot;: &quot;debitis&quot;,
+      &quot;content&quot;: &quot;culpa laudantium dolores&quot;,
+      &quot;OwnerId&quot;: 6,
+      &quot;access&quot;: &quot;public&quot;,
+      &quot;createdAt&quot;: &quot;2017-04-02T16:48:16.975Z&quot;,
+      &quot;updatedAt&quot;: &quot;2017-04-02T16:48:16.975Z&quot;
+    },
+    {
+      &quot;id&quot;: 8,
+      &quot;title&quot;: &quot;Multi-lateral high-level artificial intelligence&quot;,
+      &quot;content&quot;: &quot;Et aperiam laudantium et est cum architecto. Et architecto velit est voluptas. Sit impedit eveniet sit magnam aut.&quot;,
+      &quot;OwnerId&quot;: 6,
+      &quot;access&quot;: &quot;private&quot;,
+      &quot;createdAt&quot;: &quot;2017-04-02T16:48:16.987Z&quot;,
+      &quot;updatedAt&quot;: &quot;2017-04-02T16:48:16.987Z&quot;
+    },
+    {
+      &quot;id&quot;: 9,
+      &quot;title&quot;: &quot;Fundamental tertiary project&quot;,
+      &quot;content&quot;: &quot;Vel maiores quis dicta quos eos nisi sunt qui. Velit qui architecto accusantium cupiditate aliquid dignissimos doloremque porro. Sit est nostrum sed quas iste quia. Eaque itaque dolores aut cum dolorem ipsam.&quot;,
+      &quot;OwnerId&quot;: null,
+      &quot;access&quot;: &quot;public&quot;,
+      &quot;createdAt&quot;: &quot;2017-04-02T16:48:19.786Z&quot;,
+      &quot;updatedAt&quot;: &quot;2017-04-02T16:48:19.786Z&quot;
+    },
+    {
+      &quot;id&quot;: 13,
+      &quot;title&quot;: &quot;ddd&quot;,
+      &quot;content&quot;: &quot;&lt;p>simi&lt;/p>&quot;,
+      &quot;OwnerId&quot;: 1,
+      &quot;access&quot;: &quot;private&quot;,
+      &quot;createdAt&quot;: &quot;2017-04-02T20:20:16.614Z&quot;,
+      &quot;updatedAt&quot;: &quot;2017-04-03T10:04:25.359Z&quot;
+    }
+  ]
+}</code></pre><h2>Get A Document</h2><h4>Request</h4><ul>
+<li>Endpoint <strong>GET</strong> <code>/documents/:id</code> where id is the id of the document</li>
+<li>Requires <code>Authorization</code> header to be set</li>
+</ul>
+<h5>Response</h5><pre class="prettyprint source"><code>{
+  &quot;id&quot;: 4,
+  &quot;title&quot;: &quot;meal &quot;,
+  &quot;content&quot;: &quot;&lt;p>et ratione earum&lt;/p>&quot;,
+  &quot;OwnerId&quot;: 1,
+  &quot;access&quot;: &quot;role&quot;,
+  &quot;createdAt&quot;: &quot;2017-04-02T16:47:41.262Z&quot;,
+  &quot;updatedAt&quot;: &quot;2017-04-02T20:38:10.399Z&quot;
+}</code></pre><h2>Update Document</h2><h4>Request</h4><ul>
+<li>Endpoint <strong>PUT</strong> <code>/documents/:id</code> id is the id of the document</li>
+<li>Requires <code>Authorization</code> header to be set<pre class="prettyprint source"><code>{
+&quot;title&quot;: &quot;The accountant&quot;,
+&quot;content&quot;: &quot;J.K simmons was in the movie as well as Ben Affleck, one of my fav&quot;
+}</code></pre><h5>Response</h5><pre class="prettyprint source"><code>{
+&quot;id&quot;: 4,
+&quot;title&quot;: &quot;The accountant&quot;,
+&quot;content&quot;: &quot;J.K simmons was in the movie as well as Ben Affleck, one of my fav&quot;,
+&quot;OwnerId&quot;: 1,
+&quot;access&quot;: &quot;role&quot;,
+&quot;createdAt&quot;: &quot;2017-04-02T16:47:41.262Z&quot;,
+&quot;updatedAt&quot;: &quot;2017-04-02T20:38:10.399Z&quot;
+}</code></pre></li>
+</ul>
+<h2>Delete Document</h2><h4>Request</h4><ul>
+<li>Endpoint <strong>DELETE</strong> <code>/documents/:id</code>id of the document</li>
+<li>Requires <code>Authorization</code> header to be set<h4>Response</h4><pre class="prettyprint source"><code>{
+status: 200,
+message: 'Delete Successful'
+}</code></pre></li>
+</ul>
+<h2>Get Accessible Documents</h2><h4>Request</h4><ul>
+<li>Endpoint <strong>GET</strong> <code>/accessible/documents</code></li>
+<li>Requires <code>Authorization</code> header to be set<h4>Response</h4><pre class="prettyprint source"><code>[
+{
+&quot;id&quot;: 19,
+&quot;title&quot;: &quot;DEDE&quot;,
+&quot;content&quot;: &quot;This is my document&quot;,
+&quot;OwnerId&quot;: 1,
+&quot;access&quot;: &quot;public&quot;
+},
+{
+&quot;id&quot;: 4,
+&quot;title&quot;: &quot;meal &quot;,
+&quot;content&quot;: &quot;&lt;p>et ratione earum&lt;/p>&quot;,
+&quot;OwnerId&quot;: 1,
+&quot;access&quot;: &quot;role&quot;
+},
+{
+&quot;id&quot;: 15,
+&quot;title&quot;: &quot;bla bla&quot;,
+&quot;content&quot;: &quot;&lt;p>A random text to test how things are working&lt;/p>&quot;,
+&quot;OwnerId&quot;: 1,
+&quot;access&quot;: &quot;public&quot;
+},
+{
+&quot;id&quot;: 7,
+&quot;title&quot;: &quot;debitis&quot;,
+&quot;content&quot;: &quot;culpa laudantium dolores&quot;,
+&quot;OwnerId&quot;: 6,
+&quot;access&quot;: &quot;public&quot;
+}
+]</code></pre></li>
+</ul>
+<h2>Get Documents that were private shared with user</h2><h4>Request</h4><ul>
+<li>Endpoint <strong>GET</strong> <code>/documents/access/private</code></li>
+<li>Requires <code>Authorization</code> header to be set<h4>Response</h4><pre class="prettyprint source"><code>[
+{
+&quot;id&quot;: 3,
+&quot;title&quot;: &quot;new doc &quot;,
+&quot;content&quot;: &quot;This is my test second data&quot;,
+&quot;OwnerId&quot;: 2,
+&quot;access&quot;: &quot;private&quot;,
+&quot;createdAt&quot;: &quot;2017-04-02T16:47:41.262Z&quot;,
+&quot;updatedAt&quot;: &quot;2017-04-02T16:47:41.262Z&quot;
+},
+{
+&quot;id&quot;: 18,
+&quot;title&quot;: &quot;Simisola&quot;,
+&quot;content&quot;: &quot;&lt;p>Hi simi,&lt;/p>\n&lt;p>This is Seyi.&nbsp;&lt;/p>\n&lt;p>i am sharing a private message with you&nbsp;&lt;/p>&quot;,
+&quot;OwnerId&quot;: 5,
+&quot;access&quot;: &quot;private&quot;,
+&quot;createdAt&quot;: &quot;2017-04-03T10:58:09.488Z&quot;,
+&quot;updatedAt&quot;: &quot;2017-04-03T10:58:09.488Z&quot;
+}
+]</code></pre></li>
+</ul>
+<h2>Search</h2><h2>Search Users</h2><h4>Request</h4><ul>
+<li>Endpoint <strong>GET</strong> <code>/search/users?q=simi</code></li>
+<li>Requires <code>Authorization</code> header to be set<h4>Response</h4><pre class="prettyprint source"><code>[
+{
+&quot;id&quot;: 1,
+&quot;username&quot;: &quot;simi&quot;,
+&quot;firstname&quot;: &quot;Simisola&quot;,
+&quot;lastname&quot;: &quot;Akinrele&quot;,
+&quot;email&quot;: &quot;akinrelesimi@gmail.com&quot;,
+&quot;password&quot;: &quot;$2a$10$J/1mi4mPbP4XwEGJSknwlOS1/luSdiTlXueor5GoYO7eWnaXN4fZ.&quot;,
+&quot;RoleId&quot;: 1,
+&quot;createdAt&quot;: &quot;2017-04-02T16:47:41.251Z&quot;,
+&quot;updatedAt&quot;: &quot;2017-04-02T16:47:41.251Z&quot;
+},
+{
+&quot;id&quot;: 6,
+&quot;username&quot;: &quot;Jaylin_Harberdd&quot;,
+&quot;firstname&quot;: &quot;Bertsss&quot;,
+&quot;lastname&quot;: &quot;Jastsss&quot;,
+&quot;email&quot;: &quot;simisoola@gmail.com&quot;,
+&quot;password&quot;: &quot;$2a$10$YhkR1owE9.NT7AM27293VeimpYAQSe/6M976p5EDc7QprPL18z.eK&quot;,
+&quot;RoleId&quot;: 1,
+&quot;createdAt&quot;: &quot;2017-04-02T16:48:03.390Z&quot;,
+&quot;updatedAt&quot;: &quot;2017-04-02T22:04:50.756Z&quot;
+}
+]</code></pre></li>
+</ul>
+<h2>Search Documents</h2><h4>Request</h4><ul>
+<li>Endpoint <strong>GET</strong> <code>/search/documents?q=simi</code></li>
+<li>Requires <code>Authorization</code> header to be set<h4>Response</h4><pre class="prettyprint source"><code>[
+{
+&quot;id&quot;: 13,
+&quot;title&quot;: &quot;ddd&quot;,
+&quot;content&quot;: &quot;&lt;p>simi&lt;/p>&quot;,
+&quot;OwnerId&quot;: 1,
+&quot;access&quot;: &quot;private&quot;,
+&quot;createdAt&quot;: &quot;2017-04-02T20:20:16.614Z&quot;,
+&quot;updatedAt&quot;: &quot;2017-04-03T10:04:25.359Z&quot;
+},
+{
+&quot;id&quot;: 18,
+&quot;title&quot;: &quot;Simisola&quot;,
+&quot;content&quot;: &quot;&lt;p>Hi simi,&lt;/p>\n&lt;p>This is Seyi.&nbsp;&lt;/p>\n&lt;p>i am sharing a private message with you&nbsp;&lt;/p>&quot;,
+&quot;OwnerId&quot;: 5,
+&quot;access&quot;: &quot;private&quot;,
+&quot;createdAt&quot;: &quot;2017-04-03T10:58:09.488Z&quot;,
+&quot;updatedAt&quot;: &quot;2017-04-03T10:58:09.488Z&quot;
+}
+]</code></pre></li>
+</ul></article>
+    </section>
+
+
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	Akinrele Oluwasinmisola &copy; 2017
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
+	
+		on 2017-04-03T15:21:04+01:00
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+<script>
+	$( function () {
+		$( '#main' ).localScroll( {
+			offset : { top : 60 } //offset by the height of your header (give or take a few px, see what works for you)
+		} );
+		$( "dt.name" ).each( function () {
+			var $this = $( this ).find("h4");
+			var icon = $( "<i/>" ).addClass( "icon-plus-sign" ).addClass( "pull-right" ).addClass( "icon-white" );
+			var dt = $(this);
+			var children = dt.next( "dd" );
+
+			dt.prepend( icon ).css( {cursor : "pointer"} );
+			dt.addClass( "member-collapsed" ).addClass( "member" );
+
+
+			children.hide();
+
+			dt.children().on( "click", function () {
+				children = dt.next( "dd" );
+				children.slideToggle( "fast", function () {
+
+					if ( children.is( ":visible" ) ) {
+						icon.addClass( "icon-minus-sign" ).removeClass( "icon-plus-sign" ).removeClass( "icon-white" );
+						dt.addClass( "member-open" ).animate( "member-collapsed" );
+					} else {
+						icon.addClass( "icon-plus-sign" ).removeClass( "icon-minus-sign" ).addClass( "icon-white" );
+						dt.addClass( "member-collapsed" ).removeClass( "member-open" );
+					}
+				} );
+			} );
+
+		} );
+	} );
+</script>
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

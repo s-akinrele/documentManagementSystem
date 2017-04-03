@@ -1,91 +1,130 @@
-// import 'whatwg-fetch';
-import * as request from 'superagent';
-import React, { Component } from 'react';
-import { Button, Row, Col, Icon, Input, Tabs, Tab } from 'react-materialize';
+import React, { Component, PropTypes } from 'react';
+import { browserHistory } from 'react-router';
+import { connect } from 'react-redux';
+import { Row, Col, Tabs, Tab } from 'react-materialize';
 import '../main.scss';
+import { login, isLoggedIn } from '../helpers/auth';
+import { fetchRoles, signup } from '../actions/actionCreator';
+import Signup from './authentication/signup';
+import Signin from './authentication/signin';
 
 class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      error: "",
-      message: ""
+      error: '',
+      user: {
+        username: '',
+        firstname: '',
+        lastname: '',
+        email: '',
+        password: ''
+      }
+    };
+    this.handleLogin = this.handleLogin.bind(this);
+    this.handleSignup = this.handleSignup.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+  componentDidMount() {
+    if (isLoggedIn()) {
+      browserHistory.push('/dashboard');
     }
+    this.props.fetchRoles();
   }
 
-  login(e) {
+  handleLogin(e) {
     e.preventDefault();
-    let email = this.refs.email.state.value;
-    let password = this.refs.password.state.value;
-    request
-      .post('http://localhost:5000/users/login')
-      .send({
-        email: email,
-        password: password
-      }).end((err, res) => {
-          console.log(res.status);
-
-        if (err) {
-          if (res.status !== 200) {
-            this.setState({ error: res.body.message });
-          } else {
-            this.setState({ message: res.body.message });
-          }
-        }
-      });
+    login(this.state.user, (err) => {
+      if (err) {
+        Materialize.toast('Invalid Username or Password', 4000, 'rounded');
+      } else {
+        browserHistory.push('/dashboard');
+      }
+    });
   }
+  handleChange(e) {
+    e.preventDefault();
+    const field = e.target.name;
+    const user = this.state.user;
+    user[field] = e.target.value;
 
+    this.setState({
+      user
+    });
+  }
+  handleSignup(e) {
+    e.preventDefault();
+    this.props.signup(this.state.user);
+    Materialize.toast('Welcome', 4000, this.props.handler);
+  }
   render() {
+    const { user } = this.state;
     return (
       <div className="Main">
         <Row>
-        <Col s={12}>
-          <Row>
-            <Col s={8} className="bkg">
-              <h2>Document Management System</h2>
-              <p className="text">Document Management System helps you to manage your documents in an organized way. You can create a document, edit it and share it with other users. </p>
-            </Col>
-            <Col s={4} className="login">
-              <div className=" shadow">
-                <h3 className="logo"> DMS </h3>
-                <Tabs className="tab-demo z-depth-1">
-                  <Tab title="Sign in" active>
-                    <p className="logo">Log in to your account </p>
-                    <Input type="email" label="Email" ref="email" required s={12} />
-                    <Input type="password" label="password" ref="password" required s={12} />
-                    <p>
-                      <span className="err">{this.state.error}{this.state.message}</span>
-                    </p>
-                    <Button className="btn tomato" onClick={this.login.bind(this)} waves="light">Log in <Icon right>send</Icon></Button>
-                  </Tab>
-                  <Tab title="Sign up">
-                    <div>
-                      <p className="logo">Create an account </p>
-                      <Input type="text" label="Username" required />
-                      <Input type="text" label="Firstname" required />
-                      <Input type="text" label="Lastname" required />
-                      <Input type="email" label="Email" required />
-                      
-                      <Input type="password" label="password" required />
-                      <Button className="btn" waves="light">Sign up<Icon right>send</Icon></Button>
-                    </div>
-                  </Tab>
-                  <Tab title="Why" active>
-                    <div>
-                      <p className="why">We need this information so that you can receive access to the site and its content. Rest assured your information will not be sold, traded, or given to anyone.</p>
-                    </div>
-                  </Tab>
-                </Tabs>
-              </div>
-            </Col>
+          <Col s={12}>
+            <Row>
+              <Col s={8} className="bkg">
+                <h2 id="title" >Document Management System</h2>
+                <p
+                  id="text"
+                  className="text"
+                >
+                  Document Management System helps you to manage
+                  your documents in an organized way. You can create a document,
+                  edit it and share it with other users. </p>
+              </Col>
+              <Col s={4} className="login">
+                <div className=" shadow">
+                  <h3 className="logo"> DMS </h3>
+                  <Tabs className="tab-demo z-depth-1">
+                    <Tab title="Sign in" active>
+                      <Signin
+                        handleLogin={this.handleLogin}
+                        handleChange={this.handleChange}
+                      />
+                    </Tab>
+                    <Tab title="Sign up" className="signup">
+                      <Signup
+                        user={user}
+                        handleChange={this.handleChange}
+                        handleSignup={this.handleSignup}
+                      />
+                    </Tab>
+                    <Tab title="Why" className="info">
+                      <div>
+                        <p id="why" className="why">We need this information so that you
+                           can receive access to the site and its content.
+                           Rest assured your information will not be sold,
+                           traded, or given to anyone.</p>
+                      </div>
+                    </Tab>
+                  </Tabs>
+                </div>
+              </Col>
 
-          </Row>
-        </Col>
-      </Row>
+            </Row>
+          </Col>
+        </Row>
       </div>
     );
   }
 }
 
+const mapStateToProps = state => ({
+  handler: state.handler
+});
 
-export default HomePage;
+
+const mapDispatchToProps = {
+  fetchRoles,
+  signup
+};
+
+HomePage.propTypes = {
+  fetchRoles: PropTypes.func.isRequired,
+  signup: PropTypes.func.isRequired,
+  handler: PropTypes.string.isRequired
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

@@ -9,7 +9,8 @@ let jwtToken;
 
 
 describe('Document suite', () => {
-  describe('Test Document', () => {
+  describe('Test Document', function() {
+    this.timeout(60000);
     before((done) => {
       server
       .post('/users/')
@@ -33,6 +34,18 @@ describe('Document suite', () => {
     it('Should test for pagination meta when returning all documents', (done) => {
       server
       .get('/documents/')
+      .expect(200)
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.isNotNull(res.body.paginationMeta);
+        assert.typeOf(res.body.paginationMeta, 'object');
+        done();
+      });
+    });
+    it('Should test for pagination meta when returning all documents', (done) => {
+      server
+      .get('/documents/?limit=a&offset=c')
       .expect(200)
       .set('X-ACCESS-TOKEN', jwtToken)
       .end((err, res) => {
@@ -71,7 +84,7 @@ describe('Document suite', () => {
       .send({ title: 'Notes for the day' })
       .end((err, res) => {
         assert.equal(res.status, 200);
-        assert.equal(res.body.message, 'Update successful');
+        assert.isNotNull(res.body);
         done();
       });
     });
@@ -90,6 +103,16 @@ describe('Document suite', () => {
       .post('/documents')
       .set('X-ACCESS-TOKEN', jwtToken)
       .send(helper.newDoc)
+      .end((err, res) => {
+        assert.equal(res.status, 201);
+        done();
+      });
+    });
+    it('Should be able to create a document and share privately', (done) => {
+      server
+      .post('/documents')
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .send(helper.sharePrivateDocument)
       .end((err, res) => {
         assert.equal(res.status, 201);
         done();

@@ -69,7 +69,6 @@ const Userctrl = {
   * Get a specific user by UserId
   * @param {Object} req - Request object
   * @param {Object} res - Response object
-  * @returns {Object} Response object
   */
   findUser: (req, res) => {
     db.User.findOne({ where: { id: req.params.id } })
@@ -89,7 +88,6 @@ const Userctrl = {
    * Get all users in the database
    * @param {Object} req - Request object
    * @param {Object} res - Response object
-   * @returns {Object} Response object
    */
   findAllUsers: (req, res) => {
     const page = helper.pagination(req);
@@ -123,16 +121,54 @@ const Userctrl = {
    */
 
   updateUser: (req, res) => {
+    const body = req.body;
     db.User.findOne({ where: { id: req.params.id } })
       .then((user) => {
         if (!user) {
           return res.status(404)
             .send({ message: 'User not found' });
         }
-        user.update(req.body)
+        user.update({
+          username: body.username || user.username,
+          firstname: body.firstname || user.firstname,
+          lastname: body.lastname || user.lastname,
+          email: body.email || user.email,
+          RoleId: req.decoded.RoleId === 1 && body.RoleId ? body.RoleId : user.RoleId
+        })
           .then((updatedUser) => {
-            res.status(200).send({ updatedUser, message: 'Update successful' });
+            res.status(200).send(updatedUser);
           });
+      })
+      .catch((err) => {
+        res.status(400).send(err.errors);
+      });
+  },
+
+  /**
+   * Update Password
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @returns {Object} Response object
+   */
+
+  updatePassword: (req, res) => {
+    db.User.findOne({ where: { id: req.params.id } })
+      .then((user) => {
+        if (!user) {
+          return res.status(404)
+            .send({ message: 'User not found' });
+        }
+        if (bcrypt.compareSync(req.body.oldPassword, user.password)) {
+          const newPassword = bcrypt.hashSync(req.body.newPassword, bcrypt.genSaltSync(10));
+          user.password = newPassword;
+          user.save()
+          .then((updatedUser) => {
+            res.status(200).send({ updatedUser, message: 'Password Update successful' });
+          });
+        } else {
+          return res.status(400)
+            .send({ message: 'Incorrect Password' });
+        }
       })
       .catch((err) => {
         res.status(400).send(err.errors);
@@ -186,7 +222,7 @@ const Userctrl = {
           }, secret, {
             expiresIn: '10h'
           });
-          res.send({ token });
+          res.send({ token, user });
         } else {
           res.status(400).send({ message: 'Invalid username or password' });
         }

@@ -53,7 +53,7 @@ const Rolectrl = {
         }
         role.update(req.body)
           .then(() => {
-            res.status(200).send({ message: 'Update successful' });
+            res.status(200).send(role);
           });
       })
       .catch((err) => {

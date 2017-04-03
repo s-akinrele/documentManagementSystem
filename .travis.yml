@@ -3,7 +3,7 @@ node_js:
   - "node"
 services:
   - postgresql
-script: npm run coveralls
+script: npm run coverage
 before_script:
   - npm install
   - psql -c 'create database travis;' -U postgres
