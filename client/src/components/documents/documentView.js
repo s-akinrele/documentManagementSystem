@@ -21,7 +21,7 @@ class DocumentView extends Component {
     };
     this.handleDocumentDelete = this.handleDocumentDelete.bind(this);
   }
-  componentDidMount() {
+  componentWillMount() {
     this.handleDocumentView();
   }
   handleDocumentView() {

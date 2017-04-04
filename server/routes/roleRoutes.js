@@ -3,7 +3,7 @@ import auth from '../middlewares/auth';
 
 const roleRoute = (router) => {
   router.route('/role')
-    .get(roleCtrl.findAllRoles)
+    .get(auth.verifyToken, auth.verifyAdmin, roleCtrl.findAllRoles)
     .post(auth.verifyToken, auth.verifyAdmin, roleCtrl.createRole);
 
   router.route('/role/:id')
