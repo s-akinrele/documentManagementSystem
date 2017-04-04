@@ -36,6 +36,7 @@ class DocumentView extends Component {
     const documentId = this.props.params.id;
     this.props.deleteDocument(documentId);
   }
+
   render() {
     const userOwnsDocument = currentUser().id === this.props.document.OwnerId;
     const modifyButtons = (
