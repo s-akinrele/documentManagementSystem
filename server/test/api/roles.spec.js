@@ -105,7 +105,7 @@ describe('Role suite', () => {
     });
     it('Should return status 404 when a role has been deleted', (done) => {
       server
-      .delete('/role/0')
+      .delete('/role/3')
       .set('X-ACCESS-TOKEN', jwtToken)
       .end((err, res) => {
         assert.equal(res.status, 404);
