@@ -44,7 +44,7 @@ class Filter extends Component {
             <option value="myDoc">My documents</option>
             <option value="otherDoc">Other Documents</option>
             <option value="privateDoc">Private Documents</option>
-            { isAdmin ? <option value="alldocuments"> All Documents </option> : '' }
+            { isAdmin ? <option value="alldocuments"> All Documents </option> : null }
           </select>
         </div>
       </div>

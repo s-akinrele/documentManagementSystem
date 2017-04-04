@@ -207,3 +207,14 @@ ul:not(.browser-default) {
     transition: color .2s;
     color: white;
 }
+
+.empty {
+    border-radius: 25px;
+    background: lightslategrey;
+    padding: 20px; 
+    margin-top: 60px;
+    font-family: $fonts;
+    font-size: 30px;
+    color: white;
+    text-align: center;
+}

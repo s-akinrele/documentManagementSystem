@@ -42,15 +42,20 @@ class Dashboard extends Component {
   render() {
     const documents = this.props.documents;
     const { totalCount, pageSize, currentPage, pageCount } = this.state.metadata;
+    const emptyState = documents.length === 0;
     return (
       <div className="Main">
         <NavBar {...this.props} />
         <div id="main" className="container">
           <Filter {...this.props} />
+          { emptyState ? <div className="empty">
+            OOPS! No document found, it is either you dont have a document
+            please tap on the button below to create a document
+            or no document matches your search </div> :
           <Row>
             { documents.map((document, index) =>
               <DocumentPreview document={document} i={index} key={index} />)}
-          </Row>
+          </Row> }
         </div>
         <DocumentForm {...this.props} />
         <Pagination

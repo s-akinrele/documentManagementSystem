@@ -21,7 +21,7 @@ class DocumentView extends Component {
     };
     this.handleDocumentDelete = this.handleDocumentDelete.bind(this);
   }
-  componentDidMount() {
+  componentWillMount() {
     this.handleDocumentView();
   }
   handleDocumentView() {
@@ -36,6 +36,7 @@ class DocumentView extends Component {
     const documentId = this.props.params.id;
     this.props.deleteDocument(documentId);
   }
+
   render() {
     const userOwnsDocument = currentUser().id === this.props.document.OwnerId;
     const modifyButtons = (

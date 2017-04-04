@@ -3,7 +3,6 @@ import { browserHistory } from 'react-router';
 import request from '../helpers/request';
 import { fetchToken } from '../helpers/auth';
 
-
 /**
  * @export
  * @param {any} payload
