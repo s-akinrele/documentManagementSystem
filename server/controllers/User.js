@@ -246,9 +246,9 @@ const User = {
         user.save();
         // send email
         const options = {
-          service: 'gmail',
+          service: 'yahoo',
           to: user.email,
-          from: 'akinrelesimi@gmail.com',
+          from: 'seeme4life@yahoo.com',
           subject: "New password for DMS",
           text: "Hi, you requested for a new password",
           html: `---> <p>Please reset your password when you're logged in
