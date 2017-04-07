@@ -1,5 +1,5 @@
 import DocumentController from '../controllers/Document';
-import auth from '../middlewares/auth';
+import auth from '../middlewares/Auth';
 
 const docRoute = (router) => {
   router.route('/documents')
