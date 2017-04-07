@@ -56,25 +56,25 @@ class ViewUsers extends Component {
           <form className="col s12">
             <ul className="collection with-header">
               <li className="collection-item">
-              <table>
-                <thead>
-                  <tr>
+                <table>
+                  <thead>
+                    <tr>
                       <th>Username</th>
                       <th>First Name</th>
                       <th>Last Name</th>
                       <th>Email</th>
-                  </tr>
-                </thead>
+                    </tr>
+                  </thead>
 
-                <tbody>
-                  <tr>
-                    <td>{this.props.user.username}</td>
-                    <td>{this.props.user.firstname}</td>
-                    <td>{this.props.user.lastname}</td>
-                    <td className="email">{this.props.user.email}</td>
-                  </tr>
-                </tbody>
-              </table>
+                  <tbody>
+                    <tr>
+                      <td>{this.props.user.username}</td>
+                      <td>{this.props.user.firstname}</td>
+                      <td>{this.props.user.lastname}</td>
+                      <td className="email">{this.props.user.email}</td>
+                    </tr>
+                  </tbody>
+                </table>
                 <Modal
                   className="manage-user"
                   header="Manage User"

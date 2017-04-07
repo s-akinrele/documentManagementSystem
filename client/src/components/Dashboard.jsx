@@ -20,23 +20,23 @@ class Dashboard extends Component {
       limitset: 8
     };
     this.displayDocuments = this.displayDocuments.bind(this);
-    this.handleLimitChange = this.handleLimitChange.bind(this); 
+    this.handleLimitChange = this.handleLimitChange.bind(this);
   }
 
   componentDidMount() {
     if (!isLoggedIn()) {
-      browserHistory.push('/'); 
+      browserHistory.push('/');
     } else {
       this.props.fetchUserDocument();
     }
   }
- 
- handleLimitChange(event) {
-  const limitset =  Math.abs(parseInt(event.target.value));
-  this.setState(Object.assign({}, this.state, {limitset}))
-  const pageNumber = this.state.metadata.currentPage;
-  this.displayDocuments(pageNumber, limitset);
- }
+
+  handleLimitChange(event) {
+    const limitset = Math.abs(parseInt(event.target.value, 10));
+    this.setState(Object.assign({}, this.state, { limitset }));
+    const pageNumber = this.state.metadata.currentPage;
+    this.displayDocuments(pageNumber, limitset);
+  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.metadata.hasOwnProperty('metadata')) {
@@ -59,7 +59,7 @@ class Dashboard extends Component {
         <NavBar {...this.props} />
         <div id="main" className="container">
           <Filter {...this.props} />
-          <SetLimit handleLimitChange={this.handleLimitChange} value={this.state.limitset}/>
+          <SetLimit handleLimitChange={this.handleLimitChange} value={this.state.limitset} />
           { emptyState ? <div className="empty">
             OOPS! No document found, it is either you dont have a document
             please tap on the button below to create a document
