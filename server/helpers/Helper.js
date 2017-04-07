@@ -51,7 +51,7 @@ export const pagination = (paginationData, documentCount) => {
 };
 
 /**
- * Send email 
+ * Send email
  * @param {Object} options
  * @return {Object}
  */
@@ -60,11 +60,10 @@ export const sendEmail = (options) => {
   let transporter = nodemailer.createTransport({
     service,
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
+      user: 'akinrelesimi@gmail.com',
+      pass: 'OREOLUWA'
     }
   });
-
   let mailOptions = {
     from,
     to,
@@ -76,7 +75,7 @@ export const sendEmail = (options) => {
     if (err) console.log(err);
     return "Message sent";
   });
-}
+};
 
 /**
  * Generate random password
