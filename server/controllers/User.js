@@ -248,7 +248,7 @@ const User = {
         const options = {
           service: 'yahoo',
           to: user.email,
-          from: 'seeme4life@yahoo.com',
+          from: process.env.EMAIL_USER,
           subject: "New password for DMS",
           text: "Hi, you requested for a new password",
           html: `---> <p>Please reset your password when you're logged in

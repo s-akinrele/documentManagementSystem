@@ -60,8 +60,8 @@ export const sendEmail = (options) => {
   let transporter = nodemailer.createTransport({
     service: 'yahoo',
     auth: {
-      user: 'seeme4life@yahoo.com',
-      pass: 'Oreoluwa1'
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
     }
   });
   let mailOptions = {
