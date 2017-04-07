@@ -1,9 +1,10 @@
 import faker from 'faker';
+import config from './config';
 
 module.exports = {
   'Edit role': (browser) => {
     browser
-     .url('http://localhost:5000')
+     .url(config.url)
      .waitForElementVisible('body')
      .setValue('input[type=email]', 'akinrelesimi@gmail.com')
      .setValue('input[type=password]', 'password')

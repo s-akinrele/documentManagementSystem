@@ -3,15 +3,15 @@ import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute } from 'react-router';
 import { Provider } from 'react-redux';
 import store, { history } from './store';
-import homePage from './components/homePage';
-import Dashboard from './components/Dashboard';
-import NotFound from './components/notFoundPage/notFoundPage';
-import DocumentView from './components/documents/documentView';
-import Profile from './components/user/profile';
-import ManageRole from './components/roles/manageRoles';
-import ManageUser from './components/user/manageUser';
+import homePage from './components/HomePage.jsx';
+import Dashboard from './components/Dashboard.jsx';
+import NotFound from './components/notfound/NotFound.jsx';
+import DocumentView from './components/documents/DocumentView.jsx';
+import Profile from './components/user/Profile.jsx';
+import ManageRole from './components/roles/ManageRoles.jsx';
+import ManageUser from './components/user/ManageUser.jsx';
 import Main from './main';
-import { checkAuth } from './helpers/auth';
+import { checkAuth } from './helpers/Auth';
 
 
 const router = (

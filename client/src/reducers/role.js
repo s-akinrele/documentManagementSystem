@@ -1,11 +1,12 @@
 
 let newState;
 /**
- *
+ *Updates the role state
+ *depending on the action dispatched
  * @export
  * @param {any} [state=[]]
- * @param {any} action
- * @returns
+ * @param {any} action is the current action that is being called
+ * @returns {Object}
  */
 export default function roles(state = [], action) {
   switch (action.type) {

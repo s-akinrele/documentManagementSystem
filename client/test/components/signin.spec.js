@@ -2,8 +2,8 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { Input } from 'react-materialize';
 import { expect } from 'chai';
-import Signin from '../../src/components/authentication/signin';
-import '../../src/main.scss';
+import Signin from '../../src/components/authentication/Signin.jsx';
+import '../../src/style/main.scss';
 
 describe(' Test for SignIn Component', () => {
   const setUp = () => {

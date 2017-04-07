@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-expressions */
 import React from 'react';
 import { mount } from 'enzyme';
 import { Modal, Button, Icon } from 'react-materialize';
 import { expect } from 'chai';
-import Dialog from '../../src/components/diaLog/confirmDialog';
-import '../../src/main.scss';
+import Dialog from '../../src/components/dialog/Dialog.jsx';
+import '../../src/style/main.scss';
 
 describe(' Test for Dialog Component', () => {
   const setUp = () => {

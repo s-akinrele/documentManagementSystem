@@ -2,15 +2,15 @@ import supertest from 'supertest';
 import { assert } from 'chai';
 import app from '../../server';
 import '../../models/index';
-import helper from '../helpers/helper';
+import helper from '../helpers/Helper';
 
 const server = supertest.agent(app);
 let jwtToken;
 
 describe('Users', () => {
-  it('Users should be able to sign up', (done) => {
+  it('Should be able to sign up', (done) => {
     server
-      .post('/users/')
+      .post('/users')
       .send(helper.newUser)
       .expect(200)
       .end((err, res) => {
@@ -19,9 +19,10 @@ describe('Users', () => {
         done();
       });
   });
-  it('It should return a message when user tries to sign up with an exisitig email', (done) => {
+
+  it('Should return a message when user tries to sign up with an exisitig email', (done) => {
     server
-      .post('/users/')
+      .post('/users')
       .send(helper.existingEmail)
       .end((err, res) => {
         assert.equal(res.status, 409);
@@ -29,15 +30,17 @@ describe('Users', () => {
         done();
       });
   });
+
   it('Should return 400 status when user tries to signup without firstname or lastname ', (done) => {
     server
-      .post('/users/')
+      .post('/users')
       .send(helper.newUserWithlastName)
       .end((err, res) => {
         assert.equal(res.status, 400);
         done();
       });
   });
+
   it('Should return a token when user logs in ', (done) => {
     server
       .post('/users/login')
@@ -48,6 +51,7 @@ describe('Users', () => {
         done();
       });
   });
+
   it('Should return error message when user tries to login in with invalid details ', (done) => {
     server
       .post('/users/login')
@@ -57,6 +61,7 @@ describe('Users', () => {
         done();
       });
   });
+
   it('Should return error message when user tries to login in with invalid details ', (done) => {
     server
       .post('/users/login')
@@ -66,6 +71,7 @@ describe('Users', () => {
         done();
       });
   });
+
   it('Should return message when a user logs out', (done) => {
     server
       .post('/users/logout')
@@ -74,6 +80,7 @@ describe('Users', () => {
         done();
       });
   });
+
   describe('Access with token', () => {
     before((done) => {
       server
@@ -84,6 +91,7 @@ describe('Users', () => {
         done();
       });
     });
+
     it('Should return success when a users information is edited', (done) => {
       server
       .put('/users/3')
@@ -94,6 +102,7 @@ describe('Users', () => {
         done();
       });
     });
+
     it('Should return users document with a particular userId', (done) => {
       server
       .get('/users/3/documents')
@@ -103,6 +112,7 @@ describe('Users', () => {
         done();
       });
     });
+
     it('Should be able to udpate password', (done) => {
       server
       .put('/users/3/password')
@@ -113,6 +123,7 @@ describe('Users', () => {
         done();
       });
     });
+
     it('Should be able to udpate password', (done) => {
       server
       .put('/users/1/password')
@@ -124,6 +135,7 @@ describe('Users', () => {
         done();
       });
     });
+
     it('Should return status 200 when a user has been deleted', (done) => {
       server
       .delete('/users/3')
@@ -135,6 +147,7 @@ describe('Users', () => {
         done();
       });
     });
+
     it('Should return users information if user exist', (done) => {
       server
       .get('/users/1')
@@ -146,6 +159,7 @@ describe('Users', () => {
         done();
       });
     });
+
     it('Should return users information when searched using the users email', (done) => {
       server
       .get('/users/search/barbara@gmail.com')
@@ -156,6 +170,7 @@ describe('Users', () => {
         done();
       });
     });
+
     it('Should return users if found', (done) => {
       server
       .get('/search/users/?q=simi')
@@ -167,6 +182,7 @@ describe('Users', () => {
         done();
       });
     });
+
     it('Should verify if user is logged in before fetching documents', (done) => {
       server
       .get('/users/documents')
@@ -176,6 +192,7 @@ describe('Users', () => {
         done();
       });
     });
+
     it('Should fetch users document', (done) => {
       server
       .get('/users/documents?offset=5&limit=2&order=DESC')
@@ -186,9 +203,10 @@ describe('Users', () => {
         done();
       });
     });
+
     it('Should validate offset, limit before getting document', (done) => {
       server
-      .get('/users/documents?offset=q&limit=c&order=ASC')
+      .get('/users/documents?limit=c&offset=c&order=ASC')
       .set('X-ACCESS-TOKEN', jwtToken)
       .end((err, res) => {
         assert.equal(res.status, 200);
@@ -196,6 +214,7 @@ describe('Users', () => {
         done();
       });
     });
+
     it('Should return error message when search for a user with invalid email', (done) => {
       server
       .get('/users/search/seye@gmail.com')
@@ -205,6 +224,7 @@ describe('Users', () => {
         done();
       });
     });
+
     it('Should return invalid user if user does not exist', (done) => {
       server
       .get('/users/500')
@@ -216,9 +236,10 @@ describe('Users', () => {
         done();
       });
     });
+
     it('Should get all users', (done) => {
       server
-      .get('/users/')
+      .get('/users')
       .expect(200)
       .set('X-ACCESS-TOKEN', jwtToken)
       .end((err, res) => {

@@ -7,7 +7,7 @@ const data = {
     lastname: faker.name.lastName(),
     email: 'simisoola@gmail.com',
     password: 'password',
-    RoleId: 1
+    roleId: 1
   },
   administrator: {
     username: faker.internet.userName(),
@@ -15,7 +15,7 @@ const data = {
     lastname: faker.name.lastName(),
     email: faker.internet.email(),
     password: 'password',
-    RoleId: 1
+    roleId: 1
   },
   newUser: {
     username: faker.internet.userName(),
@@ -23,7 +23,7 @@ const data = {
     lastname: faker.name.lastName(),
     email: faker.internet.email(),
     password: 'password',
-    RoleId: 2
+    roleId: 2
   },
   newUserWithlastName: {
     firstname: faker.name.firstName(),
@@ -50,7 +50,7 @@ const data = {
     lastname: 'Adetayo',
     email: 'rere@gmail.com',
     password: 'password',
-    RoleId: 2
+    roleId: 2
   },
   user: {
     username: faker.internet.userName(),
@@ -58,7 +58,7 @@ const data = {
     lastname: faker.name.lastName(),
     email: faker.internet.email(),
     password: 'password',
-    RoleId: 2
+    roleId: 2
   },
   invalidEmail: {
     username: faker.internet.userName(),
@@ -66,14 +66,14 @@ const data = {
     lastname: faker.name.lastName(),
     email: 'simisoola',
     password: 'password',
-    RoleId: 2
+    roleId: 2
   },
   noUsername: {
     firstname: faker.name.firstName(),
     lastname: faker.name.lastName(),
     email: faker.internet.email(),
     password: 'password',
-    RoleId: 2
+    roleId: 2
   },
   newDocument: {
     title: faker.company.catchPhrase(),
@@ -85,12 +85,12 @@ const data = {
     lastname: faker.name.lastName(),
     email: faker.internet.email(),
     password: 'password',
-    RoleId: 2
+    roleId: 2
   },
   invalidDocument: {
     content: faker.lorem.paragraph(),
     access: 'private',
-    OwnerId: 3
+    ownerId: 3
   },
   createRole: {
     title: faker.lorem.word()

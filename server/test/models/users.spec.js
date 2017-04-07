@@ -1,7 +1,7 @@
 /*eslint no-unused-expressions: "off"*/
 import { expect } from 'chai';
 import db from '../../models/index';
-import helper from '../helpers/helper';
+import helper from '../helpers/Helper';
 
 describe('User Model', () => {
   let user;
@@ -13,21 +13,26 @@ describe('User Model', () => {
         done();
       });
     });
+
     it('should be able to create a user', () => {
       expect(user).to.exist;
       expect(typeof user).to.equal('object');
     });
+
     it('user should have username', () => {
       expect(user).to.exist;
       expect(user).to.have.deep.property('username');
     });
+
     it('should create a user with first name & last name', () => {
       expect(user.firstname).to.equal(helper.user.firstname);
       expect(user.lastname).to.equal(helper.user.lastname);
     });
+
     it('should create a user with a valid email', () => {
       expect(user.email).to.equal(helper.user.email);
     });
+
     it('should ensure that username is not null', () => {
       db.User.create(helper.noUsername)
       .catch((error) => {
@@ -35,16 +40,12 @@ describe('User Model', () => {
          .test(error.message)).to.be.true;
       });
     });
-    it('should create a user with a defined role', (done) => {
-      db.User.findById(user.id, {
-        include: [db.Role]
-      })
-      .then((foundUser) => {
-        expect(foundUser.Role.title).to.equal('User');
-        done();
-      });
+
+    it('should create a user with a defined role', () => {
+      expect(user.roleid).to.equal(helper.user.id);
     });
   });
+
   describe('Email validation', () => {
     it('should ensure that email is authenthic', () => {
       db.User.create(helper.invalidEmail)
@@ -54,6 +55,7 @@ describe('User Model', () => {
       });
     });
   });
+
   describe('Password Validation', () => {
     it('should be valid if compared', () => {
       db.User.create(helper.newUser)

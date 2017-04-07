@@ -8,8 +8,9 @@ describe('Pagination reducer', () => {
   it('should return the initial state', () => {
     expect(paginationReducer(undefined, {})).to.eql({});
   });
+
   it('should get all documents', () => {
-    const testAction = { type: 'PAGINATION', payload: paginationMetadata };
+    const testAction = { type: 'FETCH_PAGINATION', payload: paginationMetadata };
     expect(paginationReducer(initialState, testAction)).to.eql(paginationMetadata);
   });
 });

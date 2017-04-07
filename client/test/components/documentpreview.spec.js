@@ -1,20 +1,26 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import chaiEnzyme from 'chai-enzyme'
 import { Col, CardPanel, Icon, Dropdown } from 'react-materialize';
 import { Link } from 'react-router';
 import { expect } from 'chai';
-import '../../src/main.scss';
-import DocumentPreview from '../../src/components/documents/documentPreview';
+import '../../src/style/main.scss';
+import DocumentPreview from '../../src/components/documents/DocumentPreview.jsx';
+
 
 describe('Test for document preview', () => {
   const setUp = () => {
     const props = {
-      document: {}
+      document: {id: 1,
+        title: 'my doc',
+        content: 'this is my doc' }
     };
+
     const wrapper = shallow(<DocumentPreview {...props} />);
     return { wrapper, props };
   };
-  it('document preview should be rendered', () => {
+
+  it('should render itself', () => {
     const { wrapper } = setUp();
     expect(wrapper.length).to.eql(1);
     expect(wrapper.find(Dropdown).length).to.eql(1);
@@ -23,19 +29,29 @@ describe('Test for document preview', () => {
     expect(wrapper.find(CardPanel).length).to.eql(1);
     expect(wrapper.find(Icon).length).to.eql(1);
   });
-  it('component should have props', () => {
+
+  it('should have props ', () => {
     const { wrapper } = setUp();
     expect(wrapper.props().document).to.be.defined;
   });
-  it('div with id access to have class', () => {
+ 
+  it('should have props for content', () => {
+    const { wrapper, props } = setUp();
+    console.log(wrapper.instance().props)
+    expect(wrapper.instance().props.document).to.equal(props.document);
+  });
+
+  it('should have a class name access', () => {
     const { wrapper } = setUp();
     expect(wrapper.find('#access').hasClass('access')).to.equal(true);
   });
-  it('CardPanel to have class lighten-4 black-text ', () => {
+
+  it('should to have class lighten-4 black-text ', () => {
     const { wrapper } = setUp();
     expect(wrapper.find(CardPanel).hasClass('lighten-4 black-text'));
   });
-  it('span should have a class ', () => {
+
+  it('should have a class truncate ', () => {
     const { wrapper } = setUp();
     expect(wrapper.find('span').hasClass('truncate'));
   });

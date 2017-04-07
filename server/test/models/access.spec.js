@@ -1,7 +1,7 @@
 /* eslint no-unused-expressions: "off"*/
 import { expect } from 'chai';
 import db from '../../models/index';
-import helper from '../helpers/helper';
+import helper from '../helpers/Helper';
 
 
 const privatedocument = helper.privatedoc;
@@ -12,6 +12,7 @@ describe('Access model', () => {
              const sharedDocument = privateDoc;
            });
   });
+
   describe('Share Private Document', () => {
     it('private document can be created', () => {
       expect(privatedocument).to.exist;

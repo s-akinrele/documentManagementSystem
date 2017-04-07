@@ -2,7 +2,7 @@ import supertest from 'supertest';
 import { assert } from 'chai';
 import app from '../../server';
 import '../../models/index';
-import helper from '../helpers/helper';
+import helper from '../helpers/Helper';
 
 
 const server = supertest.agent(app);
@@ -11,16 +11,17 @@ let jwtToken;
 describe('Role suite', () => {
   before((done) => {
     server
-      .post('/users/')
+      .post('/users')
       .send(helper.administrator)
       .end((err, res) => {
         jwtToken = res.body.token;
         done();
       });
   });
+
   it('Should return all roles', (done) => {
     server
-      .get('/role/')
+      .get('/role')
       .expect(200)
       .set('X-ACCESS-TOKEN', jwtToken)
       .end((err, res) => {
@@ -28,9 +29,10 @@ describe('Role suite', () => {
         done();
       });
   });
+
   it('Should be able to create new role ', (done) => {
     server
-      .post('/role/')
+      .post('/role')
       .set('X-ACCESS-TOKEN', jwtToken)
       .send(helper.newRole)
       .end((err, res) => {
@@ -38,9 +40,10 @@ describe('Role suite', () => {
         done();
       });
   });
+
   it('Should not be able to create new role with an existing role title ', (done) => {
     server
-      .post('/role/')
+      .post('/role')
       .set('X-ACCESS-TOKEN', jwtToken)
       .send({ title: 'Admin' })
       .end((err, res) => {
@@ -49,6 +52,7 @@ describe('Role suite', () => {
         done();
       });
   });
+
   it('Should return role belonging to the id', (done) => {
     server
       .get('/role/1')
@@ -60,6 +64,7 @@ describe('Role suite', () => {
         done();
       });
   });
+
   it('Should return role does not exist if id is invalid', (done) => {
     server
       .get('/role/700')
@@ -69,6 +74,7 @@ describe('Role suite', () => {
         done();
       });
   });
+
   it('Should return success when role has been edited succesfully', (done) => {
     server
       .put('/role/6')
@@ -80,6 +86,7 @@ describe('Role suite', () => {
         done();
       });
   });
+
   it('Should return error message if trying to edit a role that does not exist', (done) => {
     server
       .put('/role/0')
@@ -91,6 +98,7 @@ describe('Role suite', () => {
         done();
       });
   });
+
   describe('Delete role', () => {
     it('Should return status 200 when a role has been deleted', (done) => {
       server
@@ -103,13 +111,25 @@ describe('Role suite', () => {
         done();
       });
     });
+
     it('Should return status 404 when a role has been deleted', (done) => {
       server
-      .delete('/role/0')
+      .delete('/role/3')
       .set('X-ACCESS-TOKEN', jwtToken)
       .end((err, res) => {
         assert.equal(res.status, 404);
         assert.equal(res.body.message, 'Role does not exist');
+        done();
+      });
+    });
+
+    it('Should return a message when trying to delete a default role', (done) => {
+      server
+      .delete('/role/1')
+      .set('X-ACCESS-TOKEN', jwtToken)
+      .end((err, res) => {
+        assert.equal(res.status, 403);
+        assert.equal(res.body.message, 'Forbidden you can not delete the default roles');
         done();
       });
     });

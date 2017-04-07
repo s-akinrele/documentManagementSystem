@@ -1,9 +1,10 @@
 import faker from 'faker';
+import config from './config';
 
 module.exports = {
   'Create Role': (browser) => {
     browser
-     .url('http://localhost:5000')
+     .url(config.url)
      .waitForElementVisible('body')
      .setValue('input[type=email]', 'akinrelesimi@gmail.com')
      .setValue('input[type=password]', 'password')
@@ -18,7 +19,7 @@ module.exports = {
      .click('.red')
      .setValue('input[id="role"]', faker.lorem.word())
      .click('#add-role')
-     .pause(2000)
+     .pause(1000)
      .end();
   }
 };

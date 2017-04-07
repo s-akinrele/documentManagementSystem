@@ -14,10 +14,17 @@ const config = {
     publicPath: '/',
     path: path.join(__dirname, 'client/public/')
   },
-
   module: {
     loaders: [{
       test: /\.js$/,
+      exclude: ['node_modules', 'server', 'spec', 'dist'],
+      loader: 'babel-loader',
+      query: {
+        presets: ['react', 'es2015']
+      }
+    },
+    {
+      test: /\.jsx?$/,
       exclude: ['node_modules', 'server', 'spec', 'dist'],
       loader: 'babel-loader',
       query: {

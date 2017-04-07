@@ -2,11 +2,12 @@
 
 let newState;
 /**
- *
+ * Update the document state when the changes
+ * are made depending on the action called
  * @export
  * @param {any} [state=[]]
  * @param {any} action
- * @returns
+ * @returns {Array}
  */
 export function documents(state = [], action) {
   switch (action.type) {
@@ -28,10 +29,12 @@ export function documents(state = [], action) {
 }
 
 /**
+ * Update the document state when
+ * a change is made
  * @export
  * @param {any} [state=[]]
  * @param {any} action
- * @returns
+ * @returns {Array}
  */
 export function document(state = [], action) {
   switch (action.type) {

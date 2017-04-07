@@ -13,7 +13,7 @@ const Authentication = {
    *
    * @param  {Object} req  Request Object
    * @param  {Object} res  Response Object
-   * @param  {Object} next
+   * @param  {Object} next Pass control to the next function
    * @returns {Object} Response status
    */
   verifyToken: (req, res, next) => {
@@ -33,14 +33,12 @@ const Authentication = {
 
   /**
    * verifyAdmin - Verifies that the user role is supplied is an admin
-   *
    * @param  {Object} req  Request Object
    * @param  {Object} res  Response Object
-   * @param  {Object} next
-   * @returns {Object} Response Object
+   * @param  {Object} next Pass control to the next function
    */
   verifyAdmin: (req, res, next) => {
-    db.Role.findById(req.decoded.RoleId)
+    db.Role.findById(req.decoded.roleId)
       .then((role) => {
         if (role.title === 'Admin') {
           next();
@@ -50,5 +48,4 @@ const Authentication = {
       });
   }
 };
-
 export default Authentication;

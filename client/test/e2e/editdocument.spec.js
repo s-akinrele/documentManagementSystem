@@ -1,10 +1,10 @@
 import faker from 'faker';
-
+import config from './config';
 
 module.exports = {
   'Edit document': (browser) => {
     browser
-     .url('http://localhost:5000')
+     .url(config.url)
      .waitForElementVisible('body')
      .setValue('input[type=email]', 'akinrelesimi@gmail.com')
      .setValue('input[type=password]', 'password')
@@ -14,12 +14,7 @@ module.exports = {
      .waitForElementVisible('body')
      .assert.elementPresent('#cardpanel')
      .waitForElementVisible('div[id="cardpanel"]', 10000)
-     .element('css selector', '.info')
-     .moveToElement('.info', 0, 0)
-     .mouseButtonClick(0)
-     .element('css selector', '.card-panel span ul ul a')
-     .moveToElement('.card-panel span ul ul a', 0, 0)
-     .mouseButtonClick(0)
+    .click('#cardpanel')
      .waitForElementVisible('div[id="view"]', 10000)
      .click('button[id="edit"]')
      .waitForElementVisible('div[class="modal-content"')

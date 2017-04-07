@@ -1,13 +1,13 @@
 Materialize.toast();
 
 
-let newState;
+
 /**
- *
+ * Return the action message
  * @export
- * @param {any} [state=[]]
+ * @param {any} [state='']
  * @param {any} action
- * @returns
+ * @returns {String}
  */
 export default function pagination(state = '', action) {
   switch (action.type) {

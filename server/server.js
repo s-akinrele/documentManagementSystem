@@ -3,7 +3,7 @@ import cors from 'cors';
 import webpack from 'webpack';
 import path from 'path';
 import bodyParser from 'body-parser';
-import routes from './routes/index';
+import routes from './routes/IndexRoute';
 import webpackConfig from '../webpack.config';
 import db from './models';
 

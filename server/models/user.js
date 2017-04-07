@@ -30,19 +30,26 @@ module.exports = (sequelize, DataTypes) => {
         min: 6
       }
     },
-    RoleId: {
+    roleId: {
       allowNull: false,
       type: DataTypes.INTEGER
     }
 
-  }, {
+  },
+  {
     classMethods: {
       associate: (models) => {
-        User.hasMany(models.Document, { foreignKey: 'OwnerId' });
+        User.hasMany(models.Document, { foreignKey: 'ownerId' });
         User.belongsTo(models.Role, {
           onDelete: 'CASCADE',
           foreignKey: { allowNull: false }
         });
+      }
+    },
+    instanceMethods: {
+      toJson() {
+        delete this.dataValues.password;
+        return this.dataValues;
       }
     },
     hooks: {

@@ -1,12 +1,13 @@
 let newState;
 /**
- *
+ *Update the user state
+ *depeding on the action dispatched
  * @export
  * @param {any} [state=[]]
  * @param {any} action
- * @returns
+ * @returns {Object}
  */
-export default function users(state = [], action) {
+export function users(state = [], action) {
   switch (action.type) {
     case 'SIGNUP':
       newState = [...state, action.payload];
@@ -36,6 +37,30 @@ export default function users(state = [], action) {
       });
       return newState;
     case 'USER_SEARCH':
+      newState = action.payload;
+      return newState;
+    default:
+      return state;
+  }
+}
+
+
+/**
+ * Update the user state when
+ * a change is made
+ * @export
+ * @param {any} [state=null]
+ * @param {any} action
+ * @returns {Array}
+ */
+export function user(state = null, action) {
+  switch (action.type) {
+    case 'FETCH_USER_BY_ID':
+      newState = action.payload;
+      return newState;
+    case 'EDIT_USER':
+      return action.payload;
+    case 'FORGOT_PASSWORD':
       newState = action.payload;
       return newState;
     default:

@@ -19,7 +19,7 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false
       },
-      OwnerId: {
+      ownerId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Users',

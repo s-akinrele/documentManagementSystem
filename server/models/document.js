@@ -11,12 +11,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    OwnerId: DataTypes.INTEGER,
+    ownerId: DataTypes.INTEGER,
     access: {
       defaultValue: 'public',
       type: DataTypes.ENUM('public', 'private', 'role')
     }
-  }, {
+  },
+  {
     classMethod: {
       associate: (models) => {
         Document.belongsTo(models.Access);
@@ -27,7 +28,6 @@ module.exports = (sequelize, DataTypes) => {
         });
       }
     }
-
   });
   return Document;
 };
