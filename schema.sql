@@ -42,3 +42,15 @@ CREATE TABLE public."Documents"
         ON UPDATE CASCADE
         ON DELETE CASCADE
 )
+
+
+
+CREATE TABLE public."Access"
+(
+    id integer NOT NULL DEFAULT nextval('"Access_id_seq"'::regclass),
+    "documentId" integer NOT NULL,
+    "usersAccess" integer NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    CONSTRAINT "Access_pkey" PRIMARY KEY (id)
+)

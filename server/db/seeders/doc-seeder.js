@@ -5,37 +5,37 @@ db.Document.sync({ force: true })
     db.Document.bulkCreate([{
       title: 'hey there',
       content: 'This is my test data',
-      OwnerId: 1,
+      ownerId: 1,
       access: 'private'
     },
     {
       title: 'hey ',
       content: 'This is my test second data',
-      OwnerId: 3,
+      ownerId: 3,
       access: 'public'
     },
     {
       title: 'new doc ',
       content: 'This is my test second data',
-      OwnerId: 2,
+      ownerId: 2,
       access: 'private'
     },
     {
       title: 'meal ',
       content: 'my favourite meal is beans',
-      OwnerId: 1,
+      ownerId: 1,
       access: 'role'
     },
     {
       title: 'bread ',
       content: 'bread and beans',
-      OwnerId: 2,
+      ownerId: 2,
       access: 'role'
     },
     {
       title: 'friendship ',
       content: 'friendship is very important',
-      OwnerId: 3,
+      ownerId: 3,
       access: 'role'
     }
     ])

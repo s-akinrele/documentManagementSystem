@@ -1,7 +1,7 @@
 /* eslint no-unused-expressions: "off"*/
 import { expect } from 'chai';
 import db from '../../models/index';
-import helper from '../helpers/helper';
+import helper from '../helpers/Helper';
 
 const roleParams = helper.createRole;
 describe('Role Model', () => {
@@ -14,10 +14,12 @@ describe('Role Model', () => {
           done();
         });
     });
+
     it('create new role should exist', () => {
       expect(role).to.exist;
       expect(typeof role).to.equal('object');
     });
+
     it('should be able to create a role that has a title', () => {
       expect(role.title).to.equal(roleParams.title);
     });

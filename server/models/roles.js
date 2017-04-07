@@ -7,7 +7,8 @@ module.exports = (sequelize, Datatypes) => {
       unique: true,
       allowNull: false
     }
-  }, {
+  }, 
+  {
     classMethods: {
       associate: (models) => {
         Role.hasMany(models.User);

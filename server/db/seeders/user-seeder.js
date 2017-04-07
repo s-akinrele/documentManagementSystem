@@ -9,7 +9,7 @@ db.User.sync({ force: true })
       lastname: 'Akinrele',
       email: 'akinrelesimi@gmail.com',
       password: bcrypt.hashSync('password', bcrypt.genSaltSync(10)),
-      RoleId: 1
+      roleId: 1
     },
     {
       username: 'barbie',
@@ -17,7 +17,7 @@ db.User.sync({ force: true })
       lastname: 'Ezomo',
       email: 'barbara@gmail.com',
       password: bcrypt.hashSync('password', bcrypt.genSaltSync(10)),
-      RoleId: 2
+      roleId: 2
     },
     {
       username: 'demi',
@@ -25,7 +25,7 @@ db.User.sync({ force: true })
       lastname: 'Adeyanju',
       email: 'bidemi@gmail.com',
       password: bcrypt.hashSync('password', bcrypt.genSaltSync(10)),
-      RoleId: 2
+      roleId: 2
     },
     {
       username: 'dede',
@@ -33,7 +33,7 @@ db.User.sync({ force: true })
       lastname: 'Adebiyi',
       email: 'dede@gmail.com',
       password: bcrypt.hashSync('password', bcrypt.genSaltSync(10)),
-      RoleId: 2
+      roleId: 2
     },
     {
       username: 'seyi',
@@ -41,7 +41,7 @@ db.User.sync({ force: true })
       lastname: 'Adebiyi',
       email: 'seyi@gmail.com',
       password: bcrypt.hashSync('password', bcrypt.genSaltSync(10)),
-      RoleId: 1
+      roleId: 1
     }
     ])
       .then(() => {

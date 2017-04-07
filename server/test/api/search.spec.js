@@ -16,6 +16,7 @@ describe('Search suite', () => {
         done();
       });
   });
+
   it('Should be able to search for a user with username', (done) => {
     server
       .get('/search/users/?q=dede')
@@ -27,6 +28,7 @@ describe('Search suite', () => {
         done();
       });
   });
+
   it('Should be able to search for a user with firstname ', (done) => {
     server
       .get('/search/users/?q=Dedele')
@@ -38,6 +40,7 @@ describe('Search suite', () => {
         done();
       });
   });
+
   it('Should be able to search for a user with firstname ', (done) => {
     server
       .get('/search/users/?q=Adebiyi')
@@ -49,6 +52,7 @@ describe('Search suite', () => {
         done();
       });
   });
+
   it('Should be able to search for a documents with document title', (done) => {
     server
       .get('/search/documents/?q=meal')
