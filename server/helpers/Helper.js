@@ -58,7 +58,7 @@ export const pagination = (paginationData, documentCount) => {
 export const sendEmail = (options) => {
   const { service, from, to, subject, text, html} = options;
   let transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: 'Gmail',
     auth: {
       user: 'akinrelesimi@gmail.com',
       pass: 'OREOLUWA'
