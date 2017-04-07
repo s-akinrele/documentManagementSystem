@@ -248,7 +248,7 @@ const User = {
         const options = {
           service: 'gmail',
           to: user.email,
-          from: process.env.EMAIL_USER,
+          from: 'akinrelesimi@gmail.com',
           subject: "New password for DMS",
           text: "Hi, you requested for a new password",
           html: `---> <p>Please reset your password when you're logged in
