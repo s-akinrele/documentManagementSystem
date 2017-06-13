@@ -1,5 +1,5 @@
 import SearchController from '../controllers/Search';
-import auth from '../middlewares/auth';
+import auth from '../middlewares/Auth';
 
 const searchRoute = (router) => {
   router.route('/search/users')

@@ -8,7 +8,6 @@ module.exports = {
           .setValue('input[type=email]', 'akinrelesimi@gmail.com')
           .setValue('input[type=password]', 'password')
           .click('button[type=submit]')
-          .pause(1000)
             .assert.urlContains('dashboard')
             .waitForElementVisible('body')
             .assert.title('DMS')

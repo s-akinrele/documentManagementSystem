@@ -1,5 +1,5 @@
 import UserController from '../controllers/User';
-import auth from '../middlewares/auth';
+import auth from '../middlewares/Auth';
 import DocumentController from '../controllers/Document';
 
 const userRoute = (router) => {

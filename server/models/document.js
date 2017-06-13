@@ -1,4 +1,4 @@
-'use strict';
+
 
 module.exports = (sequelize, DataTypes) => {
   const Document = sequelize.define('Document', {
@@ -17,17 +17,17 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('public', 'private', 'role')
     }
   },
-  {
-    classMethod: {
-      associate: (models) => {
-        Document.belongsTo(models.Access);
-        Document.belongsTo(models.User, {
-          as: 'Owner',
-          onDelete: 'CASCADE',
-          foreignKey: { allowNull: false }
-        });
+    {
+      classMethod: {
+        associate: (models) => {
+          Document.belongsTo(models.Access);
+          Document.belongsTo(models.User, {
+            as: 'Owner',
+            onDelete: 'CASCADE',
+            foreignKey: { allowNull: false }
+          });
+        }
       }
-    }
-  });
+    });
   return Document;
 };

@@ -1,5 +1,5 @@
 import RoleController from '../controllers/Role';
-import auth from '../middlewares/auth';
+import auth from '../middlewares/Auth';
 
 const roleRoute = (router) => {
   router.route('/role')

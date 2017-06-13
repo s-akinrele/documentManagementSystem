@@ -9,7 +9,6 @@ module.exports = {
      .setValue('input[type=email]', 'akinrelesimi@gmail.com')
      .setValue('input[type=password]', 'password')
      .click('button[type=submit]')
-     .pause(1000)
      .assert.urlContains('dashboard')
      .waitForElementVisible('body')
      .assert.elementPresent('#nav')
@@ -19,7 +18,6 @@ module.exports = {
      .click('.red')
      .setValue('input[id="role"]', faker.lorem.word())
      .click('#add-role')
-     .pause(1000)
      .end();
   }
 };

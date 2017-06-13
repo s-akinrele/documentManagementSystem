@@ -42,7 +42,6 @@ class Filter extends Component {
       <div className="filter">
         <div className="input-field col s4" style={{ width: '200px' }}>
           <select id="documentOption" defaultValue="0">
-            <option value="0" disabled >Choose an Option</option>
             <option value="myDoc">My documents</option>
             { isAdmin ? null : <option value="otherDoc">Other Documents</option> }
             <option value="privateDoc">Private Documents</option>

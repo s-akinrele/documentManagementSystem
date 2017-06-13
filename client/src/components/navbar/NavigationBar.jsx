@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Icon, Input, Navbar, NavItem, Dropdown } from 'react-materialize';
+import { Icon, Navbar, NavItem, Dropdown } from 'react-materialize';
 import { connect } from 'react-redux';
 import { browserHistory, Link } from 'react-router';
 import '../../style/main.scss';

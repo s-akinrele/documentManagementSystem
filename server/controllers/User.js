@@ -246,7 +246,7 @@ const User = {
         user.save();
         // send email
         const options = {
-          service: 'gmail',
+          service: 'yahoo',
           to: user.email,
           from: process.env.EMAIL_USER,
           subject: "New password for DMS",
@@ -254,7 +254,7 @@ const User = {
           html: `---> <p>Please reset your password when you're logged in
           for security reasons<p>
           <b>${randomPassword}</b>`
-        }
+        };
         sendEmail(options);
 
         return res.status(200).send({ message: 'New password set' });

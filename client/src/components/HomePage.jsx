@@ -56,14 +56,14 @@ class HomePage extends Component {
     });
   }
 
-  handleSignup(e) {
-    e.preventDefault();
+  handleSignup(event) {
+    event.preventDefault();
     this.props.signup(this.state.user);
     Materialize.toast('Welcome', 4000, this.props.handler);
   }
 
-    handleForgotPassword(e) {
-    e.preventDefault();
+  handleForgotPassword(event) {
+    event.preventDefault();
     this.props.forgotPassword(this.state.user);
   }
 

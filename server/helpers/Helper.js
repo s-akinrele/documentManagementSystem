@@ -51,20 +51,19 @@ export const pagination = (paginationData, documentCount) => {
 };
 
 /**
- * Send email 
+ * Send email
  * @param {Object} options
  * @return {Object}
  */
 export const sendEmail = (options) => {
   const { service, from, to, subject, text, html} = options;
   let transporter = nodemailer.createTransport({
-    service,
+    service: 'yahoo',
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS
     }
   });
-
   let mailOptions = {
     from,
     to,
@@ -76,7 +75,7 @@ export const sendEmail = (options) => {
     if (err) console.log(err);
     return "Message sent";
   });
-}
+};
 
 /**
  * Generate random password

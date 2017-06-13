@@ -36,28 +36,28 @@ module.exports = (sequelize, DataTypes) => {
     }
 
   },
-  {
-    classMethods: {
-      associate: (models) => {
-        User.hasMany(models.Document, { foreignKey: 'ownerId' });
-        User.belongsTo(models.Role, {
-          onDelete: 'CASCADE',
-          foreignKey: { allowNull: false }
-        });
+    {
+      classMethods: {
+        associate: (models) => {
+          User.hasMany(models.Document, { foreignKey: 'ownerId' });
+          User.belongsTo(models.Role, {
+            onDelete: 'CASCADE',
+            foreignKey: { allowNull: false }
+          });
+        }
+      },
+      instanceMethods: {
+        toJson() {
+          delete this.dataValues.password;
+          return this.dataValues;
+        }
+      },
+      hooks: {
+        beforeCreate: (user) => {
+          user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10));
+        }
       }
-    },
-    instanceMethods: {
-      toJson() {
-        delete this.dataValues.password;
-        return this.dataValues;
-      }
-    },
-    hooks: {
-      beforeCreate: (user) => {
-        user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10));
-      }
-    }
-  });
+    });
 
   return User;
 };

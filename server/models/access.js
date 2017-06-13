@@ -11,14 +11,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     }
   },
-  {
-    freezeTableName: true,
-    classMethod: {
-      associate: (models) => {
-        Access.hasMany(models.Document);
+    {
+      freezeTableName: true,
+      classMethod: {
+        associate: (models) => {
+          Access.hasMany(models.Document);
+        }
       }
-    }
 
-  });
+    });
   return Access;
 };

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
+import { connect, browserHistory } from 'react-redux';
 import { Button, Modal } from 'react-materialize';
 import '../../style/main.scss';
 import NavBar from '../navbar/NavigationBar.jsx';

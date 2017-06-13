@@ -1,6 +1,5 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import chaiEnzyme from 'chai-enzyme'
 import { Col, CardPanel, Icon, Dropdown } from 'react-materialize';
 import { Link } from 'react-router';
 import { expect } from 'chai';
@@ -11,7 +10,7 @@ import DocumentPreview from '../../src/components/documents/DocumentPreview.jsx'
 describe('Test for document preview', () => {
   const setUp = () => {
     const props = {
-      document: {id: 1,
+      document: { id: 1,
         title: 'my doc',
         content: 'this is my doc' }
     };
@@ -34,10 +33,9 @@ describe('Test for document preview', () => {
     const { wrapper } = setUp();
     expect(wrapper.props().document).to.be.defined;
   });
- 
+
   it('should have props for content', () => {
     const { wrapper, props } = setUp();
-    console.log(wrapper.instance().props)
     expect(wrapper.instance().props.document).to.equal(props.document);
   });
 
